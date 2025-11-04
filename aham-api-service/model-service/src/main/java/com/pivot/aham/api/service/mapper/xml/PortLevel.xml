@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.PortLevelMapper">
+
+    <resultMap id="portLevelRes" type="com.pivot.aham.api.service.mapper.model.PortLevel">
+        <result property="id" column="id"/>
+        <result property="modelDate" column="model_date"/>
+        <result property="portfolioLevel" column="portfolio_level"/>
+        <result property="maxDD" column="max_dd"/>
+        <result property="vol" column="vol"/>
+        <result property="returnVol" column="return_vol"/>
+        <result property="benchmarkData" column="benchmark_data"/>
+        <result property="rebalance" column="rebalance"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="portfolioId" column="portfolio_id"/>
+        <result property="vooTenDays" column="voo_ten_days"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        model_date,
+        portfolio_level,
+        max_dd,
+        vol,
+        return_vol,
+        rebalance,
+        portfolio_id,
+        create_time,
+        update_time,
+        benchmark_data,
+        voo_ten_days
+    </sql>
+
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_port_level
+        (
+        id,
+        model_date,
+        portfolio_level,
+        max_dd,
+        vol,
+        return_vol,
+        rebalance,
+        portfolio_id,
+        create_time,
+        update_time,
+        benchmark_data,
+        voo_ten_days
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.modelDate},
+            #{item.portfolioLevel},
+            #{item.maxDD},
+            #{item.vol},
+            #{item.returnVol},
+            #{item.rebalance},
+            #{item.portfolioId},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.benchmarkData},
+            #{item.vooTenDays}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updatePortLevel">
+        UPDATE t_port_level
+        <set>
+            <if test="@Ognl@isNotEmpty(portfolioLevel)">
+                portfolio_level = #{portfolioLevel},
+            </if>
+            <if test="@Ognl@isNotEmpty(maxDD)">
+                max_dd = #{maxDD},
+            </if>
+            <if test="@Ognl@isNotEmpty(vol)">
+                vol = #{vol},
+            </if>
+            <if test="@Ognl@isNotEmpty(returnVol)">
+                return_vol = #{returnVol},
+            </if>
+            <if test="@Ognl@isNotEmpty(rebalance)">
+                rebalance = #{rebalance},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(benchmarkData)">
+                benchmark_data = #{benchmarkData},
+            </if>
+            <if test="@Ognl@isNotEmpty(vooTenDays)">
+                voo_ten_days = #{vooTenDays},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="getPortLevels" resultMap="portLevelRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_port_level
+        <where>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                portfolio_id=#{portfolioId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getPortLevel" resultMap="portLevelRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_port_level
+        <where>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(modelDate)">
+                and model_date=#{modelDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="getLastPortLevel" resultMap="portLevelRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_port_level
+        WHERE portfolio_id=#{portfolioId}
+        order by model_date desc limit 1
+    </select>
+
+    <select id="getFirstPortLevel" resultMap="portLevelRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_port_level
+        WHERE portfolio_id=#{portfolioId}
+        order by model_date asc limit 1
+    </select>
+
+</mapper>

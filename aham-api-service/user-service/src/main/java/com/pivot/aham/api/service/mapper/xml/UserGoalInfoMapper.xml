@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserGoalInfoMapper">
+
+    <resultMap id="baseUserGoalInfoMap" type="com.pivot.aham.api.service.mapper.model.UserGoalInfoPO">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="goal_id" property="goalId"/>
+        <result column="portfolio_id" property="portfolioId"/>
+        <result column="reference_code" property="referenceCode"/>
+        <result column="goal_name" property="goalName"/>
+        <result column="deleted" property="deleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="base_column">
+        id, client_id, goal_id, portfolio_id, reference_code, create_time, update_time,goal_name
+    </sql>
+
+    <insert id="saveUserGoalInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user_goal_info (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalName)">
+                goal_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                portfolio_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(riskLevel)">
+                riskLevel,
+            </if>
+            <if test="@Ognl@isNotEmpty(ageLevel)">
+                ageLevel,
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                reference_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalName)">
+                #{goalName},
+            </if>,
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                #{portfolioId},
+            </if>
+            <if test="@Ognl@isNotEmpty(riskLevel)">
+                #{riskLevel},
+            </if>
+            <if test="@Ognl@isNotEmpty(ageLevel)">
+                #{ageLevel},
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                #{referenceCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="saveUserGoalInfos" parameterType="java.util.List">
+        INSERT INTO t_user_goal_info
+        (
+        id,
+        client_id,
+        goal_id,
+        goal_name,
+        portfolio_id,
+        reference_code,
+        create_time,
+        update_time
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.clientId},
+            #{item.goalId},
+            #{item.goalName},
+            #{item.portfolioId},
+            #{item.referenceCode},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryUserGoalInfos" resultMap="baseUserGoalInfoMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_user_goal_info
+        <where>
+            deleted = 0
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                and portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                and reference_code=#{referenceCode}
+            </if>
+
+            <if test="@Ognl@isNotEmpty(likeGoalId)">
+                and goal_id like CONCAT('%',#{likeGoalId},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserGoalInfo" resultMap="baseUserGoalInfoMap">
+        select
+        <include refid="base_column"/>
+        from t_user_goal_info
+        <where>
+            deleted = 0
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                and portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                and reference_code=#{referenceCode}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryUserGoalInfoForStatement" resultMap="baseUserGoalInfoMap">
+        select
+        <include refid="base_column"/>
+        from t_user_goal_info
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                and portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                and reference_code=#{referenceCode}
+            </if>
+        </where>
+    </select>
+    
+    <update id="updateDeletedByClientIdAndGoalId">        
+        UPDATE t_user_goal_info 
+        <set>deleted = 1</set>
+        <where>            
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+        </where>
+    </update>
+
+
+</mapper>

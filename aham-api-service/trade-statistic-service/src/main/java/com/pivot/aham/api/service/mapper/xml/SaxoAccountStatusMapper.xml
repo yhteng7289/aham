@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoAccountStatusMapper">
+
+    <resultMap id="result_map" type="com.pivot.aham.api.service.mapper.model.SaxoAccountStatusPO">
+        <result property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="date" column="date"/>
+        <result property="accountCurrency" column="account_currency"/>
+        <result property="balance" column="balance"/>
+        <result property="openPositionsFX" column="open_pos_fx"/>
+        <result property="openPositionsFXOptions" column="open_pos_fx_opt"/>
+        <result property="openPositionsStock" column="open_pos_fx_stock"/>
+        <result property="openPositionsCFD" column="open_pos_cfd"/>
+        <result property="openPositionsCFDOnOption" column="open_pos_cfd_on_opt"/>
+        <result property="openPositionsFutures" column="open_pos_futures"/>
+        <result property="openPositionsETO" column="open_pos_eto"/>
+        <result property="openPositionsMutualFunds" column="open_pos_mut_funds"/>
+        <result property="openPositionsBonds" column="open_pos_bonds"/>
+        <result property="reservedForFutureInstrument2" column="reser_for_future_ins2"/>
+        <result property="activeAccount" column="active_account"/>
+        <result property="reservedForFutureUse" column="reserved_fut_use"/>
+        <result property="totalEquity" column="total_equity"/>
+        <result property="accountFunding" column="account_funding"/>
+        <result property="ReservedForFutureUse2" column="reserved_fut_use2"/>
+        <result property="partnerAccountKey" column="partner_acc_key"/>
+        <result property="valueDateCashBalance" column="value_date_cash_bal"/>
+        <result property="marginFOrTrading" column="margin_for_trading"/>
+        <result property="riskGroupProfile" column="risk_group_profile"/>
+        <result property="accountRiskProfile" column="acc_rask_profile"/>
+        <result property="accountLevelMargining" column="acc_level_margining"/>
+        <result property="counterpartID" column="counterpart_id"/>
+        <result property="otherCollateral" column="other_collateral"/>
+        <result property="notAvailableAsMarginCollateral" column="not_avail_mar_col"/>
+        <result property="ownerID" column="owner_id"/>
+        <result property="isClientAccount" column="is_client_account"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <sql id="select_columns">
+        <trim suffixOverrides=",">
+            id,
+            account,
+            date,
+            account_currency,
+            balance,
+            open_pos_fx,
+            open_pos_fx_opt,
+            open_pos_fx_stock,
+            open_pos_cfd,
+            open_pos_cfd_on_opt,
+            open_pos_futures,
+            open_pos_eto,
+            open_pos_mut_funds,
+            open_pos_bonds,
+            reser_for_future_ins2,
+            active_account,
+            reserved_fut_use,
+            total_equity,
+            account_funding,
+            reserved_fut_use2,
+            partner_acc_key,
+            value_date_cash_bal,
+            margin_for_trading,
+            risk_group_profile,
+            acc_rask_profile,
+            acc_level_margining,
+            counterpart_id,
+            other_collateral,
+            not_avail_mar_col,
+            owner_id,
+            is_client_account,
+            create_date,
+        </trim>
+    </sql>
+
+    <sql id="add_columns">
+        <trim suffixOverrides=",">
+            account,
+            date,
+            account_currency,
+            balance,
+            open_pos_fx,
+            open_pos_fx_opt,
+            open_pos_fx_stock,
+            open_pos_cfd,
+            open_pos_cfd_on_opt,
+            open_pos_futures,
+            open_pos_eto,
+            open_pos_mut_funds,
+            open_pos_bonds,
+            reser_for_future_ins2,
+            active_account,
+            reserved_fut_use,
+            total_equity,
+            account_funding,
+            reserved_fut_use2,
+            partner_acc_key,
+            value_date_cash_bal,
+            margin_for_trading,
+            risk_group_profile,
+            acc_rask_profile,
+            acc_level_margining,
+            counterpart_id,
+            other_collateral,
+            not_avail_mar_col,
+            owner_id,
+            is_client_account,
+            create_date,
+        </trim>
+    </sql>
+    <insert id="batchInsert" parameterType="com.pivot.aham.api.service.mapper.model.SaxoAccountStatusPO">
+        INSERT INTO t_saxo_acc_status
+        (
+        <include refid="add_columns"/>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.account},
+                #{item.date},
+                #{item.accountCurrency},
+                #{item.balance},
+                #{item.openPositionsFX},
+                #{item.openPositionsFXOptions},
+                #{item.openPositionsStock},
+                #{item.openPositionsCFD},
+                #{item.openPositionsCFDOnOption},
+                #{item.openPositionsFutures},
+                #{item.openPositionsETO},
+                #{item.openPositionsMutualFunds},
+                #{item.openPositionsBonds},
+                #{item.reservedForFutureInstrument2},
+                #{item.activeAccount},
+                #{item.reservedForFutureUse},
+                #{item.totalEquity},
+                #{item.accountFunding},
+                #{item.ReservedForFutureUse2},
+                #{item.partnerAccountKey},
+                #{item.valueDateCashBalance},
+                #{item.marginFOrTrading},
+                #{item.riskGroupProfile},
+                #{item.accountRiskProfile},
+                #{item.accountLevelMargining},
+                #{item.counterpartID},
+                #{item.otherCollateral},
+                #{item.notAvailableAsMarginCollateral},
+                #{item.ownerID},
+                #{item.isClientAccount},
+                #{item.createDate},
+
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <sql id="select_cond">
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date>=#{createDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(account)">
+                AND account=#{account}
+            </if>
+
+
+        </where>
+    </sql>
+
+    <select id="getDataByCond" parameterType="com.pivot.aham.api.service.mapper.model.SaxoAccountStatusPO"
+            resultMap="result_map">
+        SELECT
+        <include refid="select_columns"/>
+        FROM t_saxo_acc_status
+        WHERE
+        create_date>=#{createDate}
+        AND account=#{account}
+        LIMIT 1
+    </select>
+
+
+</mapper>

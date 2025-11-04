@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <dubbo:reference id="userServiceRemoteService"  
+                     interface="com.pivot.aham.api.server.remoteservice.UserServiceRemoteService"
+                     check="false"  />
+    <dubbo:reference id="modelServiceRemoteService"  
+                     interface="com.pivot.aham.api.server.remoteservice.ModelServiceRemoteService"
+                     check="false" />
+    <dubbo:reference id="uobTradeRemoteService"  
+                     interface="com.pivot.aham.api.server.remoteservice.UobTradeRemoteService"
+                     check="false" />
+    <dubbo:reference id="saxoTradeRemoteService"  
+                     interface="com.pivot.aham.api.server.remoteservice.SaxoTradeRemoteService"
+                     check="false" />
+    <dubbo:reference id="assetServiceRemoteService"  
+                     interface="com.pivot.aham.api.server.remoteservice.AssetServiceRemoteService"
+                     check="false"  />
+    <dubbo:reference id="withdrawalRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.WithdrawalRemoteService"
+                     check="false"  />
+    <dubbo:reference id="rechargeServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.RechargeServiceRemoteService"
+                     check="false"  />
+    <dubbo:reference id="schedulerRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SchedulerRemoteService"
+                     check="false"  />
+    <dubbo:reference id="orderServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.OrderServiceRemoteService"
+                     check="false"  />
+    <dubbo:reference id="dividendRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.DividendRemoteService"
+                     check="false" />
+    <dubbo:reference id="exchangeRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.ExchangeRemoteService"
+                     check="false"  />
+    <dubbo:reference id="accountReBalanceRemoteService"	 
+                     interface="com.pivot.aham.api.server.remoteservice.AccountReBalanceRemoteService"
+                     check="false" />
+    <dubbo:reference id="testRemoteService"     
+                     interface="com.pivot.aham.api.server.remoteservice.TestRemoteService"
+                     check="false" />
+    <dubbo:reference id="testExcuteRemoteService" 
+                     interface="com.pivot.aham.api.server.remoteservice.TestExcuteRemoteService"
+                     check="false" />
+    <dubbo:reference id="saxoStatisticRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SaxoStatisticRemoteService"
+                     check="false" />
+    <dubbo:reference id="userTestRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UserTestRemoteService"
+                     check="false"/>
+    <dubbo:reference id="personalInfoUploadService"
+                     interface="com.pivot.aham.api.server.remoteservice.AppRemoteService"
+                     check="false"/>
+    <dubbo:reference id="pivotErrorDetailRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotErrorDetailRemoteService"
+                     check="false"/>
+    <dubbo:reference id="pivotFeeDetailRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotFeeDetailRemoteService"
+                     check="false"/>
+    <dubbo:reference id="pivotCharityDetailRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotCharityDetailRemoteService"
+                     check="false"/>
+    <dubbo:reference id="balanceApplyRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.BalanceApplyRemoteService"
+                     check="false"/>
+    <dubbo:reference id="accountUserRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountUserRemoteService"
+                     check="false"/>        
+    <dubbo:reference id="nameAliasRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.NameAliasRemoteService"
+                     check="false"/>
+    <dubbo:reference id="pivotPftRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotPftRemoteService"
+                     check="false"/>        
+    <dubbo:reference id="sysConfigRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SysConfigRemoteService"
+                     check="false"/>
+    <dubbo:reference id="uobSaveRechargeLogRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UobSaveRechargeLogRemoteService"
+                     check="false"/>   
+    <dubbo:reference id="tradeExecuteRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.TradeExecuteRemoteService"
+                     check="false"/>    
+</beans>

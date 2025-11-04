@@ -1,0 +1,33 @@
+# Tomcat
+server:
+    name: Aham-Biz-Service
+    port: 8086
+    tomcat:
+        max-threads: 1000
+        min-spare-threads: 30
+# mysql
+spring:
+    # 环境 dev|test|prod
+    profiles:
+        active: ${spring.profiles.active}
+    # jackson时间格式化
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    thymeleaf:
+        cache: false
+        prefix: classpath:/templates/
+        suffix: .html
+        encoding: UTF-8
+    data:
+        redis:
+            repositories:
+                enabled: false
+logging:
+    config: ${spring.profiles.logback}
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info,env,prometheus,metrics,httptrace,threaddump,heapdump

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoAccountOrderMapper">
+
+    <resultMap id="SaxoAccountOrderRes" type="com.pivot.aham.api.service.mapper.model.SaxoAccountOrderPO">
+        <result property="id" column="id"></result>
+        <result property="cashAmount" column="cash_amount"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="currency" column="currency"></result>
+        <result property="orderStatus" column="order_status"></result>
+        <result property="operatorType" column="operator_type"></result>
+        <result property="exchangeOrderNo" column="exchange_order_no"></result>
+        <result property="bankOrderNo" column="bank_order_no"></result>
+        <result property="tradeTime" column="trade_time"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="actionType" column="action_type"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="redeemApplyId" column="redeem_apply_id"></result>
+        <result property="exchangeTotalOrderId" column="exchange_total_order_id"></result>
+    </resultMap>
+
+    <sql id="baseColum">
+        id, cash_amount, client_id, account_id, currency, order_status, operator_type, exchange_order_no,bank_order_no
+         ,trade_time, create_time, update_time,action_type, goal_id,redeem_apply_id, exchange_total_order_id
+    </sql>
+
+    <insert id="saveSaxoAccountOrder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_saxo_account_order (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(cashAmount)">
+                cash_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(operatorType)">
+                operator_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeOrderNo)">
+                exchange_order_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankOrderNo)">
+                bank_order_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(tradeTime)">
+                trade_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(actionType)">
+                action_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeTotalOrderId)">
+                exchange_total_order_id
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(cashAmount)">
+                #{cashAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                #{currency},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(operatorType)">
+                #{operatorType},
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeOrderNo)">
+                #{exchangeOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankOrderNo)">
+                #{bankOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(tradeTime)">
+                #{tradeTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(actionType)">
+                #{actionType},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeTotalOrderId)">
+                #{exchangeTotalOrderId}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        INSERT INTO t_saxo_account_order
+        (
+        id,
+        cash_amount,
+        client_id,
+        account_id,
+        currency,
+        order_status,
+        operator_type,
+        exchange_order_no,
+        bank_order_no,
+        trade_time,
+        create_time,
+        update_time,
+        action_type,
+        goal_id,
+        redeem_apply_id,
+        exchange_total_order_id
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.cashAmount},
+            #{item.clientId},
+            #{item.accountId},
+            #{item.currency},
+            #{item.orderStatus},
+            #{item.operatorType},
+            #{item.exchangeOrderNo},
+            #{item.bankOrderNo},
+            #{item.tradeTime},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.actionType},
+            #{item.goalId},
+            #{item.redeemApplyId},
+            #{item.exchangeTotalOrderId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateSaxoAccountOrder">
+        UPDATE t_saxo_account_order
+        <set>
+            <if test="@Ognl@isNotEmpty(cashAmount)">
+                cash_amount=#{cashAmount}
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                , order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeOrderNo)">
+                , exchange_order_no=#{exchangeOrderNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                , update_time=#{updateTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                , account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeTotalOrderId)">
+                , exchange_total_order_id=#{exchangeTotalOrderId}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="listSaxoAccountOrders" resultMap="SaxoAccountOrderRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_saxo_account_order
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                and currency=#{currency}
+            </if>
+            <if test="@Ognl@isNotEmpty(operatorType)">
+                and operator_type=#{operatorType}
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                and order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeOrderNo)">
+                and exchange_order_no=#{exchangeOrderNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(startTradeTime)">
+                <![CDATA[ and trade_time>=#{startTradeTime} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endTradeTime)">
+                <![CDATA[and trade_time<=#{endTradeTime} ]]></if>
+        </where>
+    </select>
+
+    <select id="querySaxoAccountOrder" resultMap="SaxoAccountOrderRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_saxo_account_order
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="listSaxoAccountOrder" resultMap="SaxoAccountOrderRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_saxo_account_order
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                and order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(bankOrderNo)">
+                and bank_order_no=#{bankOrderNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(actionType)">
+                and action_type=#{actionType}
+            </if>
+            <if test="@Ognl@isNotEmpty(operatorType)">
+                and operator_type=#{operatorType}
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                and currency=#{currency}
+            </if>
+            <if test="@Ognl@isNotEmpty(startTradeTime)">
+                <![CDATA[ and trade_time>=#{startTradeTime} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endTradeTime)">
+                <![CDATA[and trade_time<=#{endTradeTime} ]]></if>
+            <if test="@Ognl@isNotEmpty(actionTypes)">
+                and action_type in
+                <foreach collection="actionTypes" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="@Ognl@isNotEmpty(goalIdList)">
+                and goal_id in
+                <foreach collection="goalIdList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

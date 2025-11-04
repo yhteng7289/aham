@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserEtfSharesStaticMapper">
+
+    <resultMap id="UserEtfSharesStaticRes" type="com.pivot.aham.api.service.mapper.model.UserEtfSharesStaticPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="staticDate" column="static_date"></result>
+        <result property="aagf" column="aagf"/>
+        <result property="oneabf" column="oneabf"/>
+        <result property="di" column="di"/>
+        <result property="onepgf" column="onepgf"/>
+        <result property="df" column="df"/>
+        <result property="oneaef" column="oneaef"/>
+        <result property="asi" column="asi"/>
+        <result property="aff" column="aff"/>
+        <result property="aif" column="aif"/>
+        <result property="onebf" column="onebf"/>
+        <result property="edf" column="edf"/>
+        <result property="oneef" column="oneef"/>
+        <result property="nctf" column="nctf"/>
+        <result property="gof" column="gof"/>
+        <result property="scf" column="scf"/>
+        <result property="sapbf" column="sapbf"/>
+        <result property="sapdf" column="sapdf"/>
+        <result property="gif" column="gif"/>
+        <result property="bal" column="bal"/>
+        <result property="bond" column="bond"/>
+        <result property="sdf" column="sdf"/>
+        <result property="sif" column="sif"/>
+        <result property="sof" column="sof"/>
+        <result property="sgdif" column="sgdif"/>
+        <result property="sgtf" column="sgtf"/>
+        <result property="gdifmyrh" column="gdifmyrh"/>
+        <result property="glifmyrnh" column="glifmyrnh"/>
+        <result property="glifmyr" column="glifmyr"/>
+        <result property="wsgqfmyr" column="wsgqfmyr"/>
+        <result property="wsgqfmyrh" column="wsgqfmyrh"/>
+        <result property="cf" column="cf"/>
+        <result property="sjqfmyrnh" column="sjqfmyrnh"/>
+    </resultMap>
+
+
+
+    <sql id="UserEtfSharesStaticVo">
+        select id, account_id,client_id,goal_id,static_date,
+        aagf,
+        oneabf,
+        di,
+        onepgf,
+        df,
+        oneaef,
+        asi,
+        aff,
+        aif,
+        onebf,
+        edf,
+        oneef,
+        nctf,
+        gof,
+        scf,
+        sapbf,
+        sapdf,
+        gif,
+        bal,
+        bond,
+        sdf,
+        sif,
+        sof,
+        sgdif,
+        sgtf,
+        gdifmyrh,
+        glifmyrnh,
+        glifmyr,
+        wsgqfmyr,
+        wsgqfmyrh,
+        cf,
+        sjqfmyrnh
+
+        from t_user_etf_shares_static
+    </sql>
+
+    <select id="queryListByTime" resultMap="UserEtfSharesStaticRes">
+        <include refid="UserEtfSharesStaticVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(startStaticDate)">
+                and static_date>=#{startStaticDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(endStaticDate)">
+                and #{endStaticDate}>=static_date
+            </if>
+            order by  static_date asc;
+        </where>
+    </select>
+
+    <select id="selectByStaticDate" resultMap="UserEtfSharesStaticRes">
+        <include refid="UserEtfSharesStaticVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+
+
+
+
+
+</mapper>

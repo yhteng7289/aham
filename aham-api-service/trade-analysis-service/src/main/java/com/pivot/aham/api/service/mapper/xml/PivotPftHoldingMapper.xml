@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.PivotPftHoldingMapper">
+
+    <resultMap id="PivotPftHoldingPO" type="com.pivot.aham.api.service.mapper.model.PivotPftHoldingPO">
+        <result property="id" column="id"></result>
+        <result property="merdeOrderId" column="merge_order_id"></result>
+        <result property="etfOrderId" column="etf_order_id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="share" column="share"></result>
+        <result property="status" column="status"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+    </resultMap>
+    
+    <sql id="baseColumn">
+        id, merge_order_id, etf_order_id, product_code, share, status, create_time, update_time
+    </sql>
+    
+    <insert id="savePftHolding" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_pivot_pft_holding (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(merdeOrderId)">
+                merge_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(etfOrderId)">
+                etf_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                product_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(share)">
+                share,
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                status,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(merdeOrderId)">
+                #{merdeOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(etfOrderId)">
+                #{etfOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(share)">
+                #{share},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                #{status},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+    
+     <select id="getListOfPftHolding" resultMap="PivotPftHoldingPO">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_pivot_pft_holding
+        <where>
+            <if test="@Ognl@isNotEmpty(productCode)">product_code=#{productCode}</if>
+            <if test="@Ognl@isNotEmpty(status)"> and status=#{status}</if>
+        </where>
+    </select>
+    
+    <select id="getPftHolding" resultMap="PivotPftHoldingPO">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_pivot_pft_holding
+        <where>
+            <if test="@Ognl@isNotEmpty(merdeOrderId)">merge_order_id=#{merdeOrderId}</if>
+            <if test="@Ognl@isNotEmpty(status)"> and status=#{status}</if>
+        </where>
+    </select>
+    
+    <update id="updatePftHolding">
+        UPDATE t_pivot_pft_holding
+        <set>
+            <if test="@Ognl@isNotEmpty(status)">
+                status=#{status},
+            </if>
+        </set>
+        <where>
+            merge_order_id=#{merdeOrderId}
+        </where>
+    </update>
+</mapper>

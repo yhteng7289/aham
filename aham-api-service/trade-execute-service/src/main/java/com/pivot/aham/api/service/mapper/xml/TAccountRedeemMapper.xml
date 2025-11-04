@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.TAccountRedeemMapper">
+
+    <resultMap id="TAccountRedeemRes" type="com.pivot.aham.api.service.mapper.model.TAccountRedeemPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="redeemApplyTime" column="redeem_apply_time"></result>
+        <result property="redeemConfirmTime" column="redeem_confirm_time"></result>
+        <result property="applyMoney" column="apply_money"></result>
+        <result property="confirmMoney" column="confirm_money"></result>
+        <result property="confirmShares" column="confirm_shares"></result>
+        <result property="orderStatus" column="order_status"></result>
+        <result property="totalTmpOrderId" column="total_tmp_order_id"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="redeemApplyId" column="redeem_apply_id"></result>
+        <result property="tncfStatus" column="tncf_status"></result>
+        <result property="navDate" column="nav_date"></result>
+        <result property="tncfTime" column="tncf_time"></result>
+        <result property="redeemType" column="redeem_type"></result>
+        <result property="oldApplyMoney" column="old_apply_money"></result>
+        <result property="isAnnualPerformanceFee" column="is_annual_performance_fee"></result> <!--Added By WooiTatt -->
+        <result property="navBatchId" column="nav_batch_id"></result> <!--Added By WooiTatt -->
+        <result property="accPerformanceFeeDesId" column="acc_performance_fee_des_id"></result> <!--Added By WooiTatt -->
+    </resultMap>
+
+    <sql id="AccountRedeemVo">
+        select id, account_id,client_id,redeem_apply_time,redeem_confirm_time,apply_money,confirm_money,redeem_type,
+        old_apply_money,
+        confirm_shares,order_status,total_tmp_order_id, goal_id, redeem_apply_id, tncf_status, nav_date,tncf_time,
+        is_annual_performance_fee, nav_batch_id, acc_performance_fee_des_id
+        from t_account_redeem
+    </sql>
+	
+    <sql id="AccountRedeemVo2">
+        select id, account_id,client_id,redeem_apply_time,redeem_confirm_time,apply_money,confirm_money,redeem_type,
+        old_apply_money,
+        confirm_shares,order_status,total_tmp_order_id, goal_id, redeem_apply_id, tncf_status, nav_date,tncf_time
+        from t_account_redeem
+    </sql>
+
+    <insert id="insertAccountRedeem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_redeem (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemApplyTime)">
+                redeem_apply_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemConfirmTime)">
+                redeem_confirm_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">
+                apply_money,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">
+                confirm_money,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShares)">
+                confirm_shares,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                total_tmp_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemApplyId)">
+                redeem_apply_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">
+                tncf_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(navDate)">
+                nav_date,
+            </if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">
+                tncf_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(isAnnualPerformanceFee)">
+                is_annual_performance_fee,
+            </if>
+            <if test="@Ognl@isNotEmpty(navBatchId)">
+                nav_batch_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accPerformanceFeeDesId)">
+                acc_performance_fee_des_id,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemApplyTime)">
+                #{redeemApplyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemConfirmTime)">
+                #{redeemConfirmTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">
+                #{applyMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">
+                #{confirmMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShares)">
+                #{confirmShares},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                #{totalTmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemApplyId)">
+                #{redeemApplyId},
+            </if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">
+                #{tncfStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(navDate)">
+                #{navDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">
+                #{tncfTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(isAnnualPerformanceFee)">
+                #{isAnnualPerformanceFee},
+            </if>
+            <if test="@Ognl@isNotEmpty(navBatchId)">
+                #{navBatchId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accPerformanceFeeDesId)">
+                #{accPerformanceFeeDesId},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getRedeemListByTime" resultMap="TAccountRedeemRes">
+        <include refid="AccountRedeemVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">and order_status=#{orderStatus}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">and tncf_status=#{tncfStatus}</if>
+            <if test="@Ognl@isNotEmpty(startRedeemApplyTime)">and redeem_apply_time>=#{startRedeemApplyTime}</if>
+            <if test="@Ognl@isNotEmpty(endRedeemApplyTime)">and #{endRedeemApplyTime}>=redeem_apply_time</if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                and DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+
+    </select>
+    
+    <select id="getRedeemListByTimeOrderPF" resultMap="TAccountRedeemRes"> <!-- Added By WooiTatt -->
+        <include refid="AccountRedeemVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">and order_status=#{orderStatus}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">and tncf_status=#{tncfStatus}</if>
+            <if test="@Ognl@isNotEmpty(startRedeemApplyTime)">and redeem_apply_time>=#{startRedeemApplyTime}</if>
+            <if test="@Ognl@isNotEmpty(endRedeemApplyTime)">and #{endRedeemApplyTime}>=redeem_apply_time</if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                and DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY is_annual_performance_fee desc
+    </select>
+
+    <select id="listAccountRedeem" resultMap="TAccountRedeemRes">
+        <include refid="AccountRedeemVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">and order_status=#{orderStatus}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">and tncf_status=#{tncfStatus}</if>
+        </where>
+        ORDER BY redeem_apply_time desc
+    </select>
+	
+    <select id="listAccountRedeemByCond" resultMap="TAccountRedeemRes">
+        <include refid="AccountRedeemVo2"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">and tncf_status=#{tncfStatus}</if>
+            <if test="@Ognl@isNotEmpty(redeemApplyTime)">
+                <![CDATA[ and tncf_time>#{redeemApplyTime} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">
+                <![CDATA[ and tncf_time<#{tncfTime} ]]>
+            </if>
+        </where>
+        ORDER BY client_id ASC
+    </select>
+
+    <update id="updateByAccountId">
+        update t_account_redeem
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">total_tmp_order_id=#{totalTmpOrderId},</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">order_status=#{orderStatus},</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">tncf_status=#{tncfStatus},</if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">tncf_time=#{tncfTime},</if>
+        </trim>
+        where account_id=#{accountId}
+
+    </update>
+
+    <update id="updateByTotalTmpOrderId">
+        update t_account_redeem
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(orderStatus)">order_status=#{orderStatus},</if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">confirm_money=#{confirmMoney},</if>
+            <if test="@Ognl@isNotEmpty(confirmShares)">confirm_shares=#{confirmShares},</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">tncf_status=#{tncfStatus},</if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">tncf_time=#{tncfTime},</if>
+        </trim>
+        where total_tmp_order_id=#{totalTmpOrderId}
+    </update>
+
+    <update id="updateAccountRedeemById">
+        update t_account_redeem
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(applyMoney)">apply_money=#{applyMoney},</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">order_status=#{orderStatus},</if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">confirm_money=#{confirmMoney},</if>
+            <if test="@Ognl@isNotEmpty(confirmShares)">confirm_shares=#{confirmShares},</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">tncf_status=#{tncfStatus},</if>
+            <if test="@Ognl@isNotEmpty(navDate)">nav_date=#{navDate},</if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">tncf_time=#{tncfTime},</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <update id="updateAccountRedeemToTncf">
+        update t_account_redeem
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(tncfStatus)">tncf_status=#{tncfStatus},</if>
+            <if test="@Ognl@isNotEmpty(tncfTime)">tncf_time=#{tncfTime},</if>
+        </trim>
+        where id in
+        <foreach collection="accountRedeemIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

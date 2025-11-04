@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:reference id="memberServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.MemberServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="userInfoServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UserServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="userServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UserServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="modelServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.ModelServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="tradeRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SaxoTradeRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="uobTradeRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UobTradeRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="saxoTradeRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SaxoTradeRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="assetServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AssetServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="withdrawalRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.WithdrawalRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="rechargeServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.RechargeServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="schedulerRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SchedulerRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="dividendRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.DividendRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="orderServiceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.OrderServiceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="exchangeRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.ExchangeRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountReBalanceRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountReBalanceRemoteService"
+                     check="false"  url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="testRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.TestRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="testExcuteRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.TestExcuteRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="saxoStatisticRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SaxoStatisticRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="userTestRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UserTestRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="appRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AppRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="pivotErrorDetailRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotErrorDetailRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="pivotFeeDetailRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotFeeDetailRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="pivotCharityDetailRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotCharityDetailRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="balanceApplyRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.BalanceApplyRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysMenuRemoteService"
+                     interface="com.pivot.aham.admin.server.remoteservice.SysMenuRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysUserRemoteService"
+                     interface="com.pivot.aham.admin.server.remoteservice.SysUserRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysSessionRemoteService"
+                     interface="com.pivot.aham.admin.server.remoteservice.SysSessionRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysRoleRemoteService"
+                     interface="com.pivot.aham.admin.server.remoteservice.SysRoleRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysDeptRemoteService"
+                     interface="com.pivot.aham.admin.server.remoteservice.SysDeptRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysAuthorizeRemoteService" interface="com.pivot.aham.admin.server.remoteservice.SysAuthorizeRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="userStaticsRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UserStaticsRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="saxoAccountOrderRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SaxoAccountOrderRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountEtfSharesRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountEtfSharesRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="transRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.TransRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountInfoRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountInfoRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountStaticsRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountStaticsRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountUserRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountUserRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="nameAliasRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.NameAliasRemoteService"
+                     check="false" url="dubbo://10.100.0.25228082"/>
+    <dubbo:reference id="pivotPftRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.PivotPftRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="sysConfigRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.SysConfigRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="uobSaveRechargeLogRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.UobSaveRechargeLogRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="tpcfRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.TPCFRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="tradeExecuteRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.TradeExecuteRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountRechargeRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountRechargeRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="accountRedeemRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.AccountRedeemRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>
+    <dubbo:reference id="fundingStatusRemoteService"
+                     interface="com.pivot.aham.api.server.remoteservice.FundingStatusRemoteService"
+                     check="false" url="dubbo://10.100.0.252:28082"/>  
+</beans>

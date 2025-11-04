@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.BankVirtualAccountOrderMsgMapper">
+	<resultMap id="bankVirtualAccountOrderMsgRes"
+			   type="com.pivot.aham.api.service.mapper.model.BankVirtualAccountOrderMsgPO">
+		<id column="id" property="id"/>
+		<result column="bank_order_no" property="bankOrderNo"/>
+		<result column="msg_status" property="msgStatus"/>
+		<result column="send_time" property="sendTime"/>
+		<result column="send_confirm_time" property="sendConfirmTime"/>
+		<result column="consumer_complete_time" property="consumerCompleteTime"/>
+		<result column="message_id" property="messageId"/>
+	</resultMap>
+
+	<sql id="BankVirtualAccountOrderMsgVo">
+      select
+        id, bank_order_no, msg_status, send_time,send_confirm_time,consumer_complete_time,message_id
+        from t_bank_va_order_refend_msg
+    </sql>
+
+	<update id="updateByMessageId">
+		update t_bank_va_order_refend_msg
+		<set>
+			<if test="@Ognl@isNotEmpty(msgStatus)">
+				msg_status = #{msgStatus},
+			</if>
+			<if test="@Ognl@isNotEmpty(consumerCompleteTime)">
+				consumer_complete_time = #{consumerCompleteTime},
+			</if>
+			<if test="@Ognl@isNotEmpty(sendConfirmTime)">
+				send_confirm_time = #{sendConfirmTime},
+			</if>
+		</set>
+		<where>
+			message_id = #{messageId}
+			<if test="@Ognl@isNotEmpty(preMsgStatus)">
+				and msg_status = #{preMsgStatus}
+			</if>
+		</where>
+	</update>
+
+
+	<select id="queryBankVirtualAccountOrderMsgList" resultMap="bankVirtualAccountOrderMsgRes">
+	<include refid="BankVirtualAccountOrderMsgVo"/>
+		<where>
+			<if test="@Ognl@isNotEmpty(msgStatusEnumList)">
+			and msg_status in
+				<foreach collection="msgStatusEnumList" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+
+		</where>
+
+	</select>
+
+
+
+
+</mapper>

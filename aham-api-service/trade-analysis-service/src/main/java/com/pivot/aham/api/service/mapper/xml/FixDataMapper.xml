@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.FixDataMapper">
+
+    <update id="updateClientName">
+        update t_bank_virtual_account
+        set client_name=#{clientName}
+        where id=#{id}
+    </update>
+
+    <update id="updateVACash">
+         update t_bank_virtual_account
+         set cash_amount=#{cashAmount},freeze_amount=#{freezeAmount},used_amount=#{usedAmount}
+         where id=#{id}
+    </update>
+
+    <update id="updateSaxoStatu">
+        update t_saxo_account_order
+        set order_status=#{status} where id=#{id};
+    </update>
+
+    <update id="updateBankVAStatu">
+         update t_bank_virtual_account_order
+         set order_status=#{status} where id=#{id};
+    </update>
+
+    <delete id="deleteFromTable">
+        delete from ${tableName} where id=#{id}
+    </delete>
+
+</mapper>

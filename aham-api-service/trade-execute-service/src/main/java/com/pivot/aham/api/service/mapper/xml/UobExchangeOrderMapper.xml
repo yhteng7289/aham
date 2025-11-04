@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobExchangeOrderMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobExchangeOrderPO">
+        <result property="id" column="id"/>
+        <result property="outBusinessId" column="out_business_id"/>
+        <result property="orderType" column="order_type"/>
+        <result property="exchangeType" column="exchange_type"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="applyAmount" column="apply_amount"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmAmount" column="confirm_amount"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="costFee" column="cost_fee"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        out_business_id,
+        order_type,
+        exchange_type,
+        order_status,
+        apply_amount,
+        apply_time,
+        confirm_amount,
+        confirm_time,
+        cost_fee
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_uob_exchange_order (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(outBusinessId)">
+                out_business_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                order_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeType)">
+                exchange_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyAmount)">
+                apply_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">
+                confirm_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                cost_fee,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(outBusinessId)">
+                #{outBusinessId},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                #{orderType},
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeType)">
+                #{exchangeType},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyAmount)">
+                #{applyAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">
+                #{confirmAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                #{costFee},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getOrderList" resultMap="resultMap">
+        select * from t_uob_exchange_order
+        where order_type = #{orderType} and order_status IN
+        <foreach collection="statusList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="updateStatus">
+        update t_uob_exchange_order set order_status = #{status} where id = #{orderId}
+    </update>
+
+    <select id="getById" resultMap="resultMap">
+        select * from t_uob_exchange_order where id = #{orderId}
+    </select>
+
+    <update id="confirm">
+        update t_uob_exchange_order set confirm_amount = #{confirmAmount}, cost_fee = #{cost}, order_status = #{status}, confirm_time = #{confirmTime} where id = #{id}
+    </update>
+</mapper>

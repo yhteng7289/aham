@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div>
+    <table class="table table-striped"  align="center" cellspacing="0" style="text-align: center;" border="1">
+        <legend align="center">
+            <strong>对账描述</strong>
+        </legend>
+        <thead>
+
+        <!--map-->
+        <tr>
+            <th>SAXO-持仓金额</th>
+            <th>DAS-持仓金额</th>
+            <th>对账状态</th>
+            <th>文件名称</th>
+            <th>Saxo-对账原始记录id</th>
+            <th>对账时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${balHoldMoney.saxoHoldMoney}"></td>
+            <td th:text="${balHoldMoney.dasHoldMoney}"></td>
+            <td th:text="${balHoldMoney.statusDes}"></td>
+            <td th:text="${balHoldMoney.fileName}"></td>
+            <td th:text="${balHoldMoney.transNumber}"></td>
+            <td th:text="${balHoldMoney.compareTime}"></td>
+        </tr>
+        <!--list-->
+        <!--<tr th:each="city : ${cityList}">-->
+            <!--<td th:text="${city.id}"></td>-->
+            <!--<td th:text="${city.provinceId}"></td>-->
+            <!--<td th:text="${city.cityName}"></td>-->
+            <!--<td th:text="${city.description}"></td>-->
+        <!--</tr>-->
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

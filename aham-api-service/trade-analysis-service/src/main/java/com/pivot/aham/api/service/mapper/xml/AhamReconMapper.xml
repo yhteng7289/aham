@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AhamReconMapper">
+
+	<resultMap id="AhamReconRes" type="com.pivot.aham.api.service.mapper.model.AhamReconPO">
+        <result property="id" column="id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="dasUnit" column="das_unit"></result>
+        <result property="inputUnit" column="input_unit"></result>
+        <result property="diffUnit" column="diff_unit"></result>
+        <result property="reconResult" column="recon_result"></result>
+        <result property="dasTime" column="das_time"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+    </resultMap>
+    
+    <sql id="baseColum">
+        id, product_code, das_unit, input_unit, diff_unit, recon_result, das_time, create_time, update_time
+    </sql>
+    
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_aham_recon (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                product_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(dasUnit)">
+                das_unit,
+            </if>
+            <if test="@Ognl@isNotEmpty(inputUnit)">
+                input_unit,
+            </if>
+            <if test="@Ognl@isNotEmpty(diffUnit)">
+                diff_unit,
+            </if>
+            <if test="@Ognl@isNotEmpty(reconResult)">
+                recon_result,
+            </if>
+            <if test="@Ognl@isNotEmpty(dasTime)">
+                das_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(dasUnit)">
+                #{dasUnit},
+            </if>
+            <if test="@Ognl@isNotEmpty(inputUnit)">
+                #{inputUnit},
+            </if>
+            <if test="@Ognl@isNotEmpty(diffUnit)">
+                #{diffUnit},
+            </if>
+            <if test="@Ognl@isNotEmpty(reconResult)">
+                #{reconResult},
+            </if>
+            <if test="@Ognl@isNotEmpty(dasTime)">
+                #{dasTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime}
+            </if>
+        </trim>
+        )
+    </insert>
+    
+    <select id="findAhamRecon" resultMap="AhamReconRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_aham_recon
+        <where>
+        	<if test="@Ognl@isNotEmpty(id)">
+                id = #{id} 
+            </if>
+            <if test="@Ognl@isNotEmpty(startCreateTime)">
+                <![CDATA[and create_time>=#{startCreateTime} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endCreateTime)">
+                <![CDATA[and create_time<=#{endCreateTime} ]]>
+            </if>
+        </where>
+        ORDER BY ID DESC
+    </select>
+</mapper>

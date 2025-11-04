@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoOrderMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.SaxoOrderPO">
+        <result property="id" column="id"/>
+        <result property="uic" column="uic"/>
+        <result property="saxoOrderCode" column="saxo_order_code"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="orderType" column="order_type"/>
+        <result property="applyShare" column="apply_share"/>
+        <result property="applyAmount" column="apply_amount"/>
+        <result property="confirmShare" column="confirm_share"/>
+        <result property="confirmAmount" column="confirm_amount"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="commission" column="commission"/>
+        <result property="exchangeFee" column="exchange_fee"/>
+        <result property="externalCharges" column="external_charges"/>
+        <result property="performanceFee" column="performance_fee"/>
+        <result property="stampDuty" column="stamp_duty"/>
+        <result property="positionId" column="position_id"/>
+        <result property="feeStatus" column="fee_status"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="Columns">
+        	id,
+        	uic,
+        	saxo_order_code,
+        	order_status,
+        	order_type,
+        	apply_share,
+        	apply_amount,
+        	confirm_share,
+        	confirm_amount,
+        	apply_time,
+        	confirm_time,
+        	commission,
+        	exchange_fee,
+        	external_charges,
+        	performance_fee,
+        	stamp_duty,
+        	position_id,
+        	fee_status
+	</sql>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_saxo_order (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id ,
+            </if>
+            <if test="@Ognl@isNotEmpty(uic)">
+                uic ,
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                saxo_order_code ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                order_type ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyShare)">
+                apply_share ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyAmount)">
+                apply_amount ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                confirm_share ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">
+                confirm_amount ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time ,
+            </if>
+            <if test="@Ognl@isNotEmpty(commission)">
+                commission ,
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeFee)">
+                exchange_fee ,
+            </if>
+            <if test="@Ognl@isNotEmpty(externalCharges)">
+                external_charges ,
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceFee)">
+                performance_fee ,
+            </if>
+            <if test="@Ognl@isNotEmpty(stampDuty)">
+                stamp_duty,
+            </if>
+            <if test="@Ognl@isNotEmpty(positionId)">
+                position_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(feeStatus)">
+                fee_status,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(uic)">
+                #{uic} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                #{saxoOrderCode} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                #{orderType} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyShare)">
+                #{applyShare} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyAmount)">
+                #{applyAmount} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                #{confirmShare} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">
+                #{confirmAmount} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(commission)">
+                #{commission} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeFee)">
+                #{exchangeFee} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(externalCharges)">
+                #{externalCharges} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceFee)">
+                #{performanceFee} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(stampDuty)">
+                #{stampDuty},
+            </if>
+            <if test="@Ognl@isNotEmpty(positionId)">
+                #{positionId},
+            </if>
+            <if test="@Ognl@isNotEmpty(feeStatus)">
+                #{feeStatus},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getOrderList" resultMap="resultMap">
+        select * from t_saxo_order where order_type = #{orderType} and order_status = #{orderStatus}
+    </select>
+
+    <update id="confirmOrder">
+        update
+        t_saxo_order
+        set
+        confirm_share = #{confirmShare},
+        confirm_amount = #{confirmAmount},
+        confirm_time = #{confirmTime},
+        commission = #{commission},
+        exchange_fee = #{exchangeFee},
+        external_charges = #{externalCharges},
+        performance_fee = #{performanceFee},
+        stamp_duty = #{stampDuty},
+        <if test="@Ognl@isNotEmpty(positionId)">
+            position_id = #{positionId},
+        </if>
+        order_status = #{orderStatus}
+        where
+        id = #{orderId}
+    </update>
+
+    <select id="getById" resultMap="resultMap">
+        select * from t_saxo_order where id = #{orderId}
+    </select>
+
+    <select id="getByMergeOrderId" resultMap="resultMap">
+        select * from t_saxo_order where merge_order_id = #{mergeOrderId}
+    </select>
+
+    <select id="getListByTime" resultMap="resultMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_saxo_order
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(nowDate)">
+                AND DATE_FORMAT(confirm_time,'%Y-%m-%d')=DATE_FORMAT(#{nowDate},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="getWaitNotifyFee" resultMap="resultMap">
+        select * from t_saxo_order where fee_status = #{orderFeeStatus}
+    </select>
+
+    <update id="confirmNotifyFee">
+        update t_saxo_order set fee_status = #{orderFeeStatus} where id = #{orderId}
+    </update>
+
+
+    <update id="confirmOrderSuccess">
+        update t_saxo_order set order_status = #{orderStatus},saxo_order_code = #{saxoOrderCode}  where id = #{orderId}
+    </update>
+    
+    <select id="findSaxoOrder" resultMap="resultMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_saxo_order
+        <where>
+        	<if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                and order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                and saxo_order_code=#{saxoOrderCode}
+            </if>
+        </where>
+    </select>
+</mapper>

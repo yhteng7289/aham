@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserAssetMapper">
+
+    <resultMap id="UserAssetRes" type="com.pivot.aham.api.service.mapper.model.UserAssetPO">
+        <result property="id" column="id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="share" column="share"></result>
+        <result property="money" column="money"></result>
+        <result property="assetTime" column="asset_time"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="goalId" column="goal_id"></result>
+    </resultMap>
+
+    <sql id="baseColum">
+        id, account_id, client_id, product_code, share, money, asset_time, create_time,update_time,goal_id
+    </sql>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user_asset (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                product_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(share)">
+                share,
+            </if>
+            <if test="@Ognl@isNotEmpty(money)">
+                money,
+            </if>
+            <if test="@Ognl@isNotEmpty(assetTime)">
+                asset_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(share)">
+                #{share},
+            </if>
+            <if test="@Ognl@isNotEmpty(money)">
+                #{money},
+            </if>
+            <if test="@Ognl@isNotEmpty(assetTime)">
+                #{assetTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        INSERT INTO t_user_asset
+        (
+        id,
+        account_id,
+        client_id,
+        product_code,
+        share,
+        money,
+        asset_time,
+        create_time,
+        update_time,
+        goal_id
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.accountId},
+            #{item.clientId},
+            #{item.productCode},
+            #{item.share},
+            #{item.money},
+            #{item.assetTime},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.goalId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryListByTime" resultMap="UserAssetRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_user_asset
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                and product_code=#{productCode}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(startAssetTime)">
+                 and asset_time>=#{startAssetTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endAssetTime)">
+                 and #{endAssetTime}>=asset_time
+            </if>
+            <if test="@Ognl@isNotEmpty(assetTime)">
+                and DATE_FORMAT(asset_time,'%Y-%m-%d')=DATE_FORMAT(#{assetTime},'%Y-%m-%d')
+            </if>
+            order by asset_time asc;
+        </where>
+    </select>
+
+
+    <select id="queryUserAssetPo" resultMap="UserAssetRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_user_asset
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                and product_code=#{productCode}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(assetTime)">
+                and asset_time=#{assetTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="litsUserAsset" resultMap="UserAssetRes">
+        select
+        <include refid="baseColum"/>
+        from t_user_asset
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                and product_code=#{productCode}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastExDate)">
+                and DATE_FORMAT(asset_time,'%Y-%m-%d')=DATE_FORMAT(#{lastExDate},'%Y-%m-%d')
+            </if>
+            and client_id in
+            <foreach collection="clientIds" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <update id="updateUserAsset">
+        UPDATE t_user_asset
+        <set>
+            <if test="@Ognl@isNotEmpty(share)">
+                share=#{share}
+            </if>
+            <if test="@Ognl@isNotEmpty(money)">
+                , money=#{money}
+            </if>
+            <if test="@Ognl@isNotEmpty(assetTime)">
+                , asset_time=#{assetTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                , update_time=#{updateTime}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+</mapper>

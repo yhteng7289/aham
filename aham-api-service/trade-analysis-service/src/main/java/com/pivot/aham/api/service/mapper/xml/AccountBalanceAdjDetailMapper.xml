@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountBalanceAdjDetailMapper">
+
+    <resultMap id="AccountBalanceAdjDetailRes" type="com.pivot.aham.api.service.mapper.model.AccountBalanceAdjDetail">
+        <result property="id" column="id"></result>
+        <result property="balId" column="bal_id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="currentHold" column="current_hold"></result>
+        <result property="targetHold" column="target_hold"></result>
+        <result property="tradeType" column="trade_type"></result>
+        <result property="executeStatus" column="execute_status"></result>
+        <result property="tmpOrderId" column="tmp_order_id"></result>
+        <result property="correctTargetHold" column="correct_target_hold"></result>
+        <result property="tradeAmount" column="trade_amount"></result>
+    </resultMap>
+
+
+
+    <sql id="AccountBalanceAdjDetailVo">
+        select id,bal_id,product_code,current_hold,target_hold,trade_type,execute_status,tmp_order_id,correct_target_hold,trade_amount
+        from t_account_balance_adj_detail
+    </sql>
+
+    <insert id="batchInsertBalanceAdjDetail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_balance_adj_detail (
+        bal_id,
+        product_code,
+        current_hold,
+        target_hold,
+        trade_type,
+        execute_status,
+        correct_target_hold
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.balId},
+            #{item.productCode},
+            #{item.currentHold},
+            #{item.targetHold},
+            #{item.tradeType},
+            #{item.executeStatus},
+            #{item.correctTargetHold}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

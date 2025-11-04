@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoToUobOrderMockMapper">
+    <resultMap id="SaxoToUobOrderMockRes" type="SaxoToUobOrderMock">
+        <result property="id" column="id"/>
+        <result property="transactionId" column="transaction_id"></result>
+        <result property="amount" column="amount"></result>
+    </resultMap>
+
+    <sql id="SaxoToUobOrderVo">
+        select id,transaction_id,amount
+         from t_saxo_to_uob_order_mock
+    </sql>
+</mapper>

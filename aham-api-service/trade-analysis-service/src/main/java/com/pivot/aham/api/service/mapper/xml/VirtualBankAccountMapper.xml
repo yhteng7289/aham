@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.VirtualBankAccountMapper">
+
+    <resultMap id="bankVirtualAccountMap" type="com.pivot.aham.api.service.mapper.model.VirtualBankAccountPO">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="client_name" property="clientName"/>
+        <result column="virtual_account_no" property="virtualAccountNo"/>
+        <result column="cash_amount" property="cashAmount"/>
+        <result column="freeze_amount" property="freezeAmount"/>
+        <result column="used_amount" property="usedAmount"/>
+        <result column="currency" property="currency"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <!--<result column="redeem_apply_id" property="redeemApplyId"/>-->
+    </resultMap>
+
+    <sql id="base_column">
+        id, client_id, client_name, virtual_account_no, cash_amount, freeze_amount, used_amount, currency, update_time, create_time
+    </sql>
+	
+    <select id="queryBankVirtualAccountById" resultMap="bankVirtualAccountMap">
+        SELECT
+			<include refid="base_column"/>
+        FROM t_bank_virtual_account
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                and currency=#{currency}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountBalanceRecordMapper">
+
+    <resultMap id="AccountBalanceRecordRes" type="com.pivot.aham.api.service.mapper.model.AccountBalanceRecord">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="balStartTime" column="bal_start_time"></result>
+        <result property="modelRecommendId" column="model_recommend_id"></result>
+        <result property="portfolioId" column="portfolio_id"></result>
+        <result property="portfolioScore" column="portfolio_score"></result>
+        <result property="balTimeDiff" column="bal_time_diff"></result>
+        <result property="etfDiff" column="etf_diff"></result>
+        <result property="xValue" column="x_value"></result>
+        <result property="balStatus" column="bal_status"></result>
+    </resultMap>
+
+    <sql id="AccountBalanceRecordVo">
+        select id,account_id,bal_start_time,
+        model_recommend_id,portfolio_id,
+        portfolio_score,bal_time_diff,etf_diff,x_value,bal_status
+        from t_account_balance_record
+    </sql>
+
+    <select id="getAccountBalRecordPage" resultMap="AccountBalanceRecordRes">
+        <include refid="AccountBalanceRecordVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(startBalStartTime)">
+            and bal_start_time>=#{startBalStartTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endBalStartTime)">
+                and #{endBalStartTime}>=bal_start_time
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryAccountBalance" resultMap="AccountBalanceRecordRes">
+       <include refid="AccountBalanceRecordVo"/>
+       <where>
+           <if test="@Ognl@isNotEmpty(accountId)">
+               and account_id=#{accountId}
+           </if>
+           <if test="@Ognl@isNotEmpty(balStatusList)">
+              and bal_status in
+               <foreach collection="balStatusList" item="item" index="index" open="(" separator="," close=")">
+                   #{item}
+               </foreach>
+           </if>
+       </where>
+    </select>
+
+</mapper>

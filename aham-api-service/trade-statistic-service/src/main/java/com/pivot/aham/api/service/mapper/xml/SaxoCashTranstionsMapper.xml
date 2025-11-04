@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoCashTransactionsMapper">
+
+    <resultMap id="result_map" type="com.pivot.aham.api.service.mapper.model.SaxoCashTransactionsPO">
+
+    </resultMap>
+
+    <sql id="select_columns">
+        <trim suffixOverrides=",">
+            id ,
+            account ,
+            account_currency ,
+            transaction_num ,
+            order_number ,
+            front_office_link_id ,
+            date ,
+            value_date ,
+            gross_amt_cash ,
+            cash_currency,
+            fee_cash_curreny,
+            cash_to_acc_rate,
+            gross_amt_acc ,
+            fee_account_cur ,
+            net_amount_acc ,
+            partner_acc_key,
+            comment ,
+            counterpart_id ,
+        </trim>
+    </sql>
+
+    <sql id="add_columns">
+        <trim suffixOverrides=",">
+            account ,
+            account_currency ,
+            transaction_num ,
+            order_number ,
+            front_office_link_id ,
+            date ,
+            value_date ,
+            gross_amt_cash ,
+            cash_currency,
+            fee_cash_curreny,
+            cash_to_acc_rate,
+            gross_amt_acc ,
+            fee_account_cur ,
+            net_amount_acc ,
+            partner_acc_key,
+            comment ,
+            counterpart_id ,
+        </trim>
+    </sql>
+    <insert id="batchInsert" parameterType="com.pivot.aham.api.service.mapper.model.SaxoCashTransactionsPO">
+        INSERT INTO t_saxo_cash_trans
+        (
+        <include refid="add_columns"/>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.account},
+                #{item.accountCurrency},
+                #{item.transactionNumber},
+                #{item.orderNumber},
+                #{item.frontOfficeLinkID},
+                #{item.date},
+                #{item.valueDate},
+                #{item.grossAmountCashCurrency},
+                #{item.cashCurrency},
+                #{item.feeCashCurrency},
+                #{item.cashToAccountRate},
+                #{item.grossAmountAccountCurrency},
+                #{item.feeAccountCurrency},
+                #{item.netAmountAccountCurrency},
+                #{item.partnerAccountKey},
+                #{item.comment},
+                #{item.counterpartID},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <sql id="select_cond">
+        <where>
+            1=1
+        </where>
+    </sql>
+
+    <select id="getDataByCond" parameterType="com.pivot.aham.api.service.mapper.model.SaxoCashTransactionsPO"
+            resultMap="result_map">
+        SELECT
+        <include refid="select_columns"/>
+        FROM t_saxo_cash_trans
+        <include refid="select_cond"/>
+    </select>
+
+
+</mapper>

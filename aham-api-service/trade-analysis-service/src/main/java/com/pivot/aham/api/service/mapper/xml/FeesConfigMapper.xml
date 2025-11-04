@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.FeesConfigMapper">
+
+    <resultMap id="FeesConfigRes" type="FeesConfigPO">
+        <result property="id" column="id"></result>
+        <result property="feeType" column="fee_type"></result>
+        <result property="rateCharge" column="rate_charge"></result>
+        <result property="startDate" column="start_date"></result>
+        <result property="endDate" column="end_date"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateDate" column="update_date"></result>
+        <result property="activeStatus" column="active_status"></result>
+    </resultMap>
+
+    <sql id="FeesConfigSelect">
+        select id, fee_type, rate_charge, start_date, end_date, create_date, update_date, active_status
+         from  t_fees_config
+    </sql>
+
+    <select id="selectByDay" resultMap="FeesConfigRes">
+        <include refid="FeesConfigSelect"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(startDate)">
+                and DATE_FORMAT(start_date,'%Y-%m-%d')&lt;=DATE_FORMAT(#{startDate},'%Y-%m-%d')</if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+                and DATE_FORMAT(end_date,'%Y-%m-%d')&gt;=DATE_FORMAT(#{endDate},'%Y-%m-%d')</if>
+            <if test="@Ognl@isNotEmpty(feeType)">and fee_type=#{feeType}</if>
+            <if test="@Ognl@isNotEmpty(activeStatus)">and active_status=#{activeStatus}</if>
+        </where>
+        ORDER BY id ASC LIMIT 1
+    </select>
+
+
+
+</mapper>

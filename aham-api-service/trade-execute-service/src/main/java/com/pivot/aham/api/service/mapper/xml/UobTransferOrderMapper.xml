@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobTransferOrderMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobTransferOrderPO">
+        <result property="id" column="id"/>
+        <result property="outBusinessId" column="out_business_id"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="bankAccountNumber" column="bank_account_number"/>
+        <result property="bankUserName" column="bank_user_name"/>
+        <result property="branchCode" column="branch_code"/>
+        <result property="swiftCode" column="swift_code"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="currency" column="currency"/>
+        <result property="amount" column="amount"/>
+        <result property="costFee" column="cost_fee"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        out_business_id,
+        bank_name,
+        bank_account_number,
+        bank_user_name,
+        branch_code,
+        swift_code,
+        order_type,
+        order_status,
+        amount,
+        currency,
+        cost_fee,
+        apply_time,
+        confirm_time,
+        remark
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_uob_tra_order (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(outBusinessId)">
+                out_business_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankName)">
+                bank_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankAccountNumber)">
+                bank_account_number,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankUserName)">
+                bank_user_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(branchCode)">
+                branch_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(swiftCode)">
+                swift_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                order_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                cost_fee,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(remark)">
+                remark,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(outBusinessId)">
+                #{outBusinessId},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankName)">
+                #{bankName},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankAccountNumber)">
+                #{bankAccountNumber},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankUserName)">
+                #{bankUserName},
+            </if>
+            <if test="@Ognl@isNotEmpty(branchCode)">
+                #{branchCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(swiftCode)">
+                #{swiftCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                #{orderType},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                #{currency},
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                #{amount},
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                #{costFee},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(remark)">
+                #{remark},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getOrderList" resultMap="resultMap">
+        select * from t_uob_tra_order
+        where order_status IN
+        <foreach collection="statusList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="@Ognl@isNotEmpty(typeList)">
+            and order_type IN
+            <foreach collection="typeList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <update id="updateStatus">
+        update t_uob_tra_order set order_status = #{status} where id = #{orderId}
+    </update>
+
+    <select id="getOrderListById" resultMap="resultMap">
+        select * from t_uob_tra_order
+        where id IN
+        <foreach collection="orderIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by id
+    </select>
+
+    <update id="confirm">
+        update t_uob_tra_order
+        set order_status = #{status}, cost_fee = #{cost}, confirm_time = #{confirmTime}
+        where id = #{orderId}
+    </update>
+
+    <delete id="deleteLog">
+        delete from t_uob_tra_order where id in
+        <foreach collection="idList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

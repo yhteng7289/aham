@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoShareOpenPositionMapper">
+
+    <resultMap id="SaxoShareOpenPosition" type="com.pivot.aham.api.service.mapper.model.SaxoShareOpenPositionPO">
+        <result property="id" column="id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="saxoHoldShare" column="saxo_hold_share"></result>
+        <result property="dasHoldShare" column="das_hold_share"></result>
+        <result property="saxoHoldAmount" column="saxo_hold_amount"></result>
+        <result property="dasHoldAmount" column="das_hold_amount"></result>
+        <result property="statusDes" column="status_des"></result>
+        <result property="fileName" column="file_name"></result>
+        <result property="transNumber" column="trans_number"></result>
+        <result property="compareTime" column="compare_time"></result>
+    </resultMap>
+
+    <sql id="querySaxoShareOpenPosition">
+        select id, product_code, saxo_hold_share, das_hold_share, saxo_hold_amount, das_hold_amount, status_des,
+        file_name, trans_number, compare_time from t_saxo_bal_etf_money
+    </sql>
+    
+     <select id="querySaxoShareOpenPositionList" resultMap="SaxoShareOpenPosition">
+         <include refid="querySaxoShareOpenPosition"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(startDate)">
+               <![CDATA[and compare_time >= #{startDate} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+               <![CDATA[and compare_time <= #{endDate} ]]>
+            </if>
+
+        </where>
+    </select>
+</mapper>

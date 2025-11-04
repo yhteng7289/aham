@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountStaticsMapper">
+
+    <resultMap id="AccountStaticsRes" type="com.pivot.aham.api.service.mapper.model.AccountStaticsPO">
+        <result property="id" column="id"></result>
+        <result property="staticDate" column="static_date"></result>
+        <result property="totalEquity" column="total_equity"></result>
+        <result property="cashResidual" column="cash_residual"></result>
+        <result property="cashBySell" column="cash_by_sell"></result>
+        <result property="cashHolding" column="cash_holding"></result>
+        <result property="cashDividend" column="cash_dividend"></result>
+        <result property="mgtFee" column="mgt_fee"></result>
+        <result property="custFee" column="cust_fee"></result>
+        <result property="gstMgtFee" column="gst_mgt_fee"></result>
+        <result property="perFee" column="per_fee"></result>
+        <result property="gstPerFee" column="gst_per_fee"></result>
+        <result property="unbuyAmount" column="unbuy_amount"></result>
+        <result property="excessCash" column="excess_cash"></result>
+        <result property="transactionCostBuy" column="transaction_cost_buy"></result>
+        <result property="transactionCostSell" column="transaction_cost_sell"></result>
+        <result property="totalFundValue" column="total_fund_value"></result>
+        <result property="fundShares" column="fund_shares"></result>
+        <result property="navInUsd" column="nav_in_usd"></result>
+        <result property="cashWithdraw" column="cash_withdraw"></result>
+        <result property="adjFundShares" column="adj_fund_shares"></result>
+        <result property="adjFundAsset" column="adj_fund_asset"></result>
+        <result property="adjCashHolding" column="adj_cash_holding"></result>
+        <result property="navInSgd" column="nav_in_sgd"></result>
+        <result property="adjFundAssetInSgd" column="adj_fund_asset_in_sgd"></result>
+        <result property="cashWithdrawInSgd" column="cash_withdraw_in_sgd"></result>
+        <result property="fxRateForFundIn" column="fx_rate_for_fund_in"></result>
+        <result property="fxRateForFundOut" column="fx_rate_for_fund_out"></result>
+        <result property="fxRateForClearing" column="fx_rate_for_clearing"></result>
+        <result property="accountId" column="account_id"></result>
+    </resultMap>
+
+
+
+    <sql id="AccountStaticsVo">
+        select id, account_id,static_date,total_equity,cash_residual,cash_by_sell,cash_holding,cash_dividend,mgt_fee,cust_fee,gst_mgt_fee,per_fee,gst_per_fee,unbuy_amount,
+        excess_cash,transaction_cost_buy,transaction_cost_sell,total_fund_value,fund_shares,nav_in_usd,cash_withdraw,adj_fund_shares,adj_fund_asset,adj_cash_holding,
+        nav_in_sgd,adj_fund_asset_in_sgd,cash_withdraw_in_sgd,fx_rate_for_fund_in,fx_rate_for_fund_out,fx_rate_for_clearing
+        from t_account_statics
+    </sql>
+
+    <select id="selectByStaticDate" resultMap="AccountStaticsRes">
+        <include refid="AccountStaticsVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+    <select id="selectListByStaticDate"
+            resultMap="AccountStaticsRes">
+        <include refid="AccountStaticsVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+
+    </select>
+
+    <select id="selectLastStatic"
+            resultMap="AccountStaticsRes">
+        <include refid="AccountStaticsVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+        </where>
+        order by id limit 1;
+    </select>
+
+
+</mapper>

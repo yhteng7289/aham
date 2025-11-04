@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountEtfSharesMapper">
+
+    <resultMap id="AccountEtfSharesRes" type="com.pivot.aham.api.service.mapper.model.AccountEtfSharesPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="shares" column="shares"></result>
+        <result property="money" column="money"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="staticDate" column="static_date"></result>
+    </resultMap>
+
+    <sql id="AccountEtfSharesVo">
+        select id,
+        account_id,
+        product_code,
+        shares,
+        money,
+        create_time,
+        update_time,
+        static_date
+        from t_account_etf_shares
+    </sql>
+
+    <select id="selectByStaticDate" resultMap="AccountEtfSharesRes">
+        <include refid="AccountEtfSharesVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(productCode)">and product_code=#{productCode}</if>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+
+    <select id="selectByStaticDateByAccountId" resultMap="AccountEtfSharesRes">
+        <include refid="AccountEtfSharesVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(productCode)">and product_code=#{productCode}</if>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+
+</mapper>
+

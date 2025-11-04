@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.RedeemApplyMapper">
+    <resultMap id="RedeemApplyRes" type="com.pivot.aham.api.service.mapper.model.RedeemApplyPO">
+        <result property="id" column="id"></result>
+        <result property="sourceAccountType" column="source_account_type"></result>
+        <result property="applyMoney" column="apply_money"></result>
+        <result property="targetCurrency" column="target_currency"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="bankName" column="bank_name"></result>
+        <!--<result property="bankCode" column="bank_code"></result>-->
+        <result property="bankAccountNo" column="bank_account_no"></result>
+        <result property="exchangeAmount" column="exchange_amount"></result>
+        <result property="withdrawalSourceType" column="withdrawal_source_type"></result>
+        <result property="withdrawalTargetType" column="withdrawal_target_type"></result>
+        <result property="withdrawalTargetBankType" column="withdrawal_target_bank_type"></result>
+        <result property="swift" column="swift"></result>
+        <result property="branch" column="branch"></result>
+        <result property="bankAddress" column="bank_address"></result>
+        <result property="etfExecutedStatus" column="etf_executed_status"></result>
+        <result property="saxoToUobTransferStatus" column="saxo_to_uob_transfer_status"></result>
+        <result property="bankTransferStatus" column="bank_transfer_status"></result>
+        <result property="bankTransferOrderId" column="bank_transfer_order_id"></result>
+        <result property="confirmAmount" column="confirm_amount"></result>
+        <result property="applyTime" column="apply_time"></result>
+        <result property="totalTmpOrderId" column="total_tmp_order_id"></result>
+        <result property="redeemApplyStatus" column="redeem_apply_status"></result>
+        <!--<result property="saxoToUobTransferId" column="saxo_to_uob_transfer_id"></result>-->
+        <!--<result property="saxoToUobOrderId" column="saxo_to_uob_order_Id"></result>-->
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="sourceApplyMoney" column="source_apply_money"/>
+        <result property="confirmAbandonAmount" column="confirm_abandon_amount"/>
+        <result property="confirmAmountInSgd" column="confirm_amount_in_sgd"/>
+        <result property="redeemType" column="redeem_type"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="saxoToUobBatchId" column ="saxo_to_uob_batch_id"></result>
+
+    </resultMap>
+
+    <sql id="RedeemApplyVo">
+        select id,source_account_type,apply_money,target_currency,client_id,account_id,redeem_type,
+        bank_name,bank_account_no,exchange_amount,withdrawal_source_type,
+        withdrawal_target_type,withdrawal_target_bank_type,swift,branch,bank_address, etf_executed_status,
+        saxo_to_uob_transfer_status,bank_transfer_status,bank_transfer_order_id,confirm_amount,
+        apply_time,total_tmp_order_id,create_time,update_time,redeem_apply_status,goal_id,source_apply_money,
+        confirm_abandon_amount,confirm_amount_in_sgd,confirm_time,saxo_to_uob_batch_id
+         from t_redeem_apply
+    </sql>
+
+    <insert id="insertRedeemApply" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_redeem_apply (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">id,</if>
+            <if test="@Ognl@isNotEmpty(sourceAccountType)">source_account_type,</if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">apply_money, </if>
+            <if test="@Ognl@isNotEmpty(targetCurrency)">target_currency,</if>
+            <if test="@Ognl@isNotEmpty(clientId)">client_id,</if>
+            <if test="@Ognl@isNotEmpty(accountId)">account_id,</if>
+            <if test="@Ognl@isNotEmpty(bankName)">bank_name, </if>
+            <if test="@Ognl@isNotEmpty(bankAccountNo)">bank_account_no, </if>
+            <if test="@Ognl@isNotEmpty(exchangeAmount)">exchange_amount,</if>
+            <if test="@Ognl@isNotEmpty(withdrawalSourceType)">withdrawal_source_type,</if>
+            <if test="@Ognl@isNotEmpty(withdrawalTargetBankType)">withdrawal_target_bank_type,</if>
+            <if test="@Ognl@isNotEmpty(swift)">swift,</if>
+            <if test="@Ognl@isNotEmpty(branch)">branch,</if>
+            <if test="@Ognl@isNotEmpty(bankAddress)">bank_address,</if>
+            <if test="@Ognl@isNotEmpty(etfExecutedStatus)">etf_executed_status,</if>
+            <if test="@Ognl@isNotEmpty(saxoToUobTransferStatus)">saxo_to_uob_transfer_status,</if>
+            <if test="@Ognl@isNotEmpty(bankTransferStatus)">bank_transfer_status,</if>
+            <if test="@Ognl@isNotEmpty(bankTransferOrderId)">bank_transfer_order_id,</if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">confirm_amount,</if>
+            <if test="@Ognl@isNotEmpty(applyTime)">apply_time,</if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">total_tmp_order_id,</if>
+            <if test="@Ognl@isNotEmpty(redeemApplyStatus)">redeem_apply_status,</if>
+            <if test="@Ognl@isNotEmpty(createTime)">create_time,</if>
+            <if test="@Ognl@isNotEmpty(updateTime)">update_time,</if>
+            <if test="@Ognl@isNotEmpty(goalId)">goal_id,</if>
+            <if test="@Ognl@isNotEmpty(sourceApplyMoney)">source_apply_money,</if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">#{id},</if>
+            <if test="@Ognl@isNotEmpty(sourceAccountType)">#{sourceAccountType},</if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">#{applyMoney},</if>
+            <if test="@Ognl@isNotEmpty(targetCurrency)">#{targetCurrency},</if>
+            <if test="@Ognl@isNotEmpty(clientId)">#{clientId},</if>
+            <if test="@Ognl@isNotEmpty(accountId)">#{accountId},</if>
+            <if test="@Ognl@isNotEmpty(bankName)">#{bankName},</if>
+            <if test="@Ognl@isNotEmpty(bankAccountNo)">#{bankAccountNo},</if>
+            <if test="@Ognl@isNotEmpty(exchangeAmount)">#{exchangeAmount},</if>
+            <if test="@Ognl@isNotEmpty(withdrawalSourceType)">#{withdrawalSourceType},</if>
+            <if test="@Ognl@isNotEmpty(withdrawalTargetBankType)">#{withdrawalTargetBankType},</if>
+            <if test="@Ognl@isNotEmpty(swift)">#{swift},</if>
+            <if test="@Ognl@isNotEmpty(branch)">#{branch},</if>
+            <if test="@Ognl@isNotEmpty(bankAddress)">#{bankAddress},</if>
+            <if test="@Ognl@isNotEmpty(etfExecutedStatus)">#{etfExecutedStatus},</if>
+            <if test="@Ognl@isNotEmpty(saxoToUobTransferStatus)">#{saxoToUobTransferStatus},</if>
+            <if test="@Ognl@isNotEmpty(bankTransferStatus)">#{bankTransferStatus},</if>
+            <if test="@Ognl@isNotEmpty(bankTransferOrderId)">#{bankTransferOrderId},</if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">#{confirmAmount},</if>
+            <if test="@Ognl@isNotEmpty(applyTime)">#{applyTime},</if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">#{totalTmpOrderId},</if>
+            <if test="@Ognl@isNotEmpty(redeemApplyStatus)">#{redeemApplyStatus},</if>
+            <if test="@Ognl@isNotEmpty(createTime)">#{createTime},</if>
+            <if test="@Ognl@isNotEmpty(updateTime)">#{updateTime},</if>
+            <if test="@Ognl@isNotEmpty(goalId)">#{goalId},</if>
+            <if test="@Ognl@isNotEmpty(sourceApplyMoney)">#{sourceApplyMoney},</if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateByAccountId" parameterType="com.pivot.aham.api.service.mapper.model.RedeemApplyPO">
+        update t_redeem_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">total_tmp_order_id=#{totalTmpOrderId},</if>
+            <if test="@Ognl@isNotEmpty(etfExecutedStatus)">etf_executed_status=#{etfExecutedStatus},</if>
+        </trim>
+        where account_id=#{accountId}
+    </update>
+
+    <update id="updateByTmpOrderId" parameterType="com.pivot.aham.api.service.mapper.model.RedeemApplyPO">
+        update t_redeem_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(etfExecutedStatus)">etf_executed_status=#{etfExecutedStatus},</if>
+            <if test="@Ognl@isNotEmpty(saxoToUobTransferStatus)">
+                saxo_to_uob_transfer_status=#{saxoToUobTransferStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemApplyStatus)">redeem_apply_status=#{redeemApplyStatus},</if>
+        </trim>
+        where total_tmp_order_id=#{totalTmpOrderId}
+    </update>
+
+    <update id="updateRedeemApplyById">
+        update t_redeem_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(etfExecutedStatus)">etf_executed_status=#{etfExecutedStatus},</if>
+            <if test="@Ognl@isNotEmpty(saxoToUobTransferStatus)">
+                saxo_to_uob_transfer_status=#{saxoToUobTransferStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(redeemApplyStatus)">redeem_apply_status=#{redeemApplyStatus},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <select id="queryByApplyTime" parameterType="com.pivot.aham.api.service.mapper.model.RedeemApplyPO"
+            resultMap="RedeemApplyRes">
+        <include refid="RedeemApplyVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(startApplyTime)">and apply_time>=#{startApplyTime}</if>
+            <if test="@Ognl@isNotEmpty(endApplyTime)">and #{endApplyTime}>=apply_time</if>
+            <if test="@Ognl@isNotEmpty(redeemApplyStatus)">and redeem_apply_status=#{redeemApplyStatus}</if>
+            <if test="@Ognl@isNotEmpty(withdrawalSourceType)">and withdrawal_source_type=#{withdrawalSourceType}</if>
+        </where>
+    </select>
+
+    <select id="listRedeemApply" resultMap="RedeemApplyRes">
+        <include refid="RedeemApplyVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(redeemApplyStatus)">and redeem_apply_status=#{redeemApplyStatus}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(targetCurrency)">and target_currency=#{targetCurrency}</if>
+        	<if test="@Ognl@isNotEmpty(startConfirmTime)">and confirm_time>=#{startConfirmTime}</if>
+            <if test="@Ognl@isNotEmpty(endConfirmTime)">and #{endConfirmTime}>=confirm_time</if>
+        </where>
+    </select>
+
+    <select id="queryByRedeemApplyId" resultMap="RedeemApplyRes">
+        <include refid="RedeemApplyVo"/>
+        <where>
+            id=#{redeemApplyId}
+        </where>
+    </select>
+
+</mapper>

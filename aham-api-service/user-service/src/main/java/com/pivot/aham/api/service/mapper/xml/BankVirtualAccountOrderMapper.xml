@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.BankVirtualAccountOrderMapper">
+
+    <resultMap id="bankVirtualAccountOrderMap"
+               type="com.pivot.aham.api.service.mapper.model.BankVirtualAccountOrder">
+        <id column="id" property="id"/>
+        <result column="virtual_account_no" property="virtualAccountNo"/>
+        <result column="cash_amount" property="cashAmount"/>
+        <result column="currency" property="currency"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="operator_type" property="operatorType"/>
+        <!--<result column="bank_status" property="bankStatus"/>-->
+        <result column="bank_order_no" property="bankOrderNo"/>
+        <result column="need_refend_type" property="needRefundType"/>
+        <result column="reference_code" property="referenceCode"/>
+        <result column="trade_time" property="tradeTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="redeem_apply_id" property="redeemApplyId"/>
+        <result column="action_type" property="actionType"/>
+        <result column="match_type" property="matchType"/>
+    </resultMap>
+
+    <sql id="column">
+         id,
+        virtual_account_no,
+        cash_amount,
+        currency,
+        order_status,
+        operator_type,
+        bank_order_no,
+        need_refend_type,
+        reference_code,
+        trade_time,
+        update_time,
+        create_time,
+        redeem_apply_id,
+        action_type,
+        match_type
+    </sql>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO t_bank_virtual_account_order
+        (
+        id,
+        virtual_account_no,
+        cash_amount,
+        currency,
+        order_status,
+        operator_type,
+        bank_order_no,
+        need_refend_type,
+        reference_code,
+        trade_time,
+        create_time,
+        update_time,
+        redeem_apply_id,
+        action_type,
+        match_type
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.virtualAccountNo},
+            #{item.cashAmount},
+            #{item.currency},
+            #{item.orderStatus},
+            #{item.operatorType},
+            #{item.bankOrderNo},
+            #{item.needRefundType},
+            #{item.referenceCode},
+            #{item.tradeTime},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.redeemApplyId},
+            #{item.actionType},
+            #{item.matchType}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE t_bank_virtual_account_order
+        <set>
+            <if test="cashAmount !=null">cash_amount = #{cashAmount},</if>
+            <if test="currency !=null">currency = #{currency},</if>
+            <if test="orderStatus !=null ">order_status = #{orderStatus},</if>
+            <if test="needRefundType !=null ">need_refend_type = #{needRefundType},</if>
+            <if test="updateTime !=null ">update_time = #{updateTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="listBankVAOrders" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        <where>
+            <if test="currency !=null">
+                currency = #{currency}
+            </if>
+            <if test="orderStatus !=null ">and order_status = #{orderStatus}</if>
+            <if test="needRefundType !=null ">and need_refend_type = #{needRefundType}</if>
+            <if test="virtualAccountNo !=null ">and virtual_account_no = #{virtualAccountNo}</if>
+        </where>
+    </select>
+
+    <select id="queryVAOrder" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        <where>
+            <if test="operatorType !=null">
+                and operator_type = #{operatorType}
+            </if>
+            <if test="actionType !=null">
+                and action_type = #{actionType}
+            </if>
+            <if test="redeemApplyId !=null">
+                and redeem_apply_id = #{redeemApplyId}
+            </if>
+
+            <if test="currency !=null">
+                and currency = #{currency}
+            </if>
+            <if test="orderStatus !=null ">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="bankOrderNo !=null ">
+                and bank_order_no = #{bankOrderNo}
+            </if>
+            <if test="needRefundType !=null ">
+                and need_refend_type = #{needRefundType}
+            </if>
+            <if test="virtualAccountNo !=null ">
+                and virtual_account_no = #{virtualAccountNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="listUserOrders" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        WHERE
+        virtual_account_no in
+        <foreach collection="virtualAccountNos" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and operator_type in
+        <foreach collection="vaOrderTradeTypeEna" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryVAOrderById" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        WHERE id=#{id}
+    </select>
+
+    <select id="listBankVirtualAccountOrders" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        <where>
+            <if test="currency !=null">
+                currency = #{currency}
+            </if>
+            <if test="orderStatus !=null ">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="needRefundType !=null ">
+                and need_refend_type = #{needRefundType}
+            </if>
+            <if test="virtualAccountNo !=null ">
+                and virtual_account_no = #{virtualAccountNo}
+            </if>
+            <if test="referenceCode !=null ">
+                and reference_code = #{referenceCode}
+            </if>
+            <if test="bankOrderNo !=null ">
+                and bank_order_no = #{bankOrderNo}
+            </if>
+            <if test="redeemApplyId !=null ">
+                and redeem_apply_id = #{redeemApplyId}
+            </if>
+            <if test="operatorType !=null ">
+                and operator_type = #{operatorType}
+            </if>
+            <if test="actionType != null">
+                and action_type = #{actionType}
+            </if>
+            <if test="startCreateTime != null">
+                and create_time >= #{startCreateTime}
+            </if>
+            <if test="endCreateTime != null">
+                and #{endCreateTime} >= create_time
+            </if>
+            <if test="startTradeTime != null">
+                and trade_time >= #{startTradeTime}
+            </if>
+            <if test="endTradeTime != null">
+                and #{endTradeTime} >= trade_time
+            </if>
+            <if test="actionTypes != null">
+                and action_type in
+                <foreach collection="actionTypes" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="virtualAccountNoList != null">
+                and virtual_account_no in
+                <foreach collection="virtualAccountNoList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+
+    <select id="listBankVirtualAccountOrderPage" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        <where>
+            <if test="currency !=null">
+                currency = #{currency}
+            </if>
+            <if test="orderStatus !=null ">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="needRefundType !=null ">
+                and need_refend_type = #{needRefundType}
+            </if>
+            <if test="virtualAccountNo !=null ">
+                and virtual_account_no = #{virtualAccountNo}
+            </if>
+            <if test="referenceCode !=null ">
+                and reference_code = #{referenceCode}
+            </if>
+            <if test="bankOrderNo !=null ">
+                and bank_order_no = #{bankOrderNo}
+            </if>
+            <if test="redeemApplyId !=null ">
+                and redeem_apply_id = #{redeemApplyId}
+            </if>
+            <if test="operatorType !=null ">
+                and operator_type = #{operatorType}
+            </if>
+            <if test="actionType != null">
+                and action_type = #{actionType}
+            </if>
+            <if test="startCreateTime != null">
+                and create_time >= #{startCreateTime}
+            </if>
+            <if test="endCreateTime != null">
+                and #{endCreateTime} >= create_time
+            </if>
+
+            <if test="startTradeTime != null">
+                and trade_time >= #{startTradeTime}
+            </if>
+            <if test="endTradeTime != null">
+                and #{endTradeTime} >= trade_time
+            </if>
+
+
+            <if test="actionTypes != null">
+                and action_type in
+                <foreach collection="actionTypes" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="virtualAccountNoList != null">
+                and virtual_account_no in
+                <foreach collection="virtualAccountNoList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryFirstBVAOrder" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        where virtual_account_no = #{virtualAccountNo}
+        order by create_time asc limit 1
+    </select>
+
+
+    <select id="getListByTradeTime" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        <where>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                and virtual_account_no = #{virtualAccountNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(actionTypes)">
+                and action_type in
+                <foreach collection="actionTypes" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="@Ognl@isNotEmpty(startTradeTime) and @Ognl@isNotEmpty(endTradeTime) ">
+                AND trade_time BETWEEN #{startTradeTime} AND #{endTradeTime}
+            </if>
+        </where>
+    </select>
+    
+    <!-- Added By WooiTatt -->
+    <select id="queryLastBVAOrder" resultMap="bankVirtualAccountOrderMap">
+        SELECT
+        <include refid="column"/>
+        FROM t_bank_virtual_account_order
+        <where>
+            <if test="actionType !=null">
+                and action_type = #{actionType}
+            </if>
+            <if test="currency !=null">
+                and currency = #{currency}
+            </if>
+            <if test="orderStatus !=null ">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="bankOrderNo !=null ">
+                and bank_order_no = #{bankOrderNo}
+            </if>
+            <if test="virtualAccountNo !=null ">
+                and virtual_account_no = #{virtualAccountNo}
+            </if>
+             <if test="referenceCode !=null ">
+                and reference_code = #{referenceCode}
+            </if>
+        </where>
+        order by create_time desc limit 1
+    </select>
+
+</mapper>

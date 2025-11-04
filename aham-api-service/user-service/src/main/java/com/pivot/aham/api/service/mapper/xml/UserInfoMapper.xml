@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserInfoMapper">
+
+    <resultMap id="baseUserInfoMap" type="com.pivot.aham.api.service.mapper.model.UserInfo">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="client_name" property="clientName"/>
+        <result column="address" property="address"/>
+        <result column="mobile_num" property="mobileNum"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="base_column">
+        id, client_id, client_name, create_time, update_time,address,mobile_num
+    </sql>
+
+    <insert id="saveUserInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user_info (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientName)">
+                client_name ,
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                address,
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                mobile_num,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientName)">
+                #{clientName},
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                #{address},
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                #{mobileNum},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        INSERT INTO t_user_info
+        (
+        id,
+        client_id,
+        client_name,
+        address,
+        mobile_num,
+        create_time,
+        update_time
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.clientId},
+            #{item.clientName},
+            #{item.address},
+            #{item.mobileNum},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateUserInfo">
+        UPDATE t_user_info
+        <set>
+            <if test="address !=null">address = #{address},</if>
+            <if test="mobileNum !=null">mobile_num = #{mobileNum}</if>
+        </set>
+        where client_id = #{clientId}
+    </update>
+
+
+    <select id="queryByClientId" resultMap="baseUserInfoMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_user_info
+        WHERE client_id=#{clientId}
+    </select>
+
+    <select id="queryListByClients" resultMap="baseUserInfoMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_user_info
+        WHERE client_id in
+        <foreach collection="clientIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+
+    <select id="listUserInfoPage" resultMap="baseUserInfoMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_user_info
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(clientName)">and client_name=#{clientName}</if>
+            <if test="@Ognl@isNotEmpty(likeClientId)">and client_id like CONCAT('%',#{likeClientId},'%')</if>
+            <if test="@Ognl@isNotEmpty(likeClientName)">and client_name like CONCAT('%',#{likeClientName},'%')</if>
+            <if test="@Ognl@isNotEmpty(address)">and address = #{address}</if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">and mobile_num = #{mobileNum}</if>
+        </where>
+    </select>
+</mapper>

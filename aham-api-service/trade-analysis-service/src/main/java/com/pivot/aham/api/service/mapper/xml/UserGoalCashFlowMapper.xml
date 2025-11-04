@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserGoalCashFlowMapper">
+
+    <resultMap id="UserGoalCashFlowRes" type="com.pivot.aham.api.service.mapper.model.UserGoalCashFlowPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="staticDate" column="static_date"></result>
+        <result property="tpcf" column="tpcf"></result>
+        <result property="tncf" column="tncf"></result>
+
+    </resultMap>
+
+
+
+    <sql id="UserGoalCashFlowVo">
+        select id, account_id,client_id,goal_id,static_date,tpcf,tncf
+        from t_user_goal_cash_flow
+    </sql>
+
+    <select id="queryListByTime" resultMap="UserGoalCashFlowRes">
+        <include refid="UserGoalCashFlowVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(startStaticDate)">
+                and static_date>=#{startStaticDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(endStaticDate)">
+                and #{endStaticDate}>=static_date
+            </if>
+            order by  static_date asc;
+        </where>
+    </select>
+
+    <select id="selectByStaticDate" resultMap="UserGoalCashFlowRes">
+        <include refid="UserGoalCashFlowVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+
+
+
+
+
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.ExchangeRateMapper">
+
+    <resultMap id="ExchangeRateRes" type="com.pivot.aham.api.service.mapper.model.ExchangeRatePO">
+        <result property="id" column="id"></result>
+        <result property="usdToSgd" column="usd_to_sgd"></result>
+        <result property="rateDate" column="rate_date"></result>
+        <result property="exchangeRateType" column="exchange_rate_type"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+    </resultMap>
+
+    <sql id="baseColum">
+        id, usd_to_sgd, rate_date, exchange_rate_type, create_time, update_time
+       </sql>
+
+    <insert id="saveExchangeRate" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_exchange_rate (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(usdToSgd)">
+                usd_to_sgd,
+            </if>
+            <if test="@Ognl@isNotEmpty(rateDate)">
+                rate_date,
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeRateType)">
+                exchange_rate_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(usdToSgd)">
+                #{usdToSgd},
+            </if>
+            <if test="@Ognl@isNotEmpty(rateDate)">
+                #{rateDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeRateType)">
+                #{exchangeRateType},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateExchangeRate">
+        UPDATE t_exchange_rate
+        <set>
+            <if test="@Ognl@isNotEmpty(usdToSgd)">
+                usd_to_sgd=#{usdToSgd},
+            </if>
+            <if test="@Ognl@isNotEmpty(rateDate)">
+                rate_date=#{rateDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeRateType)">
+                exchange_rate_type=#{exchangeRateType},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time=#{updateTime}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="queryExchangeRate" resultMap="ExchangeRateRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_exchange_rate
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(rateDate)">
+                and rate_date=#{rateDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeRateType)">
+                and exchange_rate_type=#{exchangeRateType}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryLastExchangeRate" resultMap="ExchangeRateRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_exchange_rate
+        <where>
+            <if test="@Ognl@isNotEmpty(exchangeRateType)">
+                exchange_rate_type=#{exchangeRateType}
+            </if>
+        </where>
+        order by rate_date desc
+        limit 1
+    </select>
+
+</mapper>

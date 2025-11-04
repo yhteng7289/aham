@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.EtfMergeOrderMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.EtfMergeOrderPO">
+        <result property="id" column="id"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="productCode" column="product_code"/>
+        <result property="costFee" column="cost_fee"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="applyAmount" column="apply_amount"/>
+        <result property="confirmAmount" column="confirm_amount"/>
+        <result property="confirmShare" column="confirm_share"/>
+        <result property="saxoOrderId" column="saxo_order_id"/>
+        <result property="tradePrice" column="trade_price"/>
+        <result property="totalSellAmount" column="total_sell_amount"/>
+        <result property="totalBuyAmount" column="total_buy_amount"/>
+        <result property="totalSellShare" column="total_sell_share"/>
+        <result property="totalBuyShare" column="total_buy_share"/>
+        <result property="crossedShare" column="crossed_share"/>        
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        order_type,
+        order_status,
+        product_code,
+        cost_fee,
+        apply_time,
+        confirm_time,
+        apply_amount,
+        confirm_amount,
+        confirm_share,
+        saxo_order_id,
+        trade_price,
+        total_sell_amount,
+        total_buy_amount,
+        total_sell_share,
+        total_buy_share,
+        crossed_share        
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_etf_merge_order (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                order_type ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status ,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                product_code ,
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                cost_fee ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyAmount)">
+                apply_amount ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">
+                confirm_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                confirm_share,
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderId)">
+                saxo_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(tradePrice)">
+                trade_price,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalSellShare)">
+                total_sell_share,
+            </if>            
+            <if test="@Ognl@isNotEmpty(totalBuyShare)">
+                total_buy_share,
+            </if>        
+            <if test="@Ognl@isNotEmpty(crossedShare)">
+                crossed_share,
+            </if>                                  
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                #{orderType} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                #{productCode} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                #{costFee} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyAmount)">
+                #{applyAmount} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmAmount)">
+                #{confirmAmount} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                #{confirmShare},
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderId)">
+                #{saxoOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(tradePrice)">
+                #{tradePrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalSellShare)">
+                #{totalSellShare},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalBuyShare)">
+                #{totalBuyShare},
+            </if>     
+            <if test="@Ognl@isNotEmpty(crossedShare)">
+                #{crossedShare},
+            </if>                                
+        </trim>
+        )
+    </insert>
+
+
+    <select id="getMergeOrder" resultMap="resultMap">
+        select * from t_etf_merge_order
+        where order_status = #{orderStatus}
+        <if test="@Ognl@isNotEmpty(orderTypeList)">
+            and order_type in
+            <foreach collection="orderTypeList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getById" resultMap="resultMap">
+        select * from t_etf_merge_order where id = #{mergeOrderId}
+    </select>
+
+    <select id="getBySaxoOrderId" resultMap="resultMap">
+        select * from t_etf_merge_order where saxo_order_id = #{saxoOrderId}
+    </select>
+
+    <update id="tradeExecute">
+        update t_etf_merge_order
+        set order_status = #{orderStatus}, saxo_order_id = #{saxoOrderId}, 
+        total_sell_amount = #{totalSellAmount} , total_buy_amount = #{totalBuyAmount},
+        total_sell_share = #{totalSellShare} , total_buy_share = #{totalBuyShare} 
+        where id = #{mergeOrderId}
+    </update>
+
+    <update id="tradeExecutes">
+        update t_etf_merge_order
+        set order_status = #{orderStatus}, saxo_order_id = #{saxoOrderId}
+        where id in
+        <foreach collection="mergeOrderIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="tradeConfirm">
+        update t_etf_merge_order
+        set order_status = #{orderStatus}, cost_fee = #{costFee}, confirm_time = #{confirmTime},
+        confirm_amount = #{confirmAmount}, confirm_share = #{confirmShare}, 
+        total_sell_share = #{totalSellShare}, total_buy_share = #{totalBuyShare}, crossed_share = #{crossedShare}
+        where id = #{mergeOrderId}
+    </update>
+
+    <update id="tradeConfirmsSameParam">
+        update t_etf_merge_order
+        set order_status = #{orderStatus}, cost_fee = #{costFee}, confirm_time = #{confirmTime}, confirm_amount =
+        #{confirmAmount}, confirm_share = #{confirmShare}
+        where id in
+        <foreach collection="mergeOrderIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateStatus">
+        update t_etf_merge_order
+        set order_status = #{orderStatus}
+        where id = #{mergeOrderId}
+    </update>
+
+    <update id="updateStatusAndSetPrice">
+        update t_etf_merge_order
+        set order_status = #{orderStatus},trade_price = #{tradePrice}
+        where id = #{mergeOrderId}
+    </update>
+</mapper>

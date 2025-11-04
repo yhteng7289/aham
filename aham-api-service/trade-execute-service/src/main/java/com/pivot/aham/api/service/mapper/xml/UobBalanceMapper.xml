@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobBalanceMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobBalancePO">
+        <result property="id" column="id"/>
+        <result property="odDrawingLimit" column="od_drawing_limit;"/>
+        <result property="accountName" column="account_name"/>
+        <result property="subAccountAllocatedBalance" column="sub_account_allocated_balance"/>
+        <result property="todayDebit" column="today_debit"/>
+        <result property="samcPrimaryAccountIndicator" column="samc_primary_account_indicator"/>
+        <result property="accountType" column="account_type"/>
+        <result property="accountCurrency" column="account_currency"/>
+        <result property="accountNumber" column="account_number"/>        
+        <result property="branch" column="branch"/>
+        <result property="masterAccountNumberForSubAccount" column="master_account_number_for_sub_account"/>
+        <result property="totalAvailabilityFloat" column="total_availability_float"/>
+        <result property="todayCredit" column="today_credit"/>
+        <result property="availableBalanceAmount" column="available_balance_amount"/>
+        <result property="availableBalanceCurrency" column="available_balance_currency"/>           
+        <result property="ledgerBalanceAmount" column="ledger_balance_amount"/>
+        <result property="ledgerBalanceCurrency" column="ledger_balance_currency"/>
+        <result property="accountBalanceAmount" column="account_balance_amount"/>
+        <result property="accountBalanceCurrency" column="account_balance_currency"/>
+    </resultMap>
+
+    <sql id="columns">
+        id, od_drawing_limit, account_name, sub_account_allocated_balance, today_debit, samc_primary_account_indicator,
+        account_type, account_currency, account_number, branch, master_account_number_for_sub_account, total_availability_float, today_credit, 
+        available_balance_amount, available_balance_currency, ledger_balance_amount, ledger_balance_currency, account_balance_amount, 
+        account_balance_currency
+    </sql>
+
+    <insert id="saveUobBalanace">
+        INSERT INTO t_uob_balance (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(odDrawingLimit)">
+                od_drawing_limit,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountName)">
+                account_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(subAccountAllocatedBalance)">
+                sub_account_allocated_balance,
+            </if>
+            <if test="@Ognl@isNotEmpty(todayDebit)">
+                today_debit,
+            </if>
+            <if test="@Ognl@isNotEmpty(samcPrimaryAccountIndicator)">
+                samc_primary_account_indicator,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountType)">
+                account_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountCurrency)">
+                account_currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountNumber)">
+                account_number,
+            </if>
+            <if test="@Ognl@isNotEmpty(branch)">
+                branch,
+            </if>
+            <if test="@Ognl@isNotEmpty(masterAccountNumberForSubAccount)">
+                master_account_number_for_sub_account,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAvailabilityFloat)">
+                total_availability_float,
+            </if>
+            <if test="@Ognl@isNotEmpty(todayCredit)">
+                today_credit,
+            </if>
+            <if test="@Ognl@isNotEmpty(availableBalanceAmount)">
+                available_balance_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(availableBalanceCurrency)">
+                available_balance_currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(ledgerBalanceAmount)">
+                ledger_balance_amount,
+            </if>   
+            <if test="@Ognl@isNotEmpty(ledgerBalanceCurrency)">
+                ledger_balance_currency,
+            </if>    
+            <if test="@Ognl@isNotEmpty(accountBalanceAmount)">
+                account_balance_amount,
+            </if>   
+            <if test="@Ognl@isNotEmpty(accountBalanceCurrency)">
+                account_balance_currency,
+            </if>                                                                                                       
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(odDrawingLimit)">
+                #{odDrawingLimit},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountName)">
+                #{accountName},
+            </if>
+            <if test="@Ognl@isNotEmpty(subAccountAllocatedBalance)">
+                #{subAccountAllocatedBalance},
+            </if>
+            <if test="@Ognl@isNotEmpty(todayDebit)">
+                #{todayDebit},
+            </if>
+            <if test="@Ognl@isNotEmpty(samcPrimaryAccountIndicator)">
+                #{samcPrimaryAccountIndicator},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountType)">
+                #{accountType},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountCurrency)">
+                #{accountCurrency},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountNumber)">
+                #{accountNumber},
+            </if>
+            <if test="@Ognl@isNotEmpty(branch)">
+                #{branch},
+            </if>
+            <if test="@Ognl@isNotEmpty(masterAccountNumberForSubAccount)">
+                #{masterAccountNumberForSubAccount},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAvailabilityFloat)">
+                #{totalAvailabilityFloat},
+            </if>
+            <if test="@Ognl@isNotEmpty(todayCredit)">
+                #{todayCredit},
+            </if>
+            <if test="@Ognl@isNotEmpty(availableBalanceAmount)">
+                #{availableBalanceAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(availableBalanceCurrency)">
+                #{availableBalanceCurrency},
+            </if>
+            <if test="@Ognl@isNotEmpty(ledgerBalanceAmount)">
+                #{ledgerBalanceAmount},
+            </if>   
+            <if test="@Ognl@isNotEmpty(ledgerBalanceCurrency)">
+                #{ledgerBalanceCurrency},
+            </if>    
+            <if test="@Ognl@isNotEmpty(accountBalanceAmount)">
+                #{accountBalanceAmount},
+            </if>   
+            <if test="@Ognl@isNotEmpty(accountBalanceCurrency)">
+                #{accountBalanceCurrency},
+            </if>   
+        </trim>
+        )
+    </insert>
+
+    <select id="queryUobBalanace" resultMap="resultMap">
+        select * from t_uob_balance order by id desc
+    </select>
+
+</mapper>

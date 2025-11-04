@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.PivotErrorHandlingDetailServiceMapper">
+
+    <resultMap id="pivotErrorHandlingDetailRes"
+               type="com.pivot.aham.api.service.mapper.model.PivotErrorHandlingDetailPO">
+        <id column="id" property="id"/>
+        <result column="money" property="money"/>
+        <result column="type" property="type"/>
+        <result column="operate_type" property="operateType"/>
+        <result column="trans_no" property="transNo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="operate_date" property="operateDate"/>
+
+    </resultMap>
+
+    <sql id="column">
+        money,
+        type,
+        operate_type,
+        operate_date,
+        create_time,
+        update_time,
+        trans_no
+    </sql>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO t_pivot_error_handling_detail
+        (
+        money,
+        type,
+        operate_type,
+        operate_date,
+        trans_no
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.money},
+            #{item.type},
+            #{item.operateType},
+            #{item.operateDate},
+            #{item.transNo}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getTotalMoneyByDateAndType" resultType="BigDecimal">
+        SELECT
+        sum(money)
+        FROM t_pivot_error_handling_detail
+        <where>
+            <if test="@Ognl@isNotEmpty(operateType)">
+                and operate_type=#{operateType}
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                and type=#{type}
+            </if>
+            <if test="@Ognl@isNotEmpty(operateDate)">
+                <![CDATA[and operate_date<=#{operateDate} ]]>
+            </if>
+        </where>
+    </select>
+    
+    <select id="getTotalMoney" resultType="BigDecimal" parameterType="Integer">
+        SELECT IFNULL(SUM(money) , 0) FROM t_pivot_error_handling_detail
+    </select>
+    
+
+    <delete id="deleteByRedeemId">
+        delete from t_pivot_charity_detail where redeem_id = #{redeemId}
+    </delete>
+
+    <select id="queryByTypeAndDate" resultMap="pivotErrorHandlingDetailRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_pivot_error_handling_detail
+        <where>
+            <if test="@Ognl@isNotEmpty(operateType)">
+                and operate_type=#{operateType}
+            </if>
+            <if test="@Ognl@isNotEmpty(startDate)">
+                <![CDATA[and operate_date>=#{startDate} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+                <![CDATA[and operate_date<=#{endDate} ]]>
+            </if>
+        </where>
+    </select>
+</mapper>

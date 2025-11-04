@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.TransOrderMapper">
+
+    <resultMap id="TransOrderRes" type="com.pivot.aham.api.service.mapper.model.TransOrderPO">
+        <result property="clientId" column="client_id"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="transNo" column="trans_no"></result>
+        <result property="transcationTime" column="transcation_time"></result>
+        <result property="transType" column="trans_type"></result>
+        <result property="amountUsd" column="amount_usd"></result>
+        <result property="transcationTime" column="trade_time"></result>
+    </resultMap>
+
+    <sql id="TransOrderResVo">
+        SELECT client_id,goal_id,trade_time AS transcation_time,trans_type,cash_amount AS amount_usd,transStatus FROM (
+        SELECT client_id,goal_id,recharge_time AS trade_time,'0' AS trans_type,recharge_amount AS cash_amount,order_status AS transStatus FROM t_account_recharge 
+        UNION ALL
+        SELECT client_id,goal_id,redeem_apply_time AS trade_time,'1' AS trans_type,confirm_money AS cash_amount,order_status AS transStatus FROM t_account_redeem 
+        ) a
+       <!-- select client_id,bank_order_no as trans_no,goal_id,trade_time as transcation_time,trans_type,cash_amount as amount_usd,transStatus from (
+        select client_id,bank_order_no,goal_id,trade_time,'0' as trans_type,cash_amount,order_status as transStatus from t_saxo_account_order where action_type=4
+        UNION all
+        select client_id,redeem_apply_id,goal_id,trade_time,'1' as trans_type,cash_amount,order_status as transStatus from t_saxo_account_order where action_type=3
+        union all
+        select client_id,id,goal_id,static_date,'4' as trans_type,mgt_fee,'2' as transStatus from t_user_statics
+        union all
+        select client_id,id,goal_id,static_date,'6' as trans_type,cust_fee,'2' as transStatus from t_user_statics
+        union all
+        select client_id,id,goal_id,static_date,'5' as trans_type,gst_mgt_fee,'2' as transStatus from t_user_statics
+        union all
+        select client_id,id,goal_id,create_time,'2' as trans_type,dividend_amount,'2' as transStatus from t_user_dividend
+        ) a -->
+    </sql>
+
+    <select id="queryTransOrder" resultMap="TransOrderRes">
+        <include refid="TransOrderResVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(startTranscationTime)">
+                and trade_time>=#{startTranscationTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endTranscationTime)">
+                and #{endTranscationTime}>=trade_time
+            </if>
+
+        </where>
+        order by  transcation_time asc
+    </select>
+
+
+    <select id="queryTransOrderList" resultMap="TransOrderRes">
+        <include refid="TransOrderResVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(startTranscationTime)">
+                and trade_time>=#{startTranscationTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endTranscationTime)">
+                and #{endTranscationTime}>=trade_time
+            </if>
+
+        </where>
+        order by  transcation_time asc
+    </select>
+
+</mapper>

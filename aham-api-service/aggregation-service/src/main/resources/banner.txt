@@ -1,0 +1,14 @@
+Application Version: 1.0
+Spring Boot Version: 2.0.3
+Application Name: Squirrelsave API Service
+
+  Hello,I'm coming
+     !!!!
+  !!!!!!!!
+!!!!!!!!!!!   O_O
+!!!  !!!!!!! /@ @\
+      !!!!!! \ x /
+      !!!!!!/ m  !m
+       !!!!/ __  |
+       !!!!|/  \__
+        !!!\______\

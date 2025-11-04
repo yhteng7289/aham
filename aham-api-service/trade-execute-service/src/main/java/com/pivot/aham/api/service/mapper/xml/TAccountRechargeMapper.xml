@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.TAccountRechargeMapper">
+
+    <resultMap id="accountRechargeRes" type="com.pivot.aham.api.service.mapper.model.TAccountRechargePO">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="account_id" property="accountId"/>
+        <result column="recharge_time" property="rechargeTime"/>
+        <result column="currency" property="currency"/>
+        <result column="recharge_amount" property="rechargeAmount"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="recharge_order_no" property="rechargeOrderNo"/>
+        <result column="execute_order_no" property="executeOrderNo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="goal_id" property="goalId"/>
+        <result column="tpcf_status" property="tpcfStatus"/>
+        <result column="tpcf_time" property="tpcfTime"/>
+
+    </resultMap>
+
+    <sql id="baseColum">
+        id, account_id, recharge_time, currency, recharge_amount, client_id, bank_order_no, order_status, tpcf_time,
+        recharge_order_no, execute_order_no, create_time, update_time, goal_id, tpcf_status
+    </sql>
+    
+    <sql id="baseColum2">
+        account_id, recharge_time, currency, recharge_amount, client_id, order_status,
+        recharge_order_no, execute_order_no, goal_id, tpcf_status
+    </sql>
+
+    <insert id="saveAccountRecharge" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_recharge (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeTime)">
+                recharge_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeAmount)">
+                recharge_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                recharge_order_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(executeOrderNo)">
+                execute_order_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfStatus)">
+                tpcf_status
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfTime)">
+                tpcf_time
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeTime)">
+                #{rechargeTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                #{currency},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeAmount)">
+                #{rechargeAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                #{rechargeOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(executeOrderNo)">
+                #{executeOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfStatus)">
+                #{tpcfStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfTime)">
+                #{tpcfTime}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateAccountRecharge">
+        UPDATE t_account_recharge
+        <set>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                , recharge_order_no=#{rechargeOrderNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(executeOrderNo)">
+                , execute_order_no=#{executeOrderNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                , update_time=#{updateTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfStatus)">
+                , tpcf_status=#{tpcfStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfTime)">
+                , tpcf_time=#{tpcfTime}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="queryAccountRecharge" resultMap="accountRechargeRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_account_recharge
+        <where>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                recharge_order_no=#{rechargeOrderNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByAccountId" resultMap="accountRechargeRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_account_recharge
+        <where>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                and order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfStatus)">
+                and tpcf_status=#{tpcfStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeStartTime)">
+                and recharge_time>=#{rechargeStartTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeEndTime)">
+                <![CDATA[and recharge_time<=#{rechargeEndTime} ]]>
+            </if>
+        </where>
+    </select>
+	
+	<select id="listByDate" resultMap="accountRechargeRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_account_recharge
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(tpcfStatus)">
+                and tpcf_status=#{tpcfStatus}
+            </if>
+			<if test="@Ognl@isNotEmpty(rechargeTime)">
+                <![CDATA[ and tpcf_time>#{rechargeTime} ]]>
+            </if>
+			<if test="@Ognl@isNotEmpty(tpcfTime)">
+                <![CDATA[ and tpcf_time<#{tpcfTime} ]]>
+            </if>
+        </where>
+		ORDER BY client_id ASC
+    </select>
+	
+	<select id="listById" resultMap="accountRechargeRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_account_recharge
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+    
+</mapper>

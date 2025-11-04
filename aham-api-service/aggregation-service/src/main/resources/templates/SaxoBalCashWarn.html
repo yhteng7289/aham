@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div>
+    <table class="table table-striped"  align="center" cellspacing="0" style="text-align: center;" border="1">
+        <legend align="center">
+            <strong>对账描述</strong>
+        </legend>
+        <thead>
+        <tr>
+            <th>SAXO-Balance</th>
+            <th>DAS-现金资产</th>
+            <th>DAS与SAXO的差值</th>
+            <th>对账状态</th>
+            <th>文件名称</th>
+            <th>Saxo-对账原始记录id</th>
+            <th>对账时间</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td th:text="${balCashVO.saxoCash}"></td>
+            <td th:text="${balCashVO.dasCash}"></td>
+            <td th:text="${balCashVO.diffCash}"></td>
+            <td th:text="${balCashVO.statusDes}"></td>
+            <td th:text="${balCashVO.fileName}"></td>
+            <td th:text="${balCashVO.transNumber}"></td>
+            <td th:text="${balCashVO.compareTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

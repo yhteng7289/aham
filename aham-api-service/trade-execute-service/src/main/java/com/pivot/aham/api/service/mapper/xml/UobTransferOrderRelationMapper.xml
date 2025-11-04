@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobTransferOrderRelationMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobTransferOrderRelationPO">
+        <result property="id" column="id"/>
+        <result property="businessOrderId" column="business_order_id"/>
+        <result property="executionOrderId" column="execution_order_id"/>
+        <result property="relationType" column="relation_type"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        transfer_order_id,
+        order_id,
+        relation_type
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_uob_tra_order_rela (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(businessOrderId)">
+                business_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(executionOrderId)">
+                execution_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(relationType)">
+                relation_type
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(businessOrderId)">
+                #{businessOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(executionOrderId)">
+                #{executionOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(relationType)">
+                #{relationType}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getByBusinessOrderId" resultMap="resultMap">
+        select * from t_uob_tra_order_rela where business_order_id = #{businessOrderId}
+    </select>
+
+    <select id="getBusinessOrderIdByExecutionOrderId" resultType="long">
+        select business_order_id from t_uob_tra_order_rela where execution_order_id in
+        <foreach collection="executionOrderId" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         group by business_order_id
+    </select>
+
+</mapper>

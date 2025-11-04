@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.EtfMergeOrderExtendMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.EtfMergeOrderExtendPO">
+        <result property="id" column="id"/>
+        <result property="mergeOrderId" column="merge_order_id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="applyAmount" column="apply_amount"/>
+        <result property="applyShare" column="apply_share"/>
+        <result property="confirmAmount" column="confirm_amount"/>
+        <result property="confirmShare" column="confirm_share"/>
+        <result property="costFee" column="cost_fee"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderExtendStatus" column="order_extend_status"/>
+
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        merge_order_id,
+        product_code,
+        apply_amount,
+        apply_share,
+        confirm_amount,
+        confirm_share,
+        cost_fee,
+        order_type,
+        order_extend_status,
+        apply_time,
+        confirm_time,
+        update_time,
+        create_time
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_etf_merge_extend_order (
+        merge_order_id,
+        product_code,
+        apply_amount,
+        apply_share,
+        order_type,
+        order_extend_status,
+        apply_time,
+        update_time,
+        create_time
+        ) VALUES (
+        #{mergeOrderId},
+        #{productCode} ,
+        #{applyAmount} ,
+        #{applyShare} ,
+        #{orderType} ,
+        #{orderExtendStatus} ,
+        #{applyTime} ,
+        #{updateTime} ,
+        #{createTime}
+        )
+    </insert>
+
+
+    <select id="getByEtfMergeOrderId" resultMap="resultMap">
+        select * from t_etf_merge_extend_order
+        where merge_order_id = #{mergeOrderId}
+    </select>
+
+    <select id="listByEtfMergeOrderIds" resultMap="resultMap">
+        select * from t_etf_merge_extend_order
+        where merge_order_id in
+        <foreach collection="mergeOrderIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="listByOrderStatus" resultMap="resultMap">
+        select * from t_etf_merge_extend_order
+        where order_extend_status = #{orderExtendStatus}
+    </select>
+
+    <select id="getById" resultMap="resultMap">
+        select * from t_etf_merge_extend_order where id = #{id}
+    </select>
+
+    <update id="updateMergeId">
+        update t_etf_merge_extend_order
+        set
+        merge_order_id = #{mergeOrderId},
+        order_extend_status = #{orderExtendStatus} ,
+        update_time = #{updateTime}
+        where id in
+        <foreach collection="orderIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateForConfirm">
+        update t_etf_merge_extend_order
+        set
+            confirm_amount = #{confirmAmount},
+            confirm_share = #{confirmShare},
+            cost_fee = #{costFee},
+            order_extend_status = #{orderExtendStatus},
+            confirm_time = #{confirmTime},
+            update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+
+    <update id="updateExtendStatus">
+        update t_etf_merge_extend_order
+        set
+            order_extend_status = #{orderExtendStatus},
+            update_time = #{updateTime}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserBatchNavMapper">
+
+    <resultMap id="UserBatchNavRes" type="com.pivot.aham.api.service.mapper.model.UserBatchNavPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="currFundNav" column="curr_fund_nav"></result>
+        <result property="currTotalShare" column="curr_total_share"></result>
+        <result property="batchNo" column="batch_no"></result>
+        <result property="status" column="status"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+    </resultMap>
+
+
+    <sql id="baseColum">
+        id, account_id, client_id, goal_id, curr_fund_nav, curr_total_share, batch_no, status, create_time, update_time
+    </sql>
+    
+        <select id="listUserBatchNavWithActive" resultMap="UserBatchNavRes">
+            SELECT
+                <include refid="baseColum"/>
+           FROM t_user_batch_nav     
+        <where>
+             <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+        </where>
+        order by batch_no asc
+    </select>
+    
+    <select id="listUserBatchNavGreateFundNav" resultMap="UserBatchNavRes">
+            SELECT
+                <include refid="baseColum"/>
+           FROM t_user_batch_nav     
+        <where>
+             <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(currFundNav)">
+               <![CDATA[ and curr_fund_nav < #{currFundNav} ]]>
+            </if>
+        </where>
+        order by batch_no asc
+    </select>
+    
+    <select id="queryUserBatch" resultMap="UserBatchNavRes">
+            SELECT
+                <include refid="baseColum"/>
+           FROM t_user_batch_nav     
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id=#{accountId}
+            </if>
+             <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(id)">
+                and id=#{id}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryLastBatchGoal" resultMap="UserBatchNavRes">
+            SELECT
+                <include refid="baseColum"/>
+           FROM t_user_batch_nav     
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id=#{accountId}
+            </if>
+             <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+        </where>
+        order by batch_no desc limit 1
+    </select>
+    
+    <update id="updateTotalShare">
+        UPDATE t_user_batch_nav
+        <set>
+            <if test="@Ognl@isNotEmpty(currTotalShare)">
+                curr_total_share=#{currTotalShare},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                status=#{status},
+            </if>
+            <if test="@Ognl@isNotEmpty(currFundNav)">
+               curr_fund_nav =#{currFundNav},
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.FundingStatusMapper">
+
+    <resultMap id="fundingStatusRes" type="com.pivot.aham.api.service.mapper.model.FundingStatusPO">
+        <result column="client_id" property="clientId"/>
+        <result column="goal_id" property="goalId"/>
+        <result column="apply_money_sgd" property="applyAmountInSgd"/>
+        <result column="confirm_money_sgd" property="confirmAmountInSgd"/>
+        <result column="apply_money_usd" property="applyAmountInUsd"/>
+        <result column="status" property="status"/>
+        <result column="status2" property="status2"/>
+        <result column="operation_type" property="operateTypeEnum"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="column">
+        client_id,
+        goal_id,
+        apply_money_sgd,
+        apply_money_usd,
+        redeem_apply_status,
+        operation_type,
+        create_time
+    </sql>
+    
+    <select id="getFundingStatusPageList" resultMap="fundingStatusRes">
+        <!--SELECT a.client_id, a.goal_id, amount as apply_money_sgd, '' as confirm_money_sgd, 
+        IFNULL(b.recharge_amount,0) as apply_money_usd, 0 as operation_type, status, IFNULL(b.tpcf_status,'') as status2, a.create_time 
+        FROM t_user_recharge_status a
+        LEFT JOIN t_account_recharge b ON a.acc_recharge_id = b.id-->
+        
+        SELECT client_id, goal_id, recharge_amount as apply_money_sgd, tpcf_status as status,0 as operation_type, create_time from t_account_recharge
+        
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and a.client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(startCreateTime)">
+                <![CDATA[AND a.create_time >= #{startCreateTime}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endCreateTime)">
+                <![CDATA[AND a.create_time <= #{endCreateTime}]]>
+            </if>
+        </where>
+        UNION
+        
+        <!--SELECT a.client_id, a.goal_id, source_apply_money as apply_money_sgd, confirm_amount_in_sgd as confirm_money_sgd, 
+        a.apply_money as apply_money_usd, 1 as operation_type, redeem_apply_status as status, IFNULL(b.tncf_status,'') as status2, a.create_time 
+        FROM t_redeem_apply a
+        LEFT JOIN t_account_redeem b ON a.id = b.redeem_apply_id-->
+        
+        SELECT client_id, goal_id, confirm_money as apply_money_sgd, tncf_status as status, 1 as operation_type, create_time from t_account_redeem
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and a.client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(startCreateTime)">
+                <![CDATA[AND a.create_time >= #{startCreateTime}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endCreateTime)">
+                <![CDATA[AND a.create_time <= #{endCreateTime}]]>
+            </if>
+        </where>
+        ORDER BY create_time desc, client_id, goal_id
+    </select>      
+
+</mapper>

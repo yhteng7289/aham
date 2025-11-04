@@ -1,0 +1,43 @@
+INSERT INTO `t_product`
+(`id`, `product_code`, `product_name`, `product_first_classfiy`, `product_first_classfiy_desc`, `product_desc`, `product_type`, `product_status`, `create_time`, `update_time`) VALUES
+('1', 'SHV', '0-1Y Short Term Treasury', '1', 'Fixed Income', '0-1Y Short Term Treasury', '1', '1', '2018-12-26', '2018-12-26'),
+('2', 'EMB', 'Emerging market Bond', '1', 'Fixed Income', 'Emerging market Bond', '1', '1', '2018-12-26', '2018-12-26'),
+('3', 'VWOB', 'Emerging market Bond', '1', 'Fixed Income', 'Emerging market Bond', '1', '1', '2018-12-26', '2018-12-26'),
+('4', 'BWX', 'Global Treasury no US', '1', 'Fixed Income', 'Global Treasury no US', '1', '1', '2018-12-26', '2018-12-26'),
+('5', 'HYG', 'Iboxx high yield', '1', 'Fixed Income', 'Iboxx high yield', '1', '1', '2018-12-26', '2018-12-26'),
+('6', 'JNK', 'US high yield', '1', 'Fixed Income', 'US high yield', '1', '1', '2018-12-26', '2018-12-26'),
+('7', 'MUB', 'Municipal Bond', '1', 'Fixed Income', 'Municipal Bond', '1', '1', '2018-12-26', '2018-12-26'),
+('8', 'LQD', 'US INV-Grade Bond', '1', 'Fixed Income', 'US INV-Grade Bond', '1', '1', '2018-12-26', '2018-12-26'),
+('9', 'VCIT', 'US INV-Grade Bond', '1', 'Fixed Income', 'US INV-Grade Bond', '1', '1', '2018-12-26', '2018-12-26'),
+('10', 'FLOT', 'US Tips', '1', 'Fixed Income', 'US Tips', '1', '1', '2018-12-26', '2018-12-26'),
+('11', 'IEF', 'US Treasury 7-10', '1', 'Fixed Income', 'US Treasury 7-10', '1', '1', '2018-12-26', '2018-12-26'),
+('12', 'CASH', 'Cash for rebalance and management fee', '5', 'Fixed Income', 'Cash for rebalance and management fee', '1', '1', '2018-12-26', '2018-12-26'),
+
+('13', 'UUP', 'US Dollar Index ETF', '2', 'Alternative', 'US Dollar Index ETF', '1', '1', '2018-12-26', '2018-12-26'),
+('14', 'PDBC', 'Global Commodity', '2', 'Alternative', 'Global Commodity', '1', '1', '2018-12-26', '2018-12-26'),
+('15', 'GLD', 'Gold', '2', 'Alternative', 'Gold', '1', '1', '2018-12-26', '2018-12-26'),
+('16', 'VNQ', 'REITs', '2', 'Alternative', 'REITs', '1', '1', '2018-12-26', '2018-12-26'),
+
+('17', 'VEA', 'Developed Market', '3', 'Fixed Income', 'Developed Market', '1', '1', '2018-12-26', '2018-12-26'),
+('18', 'VPL', 'Asia Pacific, JP, Australia, Korea, HK', '3', 'Fixed Income', 'Asia Pacific, JP, Australia, Korea, HK', '1', '1', '2018-12-26', '2018-12-26'),
+('19', 'EWA', 'Australia', '3', 'Fixed Income', 'Australia', '1', '1', '2018-12-26', '2018-12-26'),
+('20', 'SPY', 'S&P 500', '3', 'Fixed Income', 'S&P 500', '1', '1', '2018-12-26', '2018-12-26'),
+('21', 'VOO', 'S&P 500', '3', 'Fixed Income', 'S&P 500', '1', '1', '2018-12-26', '2018-12-26'),
+('22', 'VTI', 'US All Cap', '3', 'Fixed Income', 'US All Cap', '1', '1', '2018-12-26', '2018-12-26'),
+('23', 'VGK', 'EU Equity, UK, France, Germany', '3', 'Fixed Income', 'EU Equity, UK, France, Germany', '1', '1', '2018-12-26', '2018-12-26'),
+('24', 'EWJ', 'Japan', '3', 'Fixed Income', 'Japan', '1', '1', '2018-12-26', '2018-12-26'),
+('25', 'QQQ', 'NASDAQ 100', '3', 'Fixed Income', 'NASDAQ 100', '1', '1', '2018-12-26', '2018-12-26'),
+('26', 'EWS', 'Singapore', '3', 'Fixed Income', 'Singapore', '1', '1', '2018-12-26', '2018-12-26'),
+
+('27', 'EWZ', 'Brazil', '4', 'Emerging Equity', 'Brazil', '1', '1', '2018-12-26', '2018-12-26'),
+('28', 'ASHR', 'SHSZ300', '4', 'Emerging Equity', 'SHSZ300', '1', '1', '2018-12-26', '2018-12-26'),
+('29', 'VWO', 'Emerging market Equity', '4', 'Emerging Equity', 'Emerging market Equity', '1', '1', '2018-12-26', '2018-12-26'),
+('30', 'ILF', 'Latin America', '4', 'Emerging Equity', 'Latin America', '1', '1', '2018-12-26', '2018-12-26'),
+('31', 'RSX', 'Russia', '4', 'Emerging Equity', 'Russia', '1', '1', '2018-12-26', '2018-12-26'),
+('32', 'AAXJ', 'Asia ex Jp, China, HK, Korea, TW, India', '4', 'Emerging Equity', 'Asia ex Jp, China, HK, Korea, TW, India', '1', '1', '2018-12-26', '2018-12-26'),
+
+('33', 'VT', 'Developed Country Equity', '3', 'Developed Equity', 'Developed Country Equity', '1', '1', '2018-12-26', '2018-12-26'),
+('34', 'EEM', 'Emerging Country Equity', '4', 'Emerging Equity', 'Emerging Country Equity', '1', '1', '2018-12-26', '2018-12-26'),
+('35', 'BNDX', 'Global Bond', '1', 'Fixed Income', 'Global Bond', '1', '1', '2018-12-26', '2018-12-26'),
+('36', 'Cash1', 'Cash for rebalance and management fee', '5', 'Fixed Income', 'Cash for rebalance and management fee', '1', '1', '2018-12-26', '2018-12-26'),
+;

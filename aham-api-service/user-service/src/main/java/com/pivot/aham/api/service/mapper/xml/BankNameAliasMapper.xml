@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.BankNameAliasMapper">
+
+    <resultMap id="bankNameAliasMap" type="com.pivot.aham.api.service.mapper.model.BankNameAlias">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="sys_client_name" property="sysClientName"/>
+        <result column="bank_client_name" property="bankClientName"/>
+        <result column="virtual_account_no" property="virtualAccountNo"/>
+        <result column="status" property="status"/>
+        <result column="file_first" property="fileName1"/>
+        <result column="file_second" property="fileName2"/>
+        <result column="recharge_id" property="rechargeId"/>
+        <result column="reason_rejected" property="reasonRejected"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+   
+    <sql id="base_column">
+        id, client_id, sys_client_name, bank_client_name, virtual_account_no, status, 
+        file_first, file_second, recharge_id, reason_rejected, create_time, update_time
+    </sql>
+    
+    <select id="queryListBankNameAliasByVirtualAccount" resultMap="bankNameAliasMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_uob_name_alias
+        <where>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                and virtual_account_no=#{virtualAccountNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    
+    <select id="listPageBankNameAlias" resultMap="bankNameAliasMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_uob_name_alias
+        <where>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryClientInfo" resultMap="bankNameAliasMap">
+        SELECT
+        <include refid="base_column"/>
+        FROM t_uob_name_alias
+        <where>
+            <if test="@Ognl@isNotEmpty(rechargeId)">
+                and recharge_id=#{rechargeId}
+            </if>
+        </where>
+    </select>
+    
+    
+    <insert id="saveBankNameAlias" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_uob_name_alias (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(sysClientName)">
+                sys_client_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankClientName)">
+                bank_client_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                virtual_account_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                status,
+            </if>
+            <if test="@Ognl@isNotEmpty(fileName1)">
+                file_first,
+            </if>
+            <if test="@Ognl@isNotEmpty(fileName2)">
+                file_second,
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeId)">
+                recharge_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(reasonRejected)">
+                reason_rejected,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(sysClientName)">
+                #{sysClientName},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankClientName)">
+                #{bankClientName},
+            </if>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                #{virtualAccountNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                #{status},
+            </if>
+            <if test="@Ognl@isNotEmpty(fileName1)">
+                #{fileName1},
+            </if>
+            <if test="@Ognl@isNotEmpty(fileName2)">
+                #{fileName2},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeId)">
+                #{rechargeId},
+            </if>
+            <if test="@Ognl@isNotEmpty(reasonRejected)">
+                #{reasonRejected},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+    
+    <update id="updateApprovedNameAlias">
+        UPDATE t_uob_name_alias
+        <set>
+            <if test="@Ognl@isNotEmpty(status)">
+                status=#{status},
+            </if>
+            <if test="@Ognl@isNotEmpty(fileName1)">
+                file_first=#{fileName1},
+            </if>
+            <if test="@Ognl@isNotEmpty(fileName2)">
+                file_second=#{fileName2},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeId)">
+                recharge_id=#{rechargeId},
+            </if>
+            <if test="@Ognl@isNotEmpty(reasonRejected)">
+                reason_rejected=#{reasonRejected},
+            </if>
+            
+        </set>
+        <where>
+            recharge_id=#{rechargeId}
+        </where>
+    </update>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserStatementMapper">
+
+    <resultMap id="UserCustStatementRes" type="com.pivot.aham.api.service.mapper.model.UserStatementPO">
+        <result property="id" column="id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="pdfUrl" column="pdf_url"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="staticDate" column="static_date"></result>
+    </resultMap>
+
+    <sql id="UserCustStatementVo">
+    select id,
+    client_id,
+    pdf_url,
+    create_time,
+    update_time,
+    static_date
+    from t_user_cust_statement
+</sql>
+
+    <select id="selectByStaticDate" resultMap="UserCustStatementRes">
+        <include refid="UserCustStatementVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and
+                DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryByClientId" resultMap="UserCustStatementRes">
+        <include refid="UserCustStatementVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+        </where>
+        GROUP BY
+        date_format(static_date,'%y-%M')
+        ORDER BY static_date DESC
+    </select>
+
+</mapper>
+

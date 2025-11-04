@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.DailyExchangeRateMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.DailyExchangeRatePO">
+        <result property="id" column="id"/>
+        <result property="bsnDt" column="bsn_dt"/>
+        <result property="usdToSgd" column="usd_to_sgd"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        bsn_dt,
+        usd_to_sgd,
+        create_time
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_daily_exchange_rate (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(bsnDt)">
+                bsn_dt,
+            </if>
+            <if test="@Ognl@isNotEmpty(usdToSgd)">
+                usd_to_sgd,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(bsnDt)">
+                #{bsnDt},
+            </if>
+            <if test="@Ognl@isNotEmpty(usdToSgd)">
+                #{usdToSgd},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getRate" resultMap="resultMap">
+        select * from t_daily_exchange_rate where bsn_dt = #{bsnDt}
+    </select>
+
+    <select id="getLastRate" resultMap="resultMap">
+        select * from t_daily_exchange_rate order by bsn_dt desc limit 1
+    </select>
+
+    <delete id="clearByDt">
+        delete from t_daily_exchange_rate where bsn_dt = #{bsnDt}
+    </delete>
+
+</mapper>

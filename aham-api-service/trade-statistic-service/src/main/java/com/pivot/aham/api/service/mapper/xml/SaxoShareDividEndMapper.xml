@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoShareDividEndMapper">
+
+    <resultMap id="result_map" type="com.pivot.aham.api.service.mapper.model.SaxoShareDividEndPO">
+        <result property="id" column="id"/>
+        <result property="instrumentType" column="instrument_type"/>
+        <result property="caEventId" column="ca_event_id"/>
+        <result property="exDate" column="ex_date"/>
+        <result property="tradeDate" column="trade_date"/>
+        <result property="valueDate" column="value_date"/>
+        <result property="counterpartId" column="counter_part_id"/>
+        <result property="counterpartName" column="counter_part_name"/>
+        <result property="accountNumber" column="account_number"/>
+        <result property="partnerAccountKey" column="partner_account_key"/>
+        <result property="accountCurrency" column="account_currency"/>
+        <result property="tradeNumber" column="trade_number"/>
+        <result property="instrumentDesctiption" column="instrument_des"/>
+        <result property="instrumentCode" column="instrument_code"/>
+        <result property="isInCode" column="isin_code"/>
+        <result property="countryOfIssue" column="country_of_issue"/>
+        <result property="figureSize" column="figure_size"/>
+        <result property="instrumentCurrency" column="instrument_currency"/>
+        <result property="eligibleQuantity" column="eligible_quantity"/>
+        <result property="netAmountDividendCurrency" column="net_amount_end_cur"/>
+        <result property="dividendToAccountRate" column="end_to_account_rate"/>
+        <result property="netAmountAccountCurrency" column="net_amount_acc_cur"/>
+        <result property="withholdingTaxPercentage" column="hold_tax_percentage"/>
+        <result property="withholdingTaxAmountDividendCurrency" column="hold_tax_amt_end_cur"/>
+        <result property="grossAmountDividendCurrency" column="gross_amt_end_cur"/>
+        <result property="dividendCurrency" column="dividend_currency"/>
+        <result property="frankedAmountDividendCurrency" column="fra_amount_end_cur"/>
+        <result property="unFrankedAmountDividendCurrency" column="unfra_amt_end_cur"/>
+        <result property="frankingCreditDividendCurrency" column="fra_credit_end_cur"/>
+        <result property="grossRate" column="gross_rate"/>
+        <result property="caEventTypeId" column="ca_event_type_id"/>
+        <result property="CaEventTypeName" column="ca_event_type_name"/>
+        <result property="exchangelSoCode" column="exchange_iso_code"/>
+        <result property="isoMic" column="iso_mic"/>
+        <result property="instrumentUic" column="instrument_uic"/>
+        <result property="grossDividendAmountDividendCurrency" column="gro_end_amt_end_cur"/>
+        <result property="interestAmountDividendCurrency" column="intt_amt_end_cur"/>
+        <result property="residencyTaxPercentage" column="res_tax_perc"/>
+        <result property="residencyTaxAmountDividendCurrency" column="res_tax_amt_end_cur"/>
+        <result property="euTaxPercentage" column="eu_tax_percentage"/>
+        <result property="euTaxAmountDividendCurrency" column="eu_tax_amt_end_cur"/>
+        <result property="feeAmountDividendCurrendcy" column="fee_amt_dividend_cur"/>
+        <result property="transferStatusEnum" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <sql id="select_columns">
+        <trim suffixOverrides=",">
+            id,
+            instrument_type,
+            ca_event_id,
+            ex_date,
+            trade_date,
+            value_date,
+            counter_part_id,
+            counter_part_name,
+            account_number,
+            partner_account_key,
+            account_currency,
+            trade_number,
+            instrument_des,
+            instrument_code,
+            isin_code,
+            country_of_issue,
+            figure_size,
+            instrument_currency,
+            eligible_quantity,
+            net_amount_end_cur,
+            end_to_account_rate,
+            net_amount_acc_cur,
+            hold_tax_percentage,
+            hold_tax_amt_end_cur,
+            gross_amt_end_cur,
+            dividend_currency,
+            fra_amount_end_cur,
+            unfra_amt_end_cur,
+            fra_credit_end_cur,
+            gross_rate,
+            ca_event_type_id,
+            ca_event_type_name,
+            exchange_iso_code,
+            iso_mic,
+            instrument_uic,
+            gro_end_amt_end_cur,
+            intt_amt_end_cur,
+            res_tax_perc,
+            res_tax_amt_end_cur,
+            eu_tax_percentage,
+            eu_tax_amt_end_cur,
+            fee_amt_dividend_cur,
+            status,
+            create_date,
+            update_date,
+        </trim>
+    </sql>
+
+    <sql id="add_columns">
+        <trim suffixOverrides=",">
+            instrument_type,
+            ca_event_id,
+            ex_date,
+            trade_date,
+            value_date,
+            counter_part_id,
+            counter_part_name,
+            account_number,
+            partner_account_key,
+            account_currency,
+            trade_number,
+            instrument_des,
+            instrument_code,
+            isin_code,
+            country_of_issue,
+            figure_size,
+            instrument_currency,
+            eligible_quantity,
+            net_amount_end_cur,
+            end_to_account_rate,
+            net_amount_acc_cur,
+            hold_tax_percentage,
+            hold_tax_amt_end_cur,
+            gross_amt_end_cur,
+            dividend_currency,
+            fra_amount_end_cur,
+            unfra_amt_end_cur,
+            fra_credit_end_cur,
+            gross_rate,
+            ca_event_type_id,
+            ca_event_type_name,
+            exchange_iso_code,
+            iso_mic,
+            instrument_uic,
+            gro_end_amt_end_cur,
+            intt_amt_end_cur,
+            res_tax_perc,
+            res_tax_amt_end_cur,
+            eu_tax_percentage,
+            eu_tax_amt_end_cur,
+            fee_amt_dividend_cur,
+            status,
+            create_date,
+            update_date,
+        </trim>
+    </sql>
+    <insert id="batchInsert" parameterType="com.pivot.aham.api.service.mapper.model.SaxoShareDividEndPO">
+        INSERT INTO t_saxo_dividend
+        (
+        <include refid="add_columns"/>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.instrumentType},
+                #{item.caEventId},
+                #{item.exDate},
+                #{item.tradeDate},
+                #{item.valueDate},
+                #{item.counterpartId},
+                #{item.counterpartName},
+                #{item.accountNumber},
+                #{item.partnerAccountKey},
+                #{item.accountCurrency},
+                #{item.tradeNumber},
+                #{item.instrumentDesctiption},
+                #{item.instrumentCode},
+                #{item.isInCode},
+                #{item.countryOfIssue},
+                #{item.figureSize},
+                #{item.instrumentCurrency},
+                #{item.eligibleQuantity},
+                #{item.netAmountDividendCurrency},
+                #{item.dividendToAccountRate},
+                #{item.netAmountAccountCurrency},
+                #{item.withholdingTaxPercentage},
+                #{item.withholdingTaxAmountDividendCurrency},
+                #{item.grossAmountDividendCurrency},
+                #{item.dividendCurrency},
+                #{item.frankedAmountDividendCurrency},
+                #{item.unFrankedAmountDividendCurrency},
+                #{item.frankingCreditDividendCurrency},
+                #{item.grossRate},
+                #{item.caEventTypeId},
+                #{item.CaEventTypeName},
+                #{item.exchangelSoCode},
+                #{item.isoMic},
+                #{item.instrumentUic},
+                #{item.grossDividendAmountDividendCurrency},
+                #{item.interestAmountDividendCurrency},
+                #{item.residencyTaxPercentage},
+                #{item.residencyTaxAmountDividendCurrency},
+                #{item.euTaxPercentage},
+                #{item.euTaxAmountDividendCurrency},
+                #{item.feeAmountDividendCurrendcy},
+                #{item.transferStatusEnum},
+                #{item.createDate},
+                #{item.updateDate},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <sql id="select_cond">
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date>=#{createDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateDate)">
+                AND create_date&lt;=#{updateDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(transferStatusEnum)">
+                AND status=#{transferStatusEnum}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getCountByCond" parameterType="com.pivot.aham.api.service.mapper.model.SaxoShareDividEndPO"
+            resultType="int">
+        SELECT
+        count(1)
+        FROM t_saxo_dividend
+        <include refid="select_cond"/>
+    </select>
+
+    <select id="getListByCond" parameterType="com.pivot.aham.api.service.mapper.model.SaxoShareDividEndPO"
+            resultMap="result_map">
+        SELECT
+        <include refid="select_columns"/>
+        FROM t_saxo_dividend
+        <include refid="select_cond"/>
+    </select>
+
+    <update id="batchUpdate" parameterType="com.pivot.aham.api.service.mapper.model.SaxoShareDividEndPO">
+        <foreach collection="updateLists" item="item" separator=";">
+            UPDATE t_saxo_dividend
+            SET
+            <trim suffixOverrides=",">
+                status=#{item.transferStatusEnum},
+                update_date=#{item.updateDate},
+            </trim>
+            WHERE id=#{item.id}
+        </foreach>
+    </update>
+</mapper>

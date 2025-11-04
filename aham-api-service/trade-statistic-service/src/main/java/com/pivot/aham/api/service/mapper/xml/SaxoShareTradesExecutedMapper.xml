@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoShareTradesExecutedMapper">
+
+    <resultMap id="result_map" type="com.pivot.aham.api.service.mapper.model.SaxoShareTradesExecutedPO">
+        <result column="id" property="id"/>
+        <result column="reporting_date" property="reportingDate"/>
+        <result column="instrument_type" property="instrumentType"/>
+        <result column="counterpart_id" property="counterpartID"/>
+        <result column="counterpart_name" property="counterpartName"/>
+        <result column="account_number" property="accountNumber"/>
+        <result column="account_currency" property="accountCurrency"/>
+        <result column="instrument_code" property="instrumentCode"/>
+        <result column="instrument_des" property="instrumentDescription"/>
+        <result column="traded_amount" property="tradedAmount"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="trade_time" property="tradeTime"/>
+        <result column="trade_date" property="tradeDate"/>
+        <result column="buy_sell" property="buySell"/>
+        <result column="price" property="price"/>
+        <result column="commission_ins_cur" property="commissionInstrumentCurrency"/>
+        <result column="trade_type" property="tradeType"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+
+    <sql id="select_columns">
+        <trim suffixOverrides=",">
+            id ,
+            reporting_date ,
+            instrument_type,
+            counterpart_id ,
+            counterpart_name ,
+            account_number ,
+            account_currency ,
+            instrument_code ,
+            instrument_des ,
+            traded_amount ,
+            order_number ,
+            trade_time ,
+            trade_date ,
+            buy_sell ,
+            price ,
+            commission_ins_cur ,
+            trade_type ,
+            create_date ,
+        </trim>
+    </sql>
+
+    <sql id="add_columns">
+        <trim suffixOverrides=",">
+            reporting_date,
+            instrument_type,
+            counterpart_id,
+            counterpart_name,
+            account_number,
+            account_currency,
+            instrument_code,
+            instrument_des,
+            traded_amount,
+            order_number,
+            trade_time,
+            trade_date,
+            buy_sell,
+            price,
+            commission_ins_cur,
+            trade_type,
+            create_date
+        </trim>
+    </sql>
+
+    <insert id="batchInsert" parameterType="com.pivot.aham.api.service.mapper.model.SaxoShareTradesExecutedPO">
+        INSERT INTO t_saxo_share_trades
+        (
+        <include refid="add_columns"/>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.reportingDate},
+                #{item.instrumentType},
+                #{item.counterpartID},
+                #{item.counterpartName},
+                #{item.accountNumber},
+                #{item.accountCurrency},
+                #{item.instrumentCode},
+                #{item.instrumentDescription},
+                #{item.tradedAmount},
+                #{item.orderNumber},
+                #{item.tradeTime},
+                #{item.tradeDate},
+                #{item.buySell},
+                #{item.price},
+                #{item.commissionInstrumentCurrency},
+                #{item.tradeType},
+                #{item.createDate}
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <sql id="select_cond">
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date>=#{createDate}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getDataByCond" parameterType="com.pivot.aham.api.service.mapper.model.SaxoShareTradesExecutedPO"
+            resultMap="result_map">
+        SELECT
+        <include refid="select_columns"/>
+        FROM t_saxo_share_trades
+        <include refid="select_cond"/>
+    </select>
+
+
+</mapper>

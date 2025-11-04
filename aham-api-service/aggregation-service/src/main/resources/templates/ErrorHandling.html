@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<head>
+</head>
+<body>
+<div>
+    <table class="table table-striped" align="center" cellspacing="0" style="text-align: center;" border="1">
+        <legend align="center">
+            <strong>errorHandling-----totalBalance:</strong><strong th:text="${totalBalance}"></strong>
+        </legend>
+        <thead>
+        <tr>
+            <th>金额</th>
+            <th>类型</th>
+            <th>状态</th>
+            <th>日期</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--list-->
+        <tr th:each="item : ${pivotErrorHandlingDetailVoList}">
+            <td th:text="${item.money}"></td>
+            <td th:text="${item.type}"></td>
+            <td th:text="${item.operateType}"></td>
+            <td th:text="${item.operateDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

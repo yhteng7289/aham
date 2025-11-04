@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.TmpOrderRecordMapper">
+
+    <resultMap id="TmpOrderRecordRes" type="com.pivot.aham.api.service.mapper.model.TmpOrderRecordPO">
+        <result property="id" column="id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="tmpOrderId" column="tmp_order_id"/>
+        <result property="totalTmpOrderId" column="total_tmp_order_id"/>
+        <result property="executeOrderId" column="execute_order_id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="applyMoney" column="apply_money"/>
+        <result property="confirmMoney" column="confirm_money"/>
+        <result property="confirmTradeShares" column="confirm_trade_shares"/>
+        <result property="actionType" column="action_type"/>
+        <result property="tmpOrderTradeStatus" column="tmp_order_trade_status"/>
+        <result property="tmpOrderTradeType" column="tmp_order_trade_type"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="transCost" column="trans_cost"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+       id, account_id, tmp_order_id, total_tmp_order_id, execute_order_id, product_code, apply_money, confirm_money,trans_cost,
+       confirm_trade_shares, action_type, tmp_order_trade_status, tmp_order_trade_type, apply_time, confirm_time
+    </sql>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO t_tmp_order_record
+        (
+        id,
+        account_id,
+        tmp_order_id,
+        total_tmp_order_id,
+        execute_order_id,
+        product_code,
+        apply_money,
+        action_type,
+        tmp_order_trade_status,
+        tmp_order_trade_type,
+        apply_time,
+        confirm_time,
+        create_time,
+        update_time
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.accountId},
+            #{item.tmpOrderId},
+            #{item.totalTmpOrderId},
+            #{item.executeOrderId},
+            #{item.productCode},
+            #{item.applyMoney},
+            #{item.actionType},
+            #{item.tmpOrderTradeStatus},
+            #{item.tmpOrderTradeType},
+            #{item.applyTime},
+            #{item.confirmTime},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="saveTmpOrder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_tmp_order_record (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                tmp_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                total_tmp_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(executeOrderId)">
+                execute_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                product_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">
+                apply_money,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(actionType)">
+                action_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderTradeStatus)">
+                tmp_order_trade_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderTradeType)">
+                tmp_order_trade_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                #{tmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                #{totalTmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(executeOrderId)">
+                #{executeOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">
+                #{applyMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(actionType)">
+                #{actionType},
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderTradeStatus)">
+                #{tmpOrderTradeStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderTradeType)">
+                #{tmpOrderTradeType},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateTmpOrder">
+        UPDATE t_tmp_order_record
+        <set>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                tmp_order_id=#{tmpOrderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                , total_tmp_order_id=#{totalTmpOrderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(executeOrderId)">
+                , execute_order_id=#{executeOrderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderTradeStatus)">
+                , tmp_order_trade_status=#{tmpOrderTradeStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                , confirm_time=#{confirmTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                , update_time=#{updateTime}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="queryByTmpOrderId" resultMap="TmpOrderRecordRes">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_tmp_order_record
+        WHERE tmp_order_id=#{tmpOrderId}
+    </select>
+
+    <select id="queryByTotalTmpOrderId" resultMap="TmpOrderRecordRes">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_tmp_order_record
+        WHERE total_tmp_order_id=#{totalTmpOrderId}
+    </select>
+
+    <select id="listTmpCashOrderByTotalTmpOrderId" resultMap="TmpOrderRecordRes">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_tmp_order_record
+        WHERE total_tmp_order_id=#{totalTmpOrderId} and product_code in
+        <foreach collection="productCodes" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+
+    <select id="listTmpOrderRecord" resultMap="TmpOrderRecordRes">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_tmp_order_record
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(startApplyTime)">
+                and apply_time>=#{startApplyTime}
+            </if>
+
+            <if test="@Ognl@isNotEmpty(endApplyTime)">
+                and #{endApplyTime}>=apply_time
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderTradeStatus)">
+                and tmp_order_trade_status=#{tmpOrderTradeStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

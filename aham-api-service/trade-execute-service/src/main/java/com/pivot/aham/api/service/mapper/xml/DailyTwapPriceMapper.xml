@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.DailyTwapPriceMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.DailyTwapPricePO">
+        <result property="id" column="id"/>
+        <result property="etfCode" column="etf_code"/>
+        <result property="bsnDt" column="bsn_dt"/>
+        <result property="avgAsk" column="avg_ask"/>
+        <result property="avgBid" column="avg_bid"/>
+        <result property="avgCount" column="avg_count"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        etf_code,
+        bsn_dt,
+        avg_ask,
+        avg_bid,
+        avg_count,
+        create_time
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_daily_twap_price (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(etfCode)">
+                etf_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(bsnDt)">
+                bsn_dt,
+            </if>
+            <if test="@Ognl@isNotEmpty(avgAsk)">
+                avg_ask,
+            </if>
+            <if test="@Ognl@isNotEmpty(avgBid)">
+                avg_bid,
+            </if>
+            <if test="@Ognl@isNotEmpty(avgCount)">
+                avg_count,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(etfCode)">
+                #{etfCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(bsnDt)">
+                #{bsnDt},
+            </if>
+            <if test="@Ognl@isNotEmpty(avgAsk)">
+                #{avgAsk},
+            </if>
+            <if test="@Ognl@isNotEmpty(avgBid)">
+                #{avgBid},
+            </if>
+            <if test="@Ognl@isNotEmpty(avgCount)">
+                #{avgCount},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getPrice" resultMap="resultMap">
+        select * from t_daily_twap_price where bsn_dt = #{bsnDt} and etf_code = #{etfCode}
+    </select>
+
+    <update id="updatePrice">
+        update t_daily_twap_price set avg_ask = #{avgAsk}, avg_bid = #{avgBid}, avg_count = #{avgCount} where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountInfoMapper">
+
+
+    <resultMap id="AccountInfoRes" type="com.pivot.aham.api.service.mapper.model.AccountInfoPO">
+        <result property="id" column="id"/>
+        <result property="portfolioId" column="portfolio_id"/>
+        <result property="investType" column="invest_type"/>
+        <result property="initDay" column="init_day"/>
+        <result property="goalId" column="goal_id"/>
+    </resultMap>
+
+    <sql id="getAccountInfo">
+        select id,portfolio_id,invest_type,init_day,goal_id  from t_account_info;
+    </sql>
+
+    <sql id="column">
+        id,portfolio_id,invest_type, init_day, goal_id
+    </sql>
+
+    <insert id="insertAccount" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_info (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                portfolio_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(investType)">
+                invest_type,
+            </if>
+            <!--<if test="@Ognl@isNotEmpty(lastAdjScore)">-->
+                <!--last_adj_score,-->
+            <!--</if>-->
+            <!--<if test="@Ognl@isNotEmpty(lastAdjTime)">-->
+                <!--last_adj_time,-->
+            <!--</if>-->
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(initDay)">
+                init_day,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                #{portfolioId},
+            </if>
+            <if test="@Ognl@isNotEmpty(investType)">
+                #{investType},
+            </if>
+            <!--<if test="@Ognl@isNotEmpty(lastAdjScore)">-->
+                <!--#{lastAdjScore},-->
+            <!--</if>-->
+            <!--<if test="@Ognl@isNotEmpty(lastAdjTime)">-->
+                <!--#{lastAdjTime},-->
+            <!--</if>-->
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(initDay)">
+                #{initDay},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getAccountInfo" resultMap="AccountInfoRes">
+        <include refid="getAccountInfo"/>
+    </select>
+
+    <select id="queryAccountInfo" resultMap="AccountInfoRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_account_info
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                AND portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(investType)">
+                AND invest_type=#{investType}
+            </if>
+            <if test="@Ognl@isNotEmpty(initDay)">
+                AND init_day=#{initDay}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                AND goal_id=#{goalId}
+            </if>
+        </where>
+    </select>
+
+    <select id="listAccountInfo" resultMap="AccountInfoRes">
+        <include refid="getAccountInfo"/>
+    </select>
+
+    <select id="listAccountInfos" resultMap="AccountInfoRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_account_info
+        <where>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                <![CDATA[and create_time<=#{createTime}]]>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="listPageAccountInfo" resultMap="AccountInfoRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_account_info
+        <where>
+            <if test="@Ognl@isNotEmpty(likeAccountId)">
+                and id like CONCAT('%',#{likeAccountId},'%')
+            </if>
+            <if test="@Ognl@isNotEmpty(id)">
+                and id = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                AND portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(investType)">
+                AND invest_type=#{investType}
+            </if>
+            <if test="@Ognl@isNotEmpty(initDay)">
+                AND init_day=#{initDay}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                AND goal_id=#{goalId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

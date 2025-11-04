@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div>
+    <table class="table table-striped"  align="center" cellspacing="0" style="text-align: center;" border="1">
+        <legend align="center">
+            <strong>Contact Us</strong>
+        </legend>
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Mobile Number</th>
+            <th>Subject</th>
+            <th>Your Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${sendFeedbackReqVo.firstName}"></td>
+            <td th:text="${sendFeedbackReqVo.lastName}"></td>
+            <td th:text="${sendFeedbackReqVo.mobileNumber}"></td>
+            <td th:text="${sendFeedbackReqVo.subject}"></td>
+            <td th:text="${sendFeedbackReqVo.message}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

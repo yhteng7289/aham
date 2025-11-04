@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.ProductInfoMapper">
+
+    <resultMap id="productMap" type="com.pivot.aham.api.service.mapper.model.ProductInfoPO">
+        <result property="id" column="id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productName" column="product_name"/>
+        <result property="firstClassfiyType" column="product_first_classfiy"/>
+        <result property="firstClassfiyDesc" column="product_first_classfiy_desc"/>
+        <result property="productDesc" column="product_desc"/>
+        <result property="productType" column="product_type"/>
+        <result property="productStatus" column="product_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="url" column="url"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        product_code,
+        product_name,
+        product_first_classfiy,
+        product_first_classfiy_desc,
+        product_desc,
+        product_type,
+        product_status,
+        create_time,
+        update_time,
+        url
+    </sql>
+
+    <select id="selectTradeProducts" resultMap="productMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_product
+        WHERE product_status=#{productStatus}
+    </select>
+
+    <select id="listProductInfo" resultMap="productMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_product
+        <where>
+            <if test="productStatus != null">
+                product_status=#{productStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

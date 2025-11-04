@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <springProperty scope="context" name="env" source="spring.profiles.active"/>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="/data/logs" />
+
+    <!-- 定义日志文件名称 -->
+    <property name="serverName" value="api-web"/>
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
+            <!--<providers>-->
+                <!--<timestamp>-->
+                    <!--<fieldName>timestamp</fieldName>-->
+                    <!--<timeZone>GMT+8</timeZone>-->
+                    <!--<pattern>yyyy-MM-dd HH:mm:ss.SSS</pattern>-->
+                <!--</timestamp>-->
+                <!--<pattern>-->
+                    <!--<pattern>-->
+                        <!--{-->
+                        <!--"application": "api-web",-->
+                        <!--"level": "%level",-->
+                        <!--"thread": "%thread",-->
+                        <!--"class": "%logger{50}",-->
+                        <!--"method": "%method",-->
+                        <!--"line": "%line",-->
+                        <!--"msg":"%msg%n"-->
+                        <!--}-->
+                    <!--</pattern>-->
+                <!--</pattern>-->
+            <!--</providers>-->
+        <!--</encoder>-->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"api-web","env":"${env}"}</customFields>
+        </encoder>
+    </appender>
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+            <!--&lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符&ndash;&gt;-->
+            <!--<pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+    <!-- 按照每天生成日志文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{25} -%msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 指定日志文件的名称 -->
+        <File>${LOG_HOME}/${serverName}.log</File>
+        <!-- 当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名 TimeBasedRollingPolicy：
+            最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责触发滚动。 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 滚动时产生的文件的存放位置及文件名称 %d{yyyy-MM-dd}：按天进行日志滚动 %i：当文件大小超过maxFileSize时，按照i进行文件滚动 -->
+            <FileNamePattern>${LOG_HOME}/${serverName}-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每天滚动， 且maxHistory是365，则只保存最近365天的文件，删除之前的旧文件。
+            注意，删除旧文件时，那些为了归档而创建的目录也会被删除。 -->
+            <MaxHistory>365</MaxHistory>
+            <!-- 当日志文件超过maxFileSize指定的大小时候，根据上面提到的%i进行日志文件滚动。
+            注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- mybatis logger -->
+    <logger name="mapper" level="debug" />
+    <!-- Spring framework logger -->
+    <logger name="org.springframework" level="info"/>
+    <logger name="com.alibaba.dubbo" level="error"/>
+
+    <logger name="com.pivot.aham" level="info" additivity="true"/>
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

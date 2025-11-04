@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountTransCostMapper">
+
+    <resultMap id="AccountTransCostRes" type="AccountTransCost">
+        <result property="id" column="id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="transCost" column="trans_cost"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="transCostSource" column="trans_cost_source"></result>
+    </resultMap>
+
+    <sql id="AccountTransCostVo">
+        select id,client_id,account_id,trans_cost,trans_cost_source
+         from  t_account_trans_cost
+    </sql>
+
+    <select id="selectByDay" resultMap="AccountTransCostRes">
+        <include refid="AccountTransCostVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(createTime)">DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(#{createTime},'%Y-%m-%d')</if>
+            <if test="@Ognl@isNotEmpty(clientId)">client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(accountId)">account_id=#{accountId}</if>
+        </where>
+    </select>
+
+
+</mapper>

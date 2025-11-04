@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.BankVirtualAccountDailyRecordMapper">
+
+    <resultMap id="BankVirtualAccountDailyRecordRes" type="com.pivot.aham.api.service.mapper.model.BankVirtualAccountDailyRecord">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="virtual_account_no" property="virtualAccountNo"/>
+        <result column="cash_amount" property="cashAmount"/>
+        <result column="freeze_amount" property="freezeAmount"/>
+        <result column="used_amount" property="usedAmount"/>
+        <result column="currency" property="currency"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="static_date" property="staticDate"/>
+    </resultMap>
+
+    <sql id="bankVirtualAccountDailyRecordVo">
+      select
+        id, client_id, virtual_account_no, cash_amount, freeze_amount, used_amount, currency, update_time, create_time,static_date
+        from t_bank_virtual_account_dr
+    </sql>
+    <select id="selectByStaticDate" resultMap="BankVirtualAccountDailyRecordRes">
+        <include refid="bankVirtualAccountDailyRecordVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">and virtual_account_no=#{virtualAccountNo}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+
+    </select>
+
+    <select id="queryByTime" resultMap="BankVirtualAccountDailyRecordRes">
+        <include refid="bankVirtualAccountDailyRecordVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">and virtual_account_no=#{virtualAccountNo}</if>
+            <if test="@Ognl@isNotEmpty(startStaticDate) and @Ognl@isNotEmpty(endStaticDate) ">
+                AND static_date BETWEEN #{startStaticDate} AND #{endStaticDate}
+            </if>
+        </where>
+        order by id
+    </select>
+
+
+</mapper>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountPerformanceFeeMapper">
+
+    <resultMap id="AccountPerformanceFeeRes" type="AccountPerformanceFee">
+        <result property="id" column="id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="accountId" column="account_id"></result>
+      <!--  <result property="mgtFee" column="mgt_fee"></result>
+        <result property="custFee" column="cust_fee"></result>
+        <result property="mgtGst" column="mgt_gst"></result> -->
+        <result property="goalId" column="goal_id"></result>
+        <result property="feeType" column="type_fee"></result>
+        <result property="status" column="status"></result>
+        <result property="performanceFee" column="performance_fee"></result>
+        <result property="performanceFeeGst" column="performance_fee_gst"></result>
+        <result property="performanceTotalFee" column="total_performance_fee"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+
+    </resultMap>
+    
+    <sql id="baseColum">
+        id, account_id, client_id, goal_id, type_fee, status, 
+        performance_fee, performance_fee_gst, total_performance_fee, create_time, update_time
+    </sql>
+    
+    <select id="listAccPerformanceFee" resultMap="AccountPerformanceFeeRes">
+           SELECT
+                <include refid="baseColum"/>
+           FROM t_account_performance_fee     
+        <where>
+             <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(startTime)">
+                and create_time>=#{startTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endTime)">
+                and #{endTime}>=create_time
+            </if>
+        </where>
+    </select>
+    
+    <select id="getSumAccPerformanceFee" resultType="BigDecimal">
+        SELECT
+        sum(performance_fee)
+        FROM t_account_performance_fee
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(startTime)">
+                and create_time>=#{startTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endTime)">
+                and #{endTime}>=create_time
+            </if>
+        </where>
+    </select>
+    
+    <select id="getSumAccPerformanceFeeGst" resultType="BigDecimal">
+        SELECT
+        sum(performance_fee_gst)
+        FROM t_account_performance_fee
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(startTime)">
+                and create_time>=#{startTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endTime)">
+                and #{endTime}>=create_time
+            </if>
+        </where>
+    </select>
+
+    
+    <insert id="saveAccountPerformanceFee" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_performance_fee (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(feeType)">
+                type_fee,
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                status,
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceFee)">
+                performance_fee,
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceFeeGst)">
+                performance_fee_gst,
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceTotalFee)">
+                total_performance_fee,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+            <if test="@Ognl@isNotEmpty(feeType)">
+                #{feeType},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                #{status},
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceFee)">
+                #{performanceFee},
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceFeeGst)">
+                #{performanceFeeGst},
+            </if>
+            <if test="@Ognl@isNotEmpty(performanceTotalFee)">
+                #{performanceTotalFee},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+    
+    <update id="updateAccPerformanceFeeStatus">
+        UPDATE t_account_performance_fee
+        <set>
+            <if test="@Ognl@isNotEmpty(status)">
+                status=#{status},
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+
+
+</mapper>

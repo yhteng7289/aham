@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoToUobTotalRecordMapper">
+
+    <resultMap id="SaxoToUobTotalRecorRes" type="com.pivot.aham.api.service.mapper.model.SaxoToUobTotalRecordPO">
+        <result property="id" column="id"/>
+        <result property="saxoToUobBatchId" column="saxo_to_uob_batch_id"></result>
+        <result property="intendAmount" column="intend_amount"></result>
+        <result property="confirmedAmount" column="confirmed_amount"></result>
+        <result property="residualAmount" column="residual_amount"></result>
+        <result property="transferDate" column="transfer_date"></result>
+    </resultMap>
+
+
+    <sql id="SaxoToUobOrderVo">
+        select transaction_id,intend_amount,confirmed_amount,residual_amount,transfer_date
+         from t_saxo_to_Uob_total_record
+    </sql>
+</mapper>

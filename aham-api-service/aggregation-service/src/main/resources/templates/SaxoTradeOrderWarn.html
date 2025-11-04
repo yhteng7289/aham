@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div>
+    <table class="table table-striped"  align="center" cellspacing="0" style="text-align: center;" border="1">
+        <legend align="center">
+            <strong>对账描述</strong>
+        </legend>
+        <thead>
+
+
+        <!--map-->
+        <tr>
+            <th>ETF</th>
+            <th>SAXO-交易份额</th>
+            <th>DAS-交易份额</th>
+            <th>SAXO-交易手续费</th>
+            <th>DAS-交易手续费</th>
+            <th>对账状态</th>
+            <th>文件名称</th>
+            <th>订单id</th>
+            <th>Saxo-对账原始记录id</th>
+            <th>对账时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--list-->
+        <tr th:each="tradeOrder : ${tradeOrderS}">
+            <td th:text="${tradeOrder.productCode}"></td>
+            <td th:text="${tradeOrder.saxoTradeShare}"></td>
+            <td th:text="${tradeOrder.dasTradeShare}"></td>
+            <td th:text="${tradeOrder.saxoCommission}"></td>
+            <td th:text="${tradeOrder.dasCommission}"></td>
+            <td th:text="${tradeOrder.statusDes}"></td>
+            <td th:text="${tradeOrder.fileName}"></td>
+            <td th:text="${tradeOrder.orderNumber}"></td>
+            <td th:text="${tradeOrder.transNumber}"></td>
+            <td th:text="${tradeOrder.compareTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

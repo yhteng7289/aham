@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountCashDividendMapper">
+
+    <resultMap id="AccountCashDividendRes" type="AccountCashDividend">
+        <result property="id" column="id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="divCash" column="div_cash"></result>
+    </resultMap>
+
+
+    <sql id="AccountCashDividendVo">
+        select id,client_id,account_id,div_cahs
+         from  t_account_cash_dividend
+    </sql>
+
+
+
+</mapper>

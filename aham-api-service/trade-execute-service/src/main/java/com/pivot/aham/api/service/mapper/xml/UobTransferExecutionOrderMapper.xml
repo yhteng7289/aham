@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobTransferExecutionOrderMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobTransferExecutionOrderPO">
+        <result property="id" column="id"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="bankAccountNumber" column="bank_account_number"/>
+        <result property="bankUserName" column="bank_user_name"/>
+        <result property="branchCode" column="branch_code"/>
+        <result property="swiftCode" column="swift_code"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="currency" column="currency"/>
+        <result property="amount" column="amount"/>
+        <result property="costFee" column="cost_fee"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="confirmTime" column="confirm_time"/>
+        <result property="relationType" column="relation_type"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        bank_name,
+        bank_account_number,
+        bank_user_name,
+        branch_code,
+        swift_code,
+        order_type,
+        order_status,
+        amount,
+        cost_fee,
+        currency,
+        apply_time,
+        confirm_time,
+        relation_type,
+        remark
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_uob_tra_exe_order (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankName)">
+                bank_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankAccountNumber)">
+                bank_account_number,
+            </if>
+            <if test="@Ognl@isNotEmpty(bankUserName)">
+                bank_user_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(branchCode)">
+                branch_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(swiftCode)">
+                swift_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                order_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                order_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                cost_fee,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(relationType)">
+                relation_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(remark)">
+                remark,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankName)">
+                #{bankName},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankAccountNumber)">
+                #{bankAccountNumber},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankUserName)">
+                #{bankUserName},
+            </if>
+            <if test="@Ognl@isNotEmpty(branchCode)">
+                #{branchCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(swiftCode)">
+                #{swiftCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                #{orderType},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                #{orderStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                #{currency},
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                #{amount},
+            </if>
+            <if test="@Ognl@isNotEmpty(costFee)">
+                #{costFee},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(relationType)">
+                #{relationType},
+            </if>
+            <if test="@Ognl@isNotEmpty(remark)">
+                #{remark},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getOrderList" resultMap="resultMap">
+        select * from t_uob_tra_exe_order
+        where order_type = #{orderType} and order_status IN
+        <foreach collection="statusList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="confirm">
+        update t_uob_tra_exe_order set cost_fee = #{cost}, order_status = #{status}, confirm_time = #{confirmTime} where id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update t_uob_tra_exe_order set order_status = #{status} where id = #{id}
+    </update>
+
+    <select id="getById" resultMap="resultMap">
+        select * from t_uob_tra_exe_order where id = #{id}
+    </select>
+
+    <select id="getByIdList" resultMap="resultMap">
+        select * from t_uob_tra_exe_order
+        where id IN
+        <foreach collection="idList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

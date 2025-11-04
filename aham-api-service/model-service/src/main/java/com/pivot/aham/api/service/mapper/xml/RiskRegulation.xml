@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.RiskRegulationMapper">
+
+    <resultMap id="riskRegulationRes" type="com.pivot.aham.api.service.mapper.model.RiskRegulationPO">
+        <result property="id" column="id"/>
+        <result property="riskLevel" column="risk_level"/>
+        <result property="ageLevel" column="age_level"/>
+        <result property="poolLevel" column="pool_level"/>
+        <result property="totalScore" column="total_score"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        risk_level,
+        age_level,
+        pool_level,
+        total_score
+    </sql>
+
+
+    <select id="queryByPO" resultMap="riskRegulationRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_risk_regulation
+        <where>
+            <if test="@Ognl@isNotEmpty(totalScore)">
+                total_score=#{totalScore}
+            </if>
+            <if test="@Ognl@isNotEmpty(ageLevel)">
+                and age_level=#{ageLevel}
+            </if>
+            <if test="@Ognl@isNotEmpty(poolLevel)">
+                and pool_level=#{poolLevel}
+            </if>
+        </where>
+    </select>
+
+</mapper>

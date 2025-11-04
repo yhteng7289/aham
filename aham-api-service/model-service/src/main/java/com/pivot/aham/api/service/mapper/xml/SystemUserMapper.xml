@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SystemUserMapper">
+
+	<resultMap id="sysUserMap" type="com.pivot.aham.api.service.mapper.model.SystemUserPO">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="real_name" property="realName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="email" property="email"/>
+        <result column="user_status" property="userStatus"/>
+    </resultMap>
+	
+	<sql id="base_column">
+        id, user_name, password, real_name, mobile, dept_id, email, user_status
+    </sql>
+	
+	<select id="queryUserByName" resultMap="sysUserMap">
+        SELECT
+			<include refid="base_column"/>
+        FROM sys_user
+        <where>
+            <if test="@Ognl@isNotEmpty(userName)">
+                user_name=#{userName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

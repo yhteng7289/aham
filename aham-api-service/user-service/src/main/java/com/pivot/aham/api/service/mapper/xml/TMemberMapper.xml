@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.TMemberMapper">
+	<select id="selectIdPage" resultType="java.lang.Long" useCache="false">
+		select id from t_member
+		<where>
+			<if test="cm.userName != null and cm.userName != ''">
+					and user_name=#{cm.userName}
+			</if>
+			<if test="cm.password != null and cm.password != ''">
+					and password_=#{cm.password}
+			</if>
+			<if test="cm.phone != null and cm.phone != ''">
+					and phone_=#{cm.phone}
+			</if>
+			<if test="cm.nickName != null and cm.nickName != ''">
+					and nick_name=#{cm.nickName}
+			</if>
+
+			<if test="cm.keyword != null and cm.keyword != ''">
+				and (
+				user_name like CONCAT('%',#{cm.keyword},'%')
+				or phone like CONCAT('%',#{cm.keyword},'%')
+				or nick_name like CONCAT('%',#{cm.keyword},'%')
+				)
+			</if>
+		</where>
+	</select>
+</mapper>

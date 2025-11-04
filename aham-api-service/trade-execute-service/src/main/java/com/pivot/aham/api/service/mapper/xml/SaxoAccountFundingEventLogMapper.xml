@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoAccountFundingEventLogMapper">
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.SaxoAccountFundingEventLogPO">
+        <result property="id" column="id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="sequenceId" column="sequence_id"/>
+        <result property="activityType" column="activity_type"/>
+        <result property="activityTime" column="activity_time"/>
+        <result property="amount" column="amount"/>
+        <result property="conversionRate" column="conversion_rate"/>
+        <result property="currencyCode" column="currency_code"/>
+        <result property="fundingEvent" column="funding_event"/>
+        <result property="fundingType" column="funding_type"/>
+        <result property="positionId" column="position_id"/>
+        <result property="registrationTime" column="registration_time"/>
+        <result property="valueDate" column="value_date"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        client_id,
+        account_id,
+        sequence_id,
+        activity_type,
+        activity_time,
+        amount,
+        conversion_rate,
+        currency_code,
+        funding_event,
+        funding_type,
+        position_id,
+        registration_time,
+        value_date
+    </sql>
+
+    <insert id="save">
+        replace into t_saxo_account_event_log (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(sequenceId)">
+                sequence_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(activityType)">
+                activity_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(activityTime)">
+                activity_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(conversionRate)">
+                conversion_rate,
+            </if>
+            <if test="@Ognl@isNotEmpty(currencyCode)">
+                currency_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(fundingEvent)">
+                funding_event,
+            </if>
+            <if test="@Ognl@isNotEmpty(fundingType)">
+                funding_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(positionId)">
+                position_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(registrationTime)">
+                registration_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(valueDate)">
+                value_date,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(sequenceId)">
+                #{sequenceId},
+            </if>
+            <if test="@Ognl@isNotEmpty(activityType)">
+                #{activityType},
+            </if>
+            <if test="@Ognl@isNotEmpty(activityTime)">
+                #{activityTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                #{amount},
+            </if>
+            <if test="@Ognl@isNotEmpty(conversionRate)">
+                #{conversionRate},
+            </if>
+            <if test="@Ognl@isNotEmpty(currencyCode)">
+                #{currencyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(fundingEvent)">
+                #{fundingEvent},
+            </if>
+            <if test="@Ognl@isNotEmpty(fundingType)">
+                #{fundingType},
+            </if>
+            <if test="@Ognl@isNotEmpty(positionId)">
+                #{positionId},
+            </if>
+            <if test="@Ognl@isNotEmpty(registrationTime)">
+                #{registrationTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(valueDate)">
+                #{valueDate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getLast" resultMap="resultMap">
+        select * from t_saxo_account_event_log order by sequence_id desc limit 1
+    </select>
+</mapper>

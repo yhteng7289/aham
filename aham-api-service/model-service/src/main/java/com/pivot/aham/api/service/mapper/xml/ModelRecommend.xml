@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.ModelRecommendMapper">
+
+    <resultMap id="modelRecommendRes" type="ModelRecommend">
+        <result property="id"    column="id"/>
+        <result property="modelTime"    column="model_time"/>
+        <result property="risk"    column="risk_level"/>
+        <result property="age"    column="age_level"/>
+        <result property="modelStatus"    column="model_status"/>
+        <result property="score"    column="score"/>
+        <result property="pool"    column="pool"/>
+        <result property="productWeight"    column="product_weight"/>
+        <result property="classfiyWeight"    column="classfiy_weight"/>
+        <result property="portfolioId"    column="portfolio_id"/>
+        <result property="createTime"    column="create_time"/>
+        <result property="updateTime"    column="update_time"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        model_time,
+        risk_level,
+        age_level,
+        model_status,
+        score,
+        pool,
+        product_weight,
+        classfiy_weight,
+        portfolio_id,
+        create_time,
+        update_time
+    </sql>
+
+    <insert id="insertBatch">
+        INSERT INTO t_model_recommend
+        (
+        id,
+        model_time,
+        risk_level,
+        age_level,
+        model_status,
+        score,
+        pool,
+        product_weight,
+        classfiy_weight,
+        portfolio_id,
+        create_time,
+        update_time
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.modelTime},
+            #{item.risk},
+            #{item.age},
+            #{item.modelStatus},
+            #{item.score},
+            #{item.pool},
+            #{item.productWeight},
+            #{item.classfiyWeight},
+            #{item.portfolioId},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateDisableByIds">
+        UPDATE t_model_recommend SET model_status=0
+        WHERE id in
+        <foreach collection="modelIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="queryByDate" resultMap="modelRecommendRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_model_recommend
+        WHERE model_time=#{date}
+    </select>
+
+    <select id="listValidModel" resultMap="modelRecommendRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_model_recommend
+        WHERE model_status=#{modelStatus}
+    </select>
+
+    <select id="getValidRecommendByPortfolioId" parameterType="ModelRecommend" resultMap="modelRecommendRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_model_recommend
+        <where>
+            and model_status='1'
+            <if test="@Ognl@isNotEmpty(portfolioId)">and portfolio_id=#{portfolioId}</if>
+        </where>
+
+    </select>
+
+    <select id="queryModelRecommend" resultMap="modelRecommendRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_model_recommend
+        <where>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                and portfolio_id=#{portfolioId}
+            </if>
+            <if test="modelStatus != null">
+                and model_status=#{modelStatus}
+            </if>
+        </where>
+    </select>
+    <select id="queryModelById" resultMap="modelRecommendRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_model_recommend
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+</mapper>

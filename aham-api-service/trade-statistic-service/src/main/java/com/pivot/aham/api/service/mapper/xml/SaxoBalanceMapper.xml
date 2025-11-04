@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoBalanceMapper">
+
+    <resultMap id="SaxoReconBalCashPO" type="com.pivot.aham.api.service.mapper.model.SaxoReconBalCashPO">
+        <result property="id" column="id"></result>
+        <result property="saxoCash" column="saxo_cash"></result>
+        <result property="dasCash" column="das_cash"></result>
+        <result property="diffCash" column="diff_cash"></result>
+        <result property="statusDes" column="status_des"></result>
+        <result property="fileName" column="file_name"></result>
+        <result property="transNumber" column="trans_number"></result>
+        <result property="compareTime" column="compare_time"></result>
+    </resultMap>
+    
+   <sql id="SaxoBalCashVo">
+        select id, saxo_cash, das_cash, diff_cash, status_des, file_name, trans_number, compare_time
+        from  t_saxo_bal_cash
+    </sql>
+    
+    
+    <select id="querySaxoReconBalanceList" resultMap="SaxoReconBalCashPO">
+        <include refid="SaxoBalCashVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(startDate)">
+               <![CDATA[and compare_time >= #{startDate} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+               <![CDATA[and compare_time <= #{endDate} ]]>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

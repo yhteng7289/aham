@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.PivotFeeDetailServiceMapper">
+
+    <resultMap id="pivotFeeDetailRes" type="com.pivot.aham.api.service.mapper.model.PivotFeeDetailPO">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="account_id" property="accountId"/>
+        <result column="goal_id" property="goalId"/>
+        <result column="money" property="money"/>
+        <result column="fee_type" property="feeType"/>
+        <result column="operate_type" property="operateType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="operate_date" property="operateDate"/>
+    </resultMap>
+
+    <sql id="column">
+        client_id, account_id, goal_id, money, fee_type, account_id,
+        operate_type, create_time, update_time, operate_date
+    </sql>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO t_pivot_fee_detail
+        (
+        client_id,
+        account_id,
+        goal_id,
+        money,
+        fee_type,
+        operate_type,
+        operate_date
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.clientId},
+            #{item.accountId},
+            #{item.goalId},
+            #{item.money},
+            #{item.feeType},
+            #{item.operateType},
+            #{item.operateDate}
+            )
+        </foreach>
+    </insert>
+    
+    <select id="getTotalMoneyByFeeType" resultType="BigDecimal" parameterType="Integer">
+        SELECT IFNULL(SUM(money) , 0) FROM t_pivot_fee_detail
+        <where>
+            operate_type = 0
+            <if test="@Ognl@isNotEmpty(feeType)">
+                AND fee_type = #{feeType}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTotalMoneyByDateAndType" resultType="BigDecimal">
+        SELECT IFNULL(SUM(money) , 0)
+        FROM t_pivot_fee_detail
+        <where>
+            <if test="@Ognl@isNotEmpty(operateType)">
+                and operate_type=#{operateType}
+            </if>
+            <if test="@Ognl@isNotEmpty(operateDate)">
+                <![CDATA[and operate_date<=#{operateDate} ]]>
+            </if>
+        </where>
+    </select>
+    
+    <select id="getTotalMoneyByDateAndFeeType" resultType="BigDecimal">
+        SELECT IFNULL(SUM(money) , 0)
+        FROM t_pivot_fee_detail
+        <where>
+            <if test="@Ognl@isNotEmpty(feeType)">
+                and fee_type=#{feeType}
+            </if>
+            <if test="@Ognl@isNotEmpty(operateDate)">
+                <![CDATA[and operate_date<=#{operateDate} ]]>
+            </if>
+        </where>
+    </select>    
+
+    <delete id="disableAll">
+        delete from t_pivot_fee_detail where account_id = #{accountId} AND operate_date = #{operateDate}
+    </delete>
+
+</mapper>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div>
+    <table class="table table-striped"  align="center" cellspacing="0" style="text-align: center;" border="1">
+        <legend align="center">
+            <strong>对账描述</strong>
+        </legend>
+        <thead>
+
+        <!--map-->
+        <tr>
+            <th>ETF</th>
+            <th>SAXO-持仓份额</th>
+            <th>DAS-持仓份额</th>
+            <th>SAXO-持仓金额</th>
+            <th>DAS-持仓金额</th>
+            <th>对账状态</th>
+            <th>文件名称</th>
+            <th>Saxo-对账原始记录id</th>
+            <th>对账时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--list-->
+        <tr th:each="ETFHoldMoney : ${ETFHoldMoneys}">
+            <td th:text="${ETFHoldMoney.productCode}"></td>
+            <td th:text="${ETFHoldMoney.saxoHoldShare}"></td>
+            <td th:text="${ETFHoldMoney.dasHoldShare}"></td>
+            <td th:text="${ETFHoldMoney.saxoHoldAmount}"></td>
+            <td th:text="${ETFHoldMoney.dasHoldAmount}"></td>
+            <td th:text="${ETFHoldMoney.statusDes}"></td>
+            <td th:text="${ETFHoldMoney.fileName}"></td>
+            <td th:text="${ETFHoldMoney.transNumber}"></td>
+            <td th:text="${ETFHoldMoney.compareTime}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

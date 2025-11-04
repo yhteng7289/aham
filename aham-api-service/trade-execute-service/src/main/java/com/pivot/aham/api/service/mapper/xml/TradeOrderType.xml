@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.TradeOrderTypeMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.TradeOrderTypePO">
+        <result property="id" column="id"/>
+        <result property="saxoOrderCode" column="saxo_order_code"/>
+        <result property="isRebalanceOrder" column="is_rebalance_order"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="Columns">
+        id,
+        saxo_order_code,
+        is_rebalance_order,
+        create_time,
+        update_time
+
+    </sql>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_trade_order_type (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id ,
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                saxo_order_code ,
+            </if>
+            <if test="@Ognl@isNotEmpty(isRebalanceOrder)">
+                is_rebalance_order ,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time ,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time ,
+            </if>
+           
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                #{saxoOrderCode} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(isRebalanceOrder)">
+                #{isRebalanceOrder} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime} ,
+            </if>         
+        </trim>
+        )
+    </insert>
+    
+    
+    <select id="getTradeOrderTypePOBySaxoCode" resultMap="resultMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_trade_order_type
+        <where>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                saxo_order_code=#{saxoOrderCode}
+            </if>
+        </where>
+    </select>
+<!--
+    <select id="getOrderList" resultMap="resultMap">
+        select * from t_saxo_order where order_type = #{orderType} and order_status = #{orderStatus}
+    </select>
+
+    <update id="confirmOrder">
+        update
+        t_saxo_order
+        set
+        confirm_share = #{confirmShare},
+        confirm_amount = #{confirmAmount},
+        confirm_time = #{confirmTime},
+        commission = #{commission},
+        exchange_fee = #{exchangeFee},
+        external_charges = #{externalCharges},
+        performance_fee = #{performanceFee},
+        stamp_duty = #{stampDuty},
+        <if test="@Ognl@isNotEmpty(positionId)">
+            position_id = #{positionId},
+        </if>
+        order_status = #{orderStatus}
+        where
+        id = #{orderId}
+    </update>
+
+    <select id="getById" resultMap="resultMap">
+        select * from t_saxo_order where id = #{orderId}
+    </select>
+
+    <select id="getByMergeOrderId" resultMap="resultMap">
+        select * from t_saxo_order where merge_order_id = #{mergeOrderId}
+    </select>
+
+    <select id="getListByTime" resultMap="resultMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_saxo_order
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(nowDate)">
+                AND DATE_FORMAT(confirm_time,'%Y-%m-%d')=DATE_FORMAT(#{nowDate},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="getWaitNotifyFee" resultMap="resultMap">
+        select * from t_saxo_order where fee_status = #{orderFeeStatus}
+    </select>
+
+    <update id="confirmNotifyFee">
+        update t_saxo_order set fee_status = #{orderFeeStatus} where id = #{orderId}
+    </update>
+
+
+    <update id="confirmOrderSuccess">
+        update t_saxo_order set order_status = #{orderStatus},saxo_order_code = #{saxoOrderCode}  where id = #{orderId}
+    </update>
+    
+    <select id="findSaxoOrder" resultMap="resultMap">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_saxo_order
+        <where>
+        	<if test="@Ognl@isNotEmpty(id)">
+                id=#{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                and order_status=#{orderStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(saxoOrderCode)">
+                and saxo_order_code=#{saxoOrderCode}
+            </if>
+        </where>
+    </select> -->
+</mapper>

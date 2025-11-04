@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.PivotCharityDetailMapper">
+
+    <resultMap id="pivotCharityDetailRes" type="com.pivot.aham.api.service.mapper.model.PivotCharityDetailPO">
+        <id column="id" property="id"/>
+        <result column="operate_type" property="operateType"/>
+        <result column="goal_id" property="goalId"/>
+        <result column="client_id" property="clientId"/>
+        <result column="account_id" property="accountId"/>
+        <result column="operate_money" property="operateMoney"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="redeem_id" property="redeemId"/>
+    </resultMap>
+
+    <sql id="column">
+        id,
+        operate_type,
+        operate_money,
+        operate_time,
+        create_time,
+        update_time,
+        redeem_id
+    </sql>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO t_pivot_charity_detail
+        (
+        operate_type,
+        operate_money,
+        operate_time,
+        redeem_id
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.operateType},
+            #{item.operateMoney},
+            #{item.operateTime},
+            #{item.redeemId}
+            )
+        </foreach>
+    </insert>
+    
+    <select id="getRoundingPageList" resultMap="pivotCharityDetailRes">
+        SELECT operate_money, account_id, client_id, goal_id, a.create_time, operate_type, redeem_id 
+        FROM t_pivot_charity_detail a, t_redeem_apply b where a.redeem_id = b.id
+        <if test="@Ognl@isNotEmpty(startCreateTime)">
+            <![CDATA[AND a.create_time >= #{startCreateTime}]]>
+        </if>
+        <if test="@Ognl@isNotEmpty(endCreateTime)">
+            <![CDATA[AND a.create_time <= #{endCreateTime}]]>
+        </if>
+    </select>      
+        
+    <select id="getTotalMoney" resultType="BigDecimal">
+        SELECT IFNULL(SUM(operate_money) , 0) FROM t_pivot_charity_detail
+    </select>    
+
+    <select id="getTotalMoneyByDateAndType" resultType="BigDecimal">
+        SELECT IFNULL(SUM(operate_money) , 0) FROM t_pivot_charity_detail
+        <where>
+            <if test="@Ognl@isNotEmpty(operateType)">
+                and operate_type=#{operateType}
+            </if>
+            <if test="@Ognl@isNotEmpty(operateTime)">
+                <![CDATA[and operate_time<=#{operateTime} ]]>
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByRedeemId">
+        delete from t_pivot_charity_detail where redeem_id = #{redeemId}
+    </delete>
+
+</mapper>

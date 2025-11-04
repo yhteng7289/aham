@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoMinOrderMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.SaxoMinOrderPO">
+        <id property="id" column="id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="minAmount" column="min_amount"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        product_code,
+        min_amount,
+        create_time,
+        update_time
+    </sql>
+    
+    <select id="getListofSaxoMinOrder" resultMap="resultMap">
+        select * from t_saxo_min_order
+    </select>
+    <!--
+
+    <select id="getListofSaxoMinOrder" resultMap="resultMap">
+        <include refid="columns"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">and order_status=#{orderStatus}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">and tncf_status=#{tncfStatus}</if>
+            <if test="@Ognl@isNotEmpty(startRedeemApplyTime)">and redeem_apply_time>=#{startRedeemApplyTime}</if>
+            <if test="@Ognl@isNotEmpty(endRedeemApplyTime)">and #{endRedeemApplyTime}>=redeem_apply_time</if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                and DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+
+    </select>
+
+    <select id="getAllEtf" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1
+    </select>
+
+    <select id="getAllExchange" resultType="string">
+        select distinct exchange_code from t_etf_info where use_enable = 1 group by exchange_code
+    </select>
+
+    <select id="getExchangeByEtf" resultType="string">
+        select exchange_code from t_etf_info where use_enable = 1
+        and etf_code in
+        <foreach collection="etfList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by exchange_code
+    </select>
+
+    <select id="getByCode" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and etf_code = #{etfCode}
+    </select>
+
+    <select id="getByCodes" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and etf_code in
+        <foreach collection="etfCodes" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getByUic" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and uic = #{uic}
+    </select>-->
+</mapper>

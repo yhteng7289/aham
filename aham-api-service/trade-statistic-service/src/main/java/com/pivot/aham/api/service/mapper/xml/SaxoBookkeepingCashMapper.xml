@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoBookkeepingCashMapper">
+
+    <resultMap id="result_map" type="com.pivot.aham.api.service.mapper.model.SaxoBookkeepingCashPO">
+
+    </resultMap>
+
+    <sql id="select_columns">
+        <trim suffixOverrides=",">
+            id ,
+            reporting_date ,
+            instrument_type ,
+            counterpart_id ,
+            counterpart_name ,
+            account_number ,
+            partner_account_key ,
+            account_currency ,
+            instrument_code ,
+            instrument_currency ,
+            amount_instru_cur ,
+            bk_amount_id ,
+            trade_date ,
+            related_position_id ,
+            related_trade_id ,
+            order_number ,
+            bk_amount_type_id ,
+            bk_amount_type ,
+            value_date ,
+            amount_account_cur ,
+            instru_account_rate ,
+            original_trade_id ,
+            correction_leg ,
+            ca_event_type_id,
+            ca_event_type_name ,
+            adhoc_book_code_id,
+            adhoc_book_code ,
+            instrument_uic ,
+            actual_trade_date ,
+            ca_event_id ,
+            create_date ,
+        </trim>
+    </sql>
+
+    <sql id="add_columns">
+        <trim suffixOverrides=",">
+            reporting_date ,
+            instrument_type ,
+            counterpart_id ,
+            counterpart_name ,
+            account_number ,
+            partner_account_key ,
+            account_currency ,
+            instrument_code ,
+            instrument_currency ,
+            amount_instru_cur ,
+            bk_amount_id ,
+            trade_date ,
+            related_position_id ,
+            related_trade_id ,
+            order_number ,
+            bk_amount_type_id ,
+            bk_amount_type ,
+            value_date ,
+            amount_account_cur ,
+            instru_account_rate ,
+            original_trade_id ,
+            correction_leg ,
+            ca_event_type_id,
+            ca_event_type_name ,
+            adhoc_book_code_id,
+            adhoc_book_code ,
+            instrument_uic ,
+            actual_trade_date ,
+            ca_event_id ,
+            create_date ,
+        </trim>
+    </sql>
+    <insert id="batchInsert" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBookkeepingCashPO">
+        INSERT INTO t_saxo_bookkeep_cash
+        (
+        <include refid="add_columns"/>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.reportingDate},
+                #{item.instrumentType},
+                #{item.counterpartID},
+                #{item.counterpartName},
+                #{item.accountNumber},
+                #{item.partnerAccountKey},
+                #{item.accountCurrency},
+                #{item.instrumentCode},
+                #{item.instrumentCurrency},
+                #{item.amountInstrumentCurreny},
+                #{item.bkAmountID},
+                #{item.tradeDate},
+                #{item.relatedPositionID},
+                #{item.relatedTradeId},
+                #{item.orderNumber},
+                #{item.bkAmountTypeID},
+                #{item.bkAmountType},
+                #{item.valueDate},
+                #{item.amountAccountCurrency},
+                #{item.instrumentToAccountRate},
+                #{item.originalTradeID},
+                #{item.correctionLeg},
+                #{item.caEventTypeID},
+                #{item.caEventTypeName},
+                #{item.adhocBookingCodeID},
+                #{item.adhocBookingCode},
+                #{item.instrumentUIC},
+                #{item.actualTradeDate},
+                #{item.caEventID},
+                #{item.createDate},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <sql id="select_cond">
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date>=#{createDate}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getDataByCond" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBookkeepingCashPO"
+            resultType="int">
+        SELECT
+        count(1)
+        FROM t_saxo_bookkeep_cash
+        <include refid="select_cond"/>
+    </select>
+
+
+</mapper>

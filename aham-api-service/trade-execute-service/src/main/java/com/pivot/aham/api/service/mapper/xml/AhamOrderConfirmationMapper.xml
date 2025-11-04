@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AhamOrderConfirmationMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.AhamOrderConfirmationPO">
+        <id property="id" column="id"/>
+        <result property="referenceID" column="reference_id"/>
+        <result property="investorID" column="investor_id"/>
+        <result property="scheme" column="schema"/>
+        <result property="plan" column="plan"/>
+        <result property="tranType" column="tran_type"/>
+        <result property="tranDate" column="tran_date"/>
+        <result property="valueDate" column="value_date"/>
+        <result property="agent" column="agent"/>
+        <result property="currency" column="currency"/>
+        <result property="amount" column="amount"/>
+        <result property="nav" column="nav"/>
+        <result property="units" column="units"/>
+        <result property="totalCharge" column="total_charge"/>
+        <result property="salesChargePercent" column="sales_charge_percent"/>
+        <result property="salesChargeValue" column="sales_charge_value"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+ <!--   <sql id="columns">
+        id,
+        product_code,
+        min_amount,
+        create_time,
+        update_time
+    </sql>-->
+    
+    <insert id="save">
+        INSERT INTO t_aham_order_confirmation (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id ,
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceID)">
+                reference_id ,
+            </if>
+            <if test="@Ognl@isNotEmpty(investorID)">
+                investor_id ,
+            </if>
+            <if test="@Ognl@isNotEmpty(scheme)">
+                schema ,
+            </if>
+            <if test="@Ognl@isNotEmpty(plan)">
+                plan ,
+            </if>
+            <if test="@Ognl@isNotEmpty(tranType)">
+                tran_type ,
+            </if>
+            <if test="@Ognl@isNotEmpty(tranDate)">
+                tran_date ,
+            </if>
+            <if test="@Ognl@isNotEmpty(valueDate)">
+                value_date ,
+            </if>
+            <if test="@Ognl@isNotEmpty(agent)">
+                agent ,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency ,
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount ,
+            </if>
+            <if test="@Ognl@isNotEmpty(nav)">
+                nav ,
+            </if>
+            <if test="@Ognl@isNotEmpty(units)">
+                units ,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalCharge)">
+                total_charge ,
+            </if>
+            <if test="@Ognl@isNotEmpty(salesChargePercent)">
+                sales_charge_percent ,
+            </if>
+            <if test="@Ognl@isNotEmpty(salesChargeValue)">
+                sales_charge_value ,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time ,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time ,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceID)">
+                #{referenceID} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(investorID)">
+                #{investorID} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(scheme)">
+                #{scheme} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(plan)">
+                #{plan} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(tranType)">
+                #{tranType} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(tranDate)">
+                #{tranDate} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(valueDate)">
+                #{valueDate} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(agent)">
+                #{agent} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                #{currency} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                #{amount} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(nav)">
+                #{nav} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(units)">
+                #{units} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalCharge)">
+                #{totalCharge} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(salesChargePercent)">
+                #{salesChargePercent} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(salesChargeValue)">
+                #{salesChargeValue} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime} ,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime} ,
+            </if>
+        </trim>
+        )
+    </insert>
+    
+      <!--  <select id="getListofSaxoMinOrder" resultMap="resultMap">
+        select * from t_saxo_min_order
+    </select>
+
+
+    <select id="getListofSaxoMinOrder" resultMap="resultMap">
+        <include refid="columns"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">and order_status=#{orderStatus}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(tncfStatus)">and tncf_status=#{tncfStatus}</if>
+            <if test="@Ognl@isNotEmpty(startRedeemApplyTime)">and redeem_apply_time>=#{startRedeemApplyTime}</if>
+            <if test="@Ognl@isNotEmpty(endRedeemApplyTime)">and #{endRedeemApplyTime}>=redeem_apply_time</if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                and DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+
+    </select>
+
+    <select id="getAllEtf" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1
+    </select>
+
+    <select id="getAllExchange" resultType="string">
+        select distinct exchange_code from t_etf_info where use_enable = 1 group by exchange_code
+    </select>
+
+    <select id="getExchangeByEtf" resultType="string">
+        select exchange_code from t_etf_info where use_enable = 1
+        and etf_code in
+        <foreach collection="etfList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by exchange_code
+    </select>
+
+    <select id="getByCode" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and etf_code = #{etfCode}
+    </select>
+
+    <select id="getByCodes" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and etf_code in
+        <foreach collection="etfCodes" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getByUic" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and uic = #{uic}
+    </select>-->
+</mapper>

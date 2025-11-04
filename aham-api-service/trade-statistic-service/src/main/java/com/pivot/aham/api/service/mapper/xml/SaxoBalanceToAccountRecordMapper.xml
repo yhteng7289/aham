@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoBalanceToAccountRecordMapper">
+
+
+    <insert id="insertBalOfAccNotice" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBalOfAccNoticePO">
+        INSERT INTO t_saxo_bal_notice
+        (
+        <trim suffixOverrides=",">
+            notice_time ,
+            bal_acc_type,
+            bal_trans_num,
+        </trim>
+        )VALUES
+        (
+        <trim suffixOverrides=",">
+            #{noticeTime},
+            #{balanceOfAccountType},
+            #{balTransNum},
+        </trim>
+        )
+    </insert>
+
+    <insert id="insertBalCash" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBalCashPO">
+        INSERT INTO t_saxo_bal_cash
+        (
+        <trim suffixOverrides=",">
+            saxo_cash ,
+            das_cash ,
+            diff_cash,
+            status_des,
+            file_name,
+            trans_number,
+            compare_time,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            #{saxoCash},
+            #{dasCash},
+            #{diffCash},
+            #{statusDes},
+            #{fileName},
+            #{transNumber},
+            #{compareTime},
+        </trim>
+        )
+
+
+    </insert>
+
+    <insert id="insertBalHoldMoney" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBalHoldMoneyPO">
+        INSERT INTO t_saxo_bal_hold_mon
+        (
+        <trim suffixOverrides=",">
+            saxo_hold_money ,
+            das_hold_money ,
+            status_des,
+            file_name,
+            trans_number,
+            compare_time,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            #{saxoHoldMoney},
+            #{dasHoldMoney},
+            #{statusDes},
+            #{fileName},
+            #{transNumber},
+            #{compareTime},
+        </trim>
+        )
+
+    </insert>
+
+    <insert id="batchInsertTradeOrder" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBalTradeOrderPO">
+        INSERT INTO t_saxo_bal_tra_order
+        (
+        <trim suffixOverrides=",">
+            product_code ,
+            saxo_trade_share ,
+            das_trade_share,
+            saxo_commission,
+            das_commission,
+            status_des,
+            file_name,
+            order_number,
+            trans_number,
+            compare_time,
+        </trim>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.productCode},
+                #{item.saxoTradeShare},
+                #{item.dasTradeShare},
+                #{item.saxoCommission},
+                #{item.dasCommission},
+                #{item.statusDes},
+                #{item.fileName},
+                #{item.orderNumber},
+                #{item.transNumber},
+                #{item.compareTime},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <insert id="batchInsertETFHoldMoney" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBalETFHoldMoneyPO">
+        INSERT INTO t_saxo_bal_etf_money
+        (
+        <trim suffixOverrides=",">
+            product_code ,
+            saxo_hold_share ,
+            das_hold_share,
+            saxo_hold_amount,
+            das_hold_amount,
+            status_des,
+            file_name,
+            trans_number,
+            compare_time,
+        </trim>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.productCode},
+                #{item.saxoHoldShare},
+                #{item.dasHoldShare},
+                #{item.saxoHoldAmount},
+                #{item.dasHoldAmount},
+                #{item.statusDes},
+                #{item.fileName},
+                #{item.transNumber},
+                #{item.compareTime},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <insert id="batchInsertBalOfAccNotice" parameterType="com.pivot.aham.api.service.mapper.model.SaxoBalOfAccNoticePO">
+        INSERT INTO t_saxo_bal_notice
+        (
+        <trim suffixOverrides=",">
+            notice_time ,
+            bal_acc_type,
+            bal_trans_num,
+        </trim>
+        )VALUES
+        <foreach collection="lists" item="item" index="index" separator=",">
+            (
+            <trim suffixOverrides=",">
+                #{item.noticeTime},
+                #{item.balanceOfAccountType},
+                #{item.balTransNum},
+            </trim>
+            )
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteBalCash">
+        DELETE FROM t_saxo_bal_cash WHERE    DATE_FORMAT(compare_time,'%Y-%m-%d') = DATE_FORMAT(#{compareTime},'%Y-%m-%d')
+    </delete>
+    <delete id="deleteBalHoldMoney">
+        DELETE FROM t_saxo_bal_hold_mon WHERE  DATE_FORMAT(compare_time,'%Y-%m-%d') = DATE_FORMAT(#{compareTime},'%Y-%m-%d')
+    </delete>
+    <delete id="deleteBalOfAccNotice">
+        DELETE FROM t_saxo_bal_notice WHERE    DATE_FORMAT(notice_time,'%Y-%m-%d') = DATE_FORMAT(#{noticeTime},'%Y-%m-%d') and bal_acc_type=#{balanceOfAccountType}
+    </delete>
+    <delete id="deleteBalTradeOrder">
+        DELETE FROM t_saxo_bal_tra_order WHERE    DATE_FORMAT(compare_time,'%Y-%m-%d') = DATE_FORMAT(#{compareTime},'%Y-%m-%d')
+    </delete>
+    <delete id="deleteBalETFHoldMoney">
+        DELETE FROM t_saxo_bal_etf_money WHERE    DATE_FORMAT(compare_time,'%Y-%m-%d') = DATE_FORMAT(#{compareTime},'%Y-%m-%d')
+    </delete>
+
+
+
+</mapper>

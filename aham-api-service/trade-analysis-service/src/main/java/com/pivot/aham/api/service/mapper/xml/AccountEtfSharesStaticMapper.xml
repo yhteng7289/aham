@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountEtfSharesStaticMapper">
+
+    <resultMap id="AccountEtfSharesStaticRes"
+               type="com.pivot.aham.api.service.mapper.model.AccountEtfSharesStaticPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="aagf" column="aagf"/>
+        <result property="oneabf" column="oneabf"/>
+        <result property="di" column="di"/>
+        <result property="onepgf" column="onepgf"/>
+        <result property="df" column="df"/>
+        <result property="oneaef" column="oneaef"/>
+        <result property="asi" column="asi"/>
+        <result property="aff" column="aff"/>
+        <result property="aif" column="aif"/>
+        <result property="onebf" column="onebf"/>
+        <result property="edf" column="edf"/>
+        <result property="oneef" column="oneef"/>
+        <result property="nctf" column="nctf"/>
+        <result property="gof" column="gof"/>
+        <result property="scf" column="scf"/>
+        <result property="sapbf" column="sapbf"/>
+        <result property="sapdf" column="sapdf"/>
+        <result property="gif" column="gif"/>
+        <result property="bal" column="bal"/>
+        <result property="bond" column="bond"/>
+        <result property="sdf" column="sdf"/>
+        <result property="sif" column="sif"/>
+        <result property="sof" column="sof"/>
+        <result property="sgdif" column="sgdif"/>
+        <result property="sgtf" column="sgtf"/>
+        <result property="gdifmyrh" column="gdifmyrh"/>
+        <result property="glifmyrnh" column="glifmyrnh"/>
+        <result property="glifmyr" column="glifmyr"/>
+        <result property="wsgqfmyr" column="wsgqfmyr"/>
+        <result property="wsgqfmyrh" column="wsgqfmyrh"/>
+        
+        <result property="cf" column="cf"/>
+        <result property="sjqfmyrnh" column="sjqfmyrnh"/>
+
+
+        <result property="staticDate" column="static_date"/>
+    </resultMap>
+
+
+    <sql id="AccountEtfSharesStaticVo">
+        select id, account_id,static_date,
+        aagf,
+        oneabf,
+        di,
+        onepgf,
+        df,
+        oneaef,
+        asi,
+        aff,
+        aif,
+        onebf,
+        edf,
+        oneef,
+        nctf,
+        gof,
+        scf,
+        sapbf,
+        sapdf,
+        gif,
+        bal,
+        bond,
+        sdf,
+        sif,
+        sof,
+        sgdif,
+        sgtf,
+        gdifmyrh,
+        glifmyrnh,
+        glifmyr,
+        wsgqfmyr,
+        wsgqfmyrh,
+        cf,
+        sjqfmyrnh,
+        static_date
+        from t_account_etf_shares_static
+    </sql>
+
+
+    <select id="getListByDate" parameterType="date" resultType="com.pivot.aham.api.service.mapper.model.AccountEtfSharesStaticPO">
+        SELECT
+        sum(aagf) as aagf,
+        sum(oneabf) as oneabf,
+        sum(di) as di,
+        sum(onepgf) as onepgf,
+        sum(df) as df,
+        sum(oneaef) as oneaef,
+        sum(asi) as asi,
+        sum(aff) as aff,
+        sum(aif) as aif,
+        sum(onebf) as onebf,
+        sum(edf) as edf,
+        sum(oneef) as oneef,
+        sum(nctf) as nctf,
+        sum(gof) as gof,
+        sum(scf) as scf,
+        sum(sapbf) as sapbf,
+        sum(sapdf) as sapdf,
+        sum(gif) as gif,
+        sum(bal) as bal,
+        sum(bond) as bond,
+        sum(sdf) as sdf,
+        sum(sif) as sif,
+        sum(sof) as sof,
+        sum(sgdif) as sgdif,
+        sum(sgtf) as sgtf,
+        sum(gdifmyrh) as gdifmyrh,
+        sum(glifmyrnh) as glifmyrnh,
+        sum(glifmyr) as glifmyr,
+        sum(wsgqfmyr) as wsgqfmyr,
+        sum(wsgqfmyrh) as wsgqfmyrh,
+        sum(cf) as cf,
+        sum(sjqfmyrnh) as sjqfmyrnh
+        from t_account_etf_shares_static
+        WHERE
+        DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{nowDate},'%Y-%m-%d')
+    </select>
+
+    <select id="selectByStaticDate" resultMap="AccountEtfSharesStaticRes">
+        <include refid="AccountEtfSharesStaticVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+    <select id="selectListByStaticDate"
+            resultMap="AccountEtfSharesStaticRes">
+        <include refid="AccountEtfSharesStaticVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SaxoOpenPositionStockMapper">
+
+    <resultMap id="SaxoOpenPositionStock" type="com.pivot.aham.api.service.mapper.model.SaxoOpenPositionStockPO">
+        <result property="id" column="id"></result>
+        <result property="saxoHoldMoney" column="saxo_hold_money"></result>
+        <result property="dasHoldMoney" column="das_hold_money"></result>
+        <result property="statusDes" column="status_des"></result>
+        <result property="fileName" column="file_name"></result>
+        <result property="transNumber" column="trans_number"></result>
+        <result property="compareTime" column="compare_time"></result>
+    </resultMap>
+    
+    <sql id="querySaxoOpenPosition">
+        select id, saxo_hold_money, das_hold_money, status_des, file_name, trans_number, compare_time
+        from t_saxo_bal_hold_mon
+    </sql>
+    
+     <select id="querySaxoOpenPositionList" resultMap="SaxoOpenPositionStock">
+         <include refid="querySaxoOpenPosition"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(startDate)">
+               <![CDATA[and compare_time >= #{startDate} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+               <![CDATA[and compare_time <= #{endDate} ]]>
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

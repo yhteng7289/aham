@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.EtfInfoMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.EtfInfoPO">
+        <id property="id" column="id"/>
+        <result property="etfCode" column="etf_code"/>
+        <result property="uic" column="uic"/>
+        <result property="exchangeCode" column="exchange_code"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        etf_code,
+        uic,
+        exchange_code
+    </sql>
+
+    <select id="getAllEtf" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1
+    </select>
+
+    <select id="getAllExchange" resultType="string">
+        select distinct exchange_code from t_etf_info where use_enable = 1 group by exchange_code
+    </select>
+
+    <select id="getExchangeByEtf" resultType="string">
+        select exchange_code from t_etf_info where use_enable = 1
+        and etf_code in
+        <foreach collection="etfList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by exchange_code
+    </select>
+
+    <select id="getByCode" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and etf_code = #{etfCode}
+    </select>
+
+    <select id="getByCodes" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and etf_code in
+        <foreach collection="etfCodes" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getByUic" resultMap="resultMap">
+        select * from t_etf_info where use_enable = 1 and uic = #{uic}
+    </select>
+</mapper>

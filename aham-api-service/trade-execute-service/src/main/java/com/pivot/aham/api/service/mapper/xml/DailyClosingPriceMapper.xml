@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.DailyClosingPriceMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.DailyClosingPricePO">
+        <result property="id" column="id"/>
+        <result property="etfCode" column="etf_code"/>
+        <result property="bsnDt" column="bsn_dt"/>
+        <result property="price" column="price"/>
+        <result property="createTime" column="create_time"/>
+        <result property="navDate" column="nav_date"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        etf_code,
+        bsn_dt,
+        price,
+        create_time,
+        nav_date
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_daily_closing_price (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(etfCode)">
+                etf_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(bsnDt)">
+                bsn_dt,
+            </if>
+            <if test="@Ognl@isNotEmpty(price)">
+                price,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(navDate)">
+                nav_date,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(etfCode)">
+                #{etfCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(bsnDt)">
+                #{bsnDt},
+            </if>
+            <if test="@Ognl@isNotEmpty(price)">
+                #{price},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(navDate)">
+                #{navDate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="batchSave">
+        INSERT INTO t_daily_closing_price (
+            etf_code,
+            bsn_dt,
+            price,
+            nav_date
+        ) VALUES
+        <foreach item="item" collection="dailyClosingPricePOList"  separator=",">
+            (
+                #{item.etfCode},
+                #{item.bsnDt},
+                #{item.price},
+                #{item.navDate}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getPrice" resultMap="resultMap">
+        select * from t_daily_closing_price where bsn_dt = DATE_FORMAT(#{bsnDt},'%Y-%m-%d')
+        and etf_code in
+        <foreach collection="etfCodeList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getByDt" resultMap="resultMap">
+        select * from t_daily_closing_price where bsn_dt = DATE_FORMAT(#{bsnDt},'%Y-%m-%d')
+    </select>
+
+    <select id="getLastPrice" resultMap="resultMap">
+        select * from t_daily_closing_price
+        where etf_code = #{etfCode}
+        order by bsn_dt desc
+        limit 1
+    </select>
+
+    <delete id="clearByDt">
+        delete from t_daily_closing_price where bsn_dt = #{bsnDt}
+    </delete>
+
+</mapper>

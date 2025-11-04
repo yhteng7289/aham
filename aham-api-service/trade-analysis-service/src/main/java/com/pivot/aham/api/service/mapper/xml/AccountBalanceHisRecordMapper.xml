@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountBalanceHisRecordMapper">
+
+    <resultMap id="AccountBalanceHisRecordRes" type="com.pivot.aham.api.service.mapper.model.AccountBalanceHisRecord">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="lastBalTime" column="last_bal_time"></result>
+        <result property="balId" column="bal_id"></result>
+        <!--<result property="portfolioId" column="portfolio_id"></result>-->
+        <result property="portfolioScore" column="portfolio_score"></result>
+        <result property="lastProductWeight" column="last_product_weight"></result>
+    </resultMap>
+
+
+    <sql id="AccountStaticsVo">
+        select id,account_id,last_bal_time,bal_id,portfolio_score,last_product_weight
+        from t_account_balance_his_record
+    </sql>
+
+    <update id="updateByAccountId">
+        UPDATE t_account_balance_his_record
+        <set>
+            <if test="@Ognl@isNotEmpty(lastBalTime)">
+                last_bal_time=#{lastBalTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(balId)">
+                , bal_id=#{balId}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioScore)">
+                , portfolio_score=#{portfolioScore}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastProductWeight)">
+                , last_product_weight=#{lastProductWeight}
+            </if>
+        </set>
+        <where>
+            account_id=#{accountId}
+        </where>
+    </update>
+
+</mapper>

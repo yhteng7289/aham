@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobNotificationMapper">
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobNotificationPO">
+        <result property="id" column="id"/>
+        <result property="event" column="event"/>
+        <result property="accountName" column="account_name"/>
+        <result property="accountType" column="account_type"/>
+        <result property="accountNumber" column="account_number"/>
+        <result property="accountCurrency" column="account_currency"/>
+        <result property="amount" column="amount"/>
+        <result property="transactionType" column="transaction_type"/>
+        <result property="ourReference" column="our_reference"/>
+        <result property="yourReference" column="your_reference"/>
+        <result property="transactionText" column="transaction_text"/>
+        <result property="transactionDateTime" column="transaction_datetime"/>
+        <result property="businessDate" column="business_date"/>
+        <result property="effectiveDate" column="effective_date"/>
+        <result property="subAccountIndicator" column="sub_account_indicator"/>
+        <result property="payNowIndicator" column="paynow_indicator"/>
+        <result property="instructionId" column="instruction_id"/>
+        <result property="notificationId" column="notification_id"/>
+        <result property="remittanceInformation" column="remittance_information"/>
+        <result property="originatorAccountName" column="originator_account_name"/>
+    </resultMap>
+
+    <sql id="columns">
+        id, event, account_name, account_type, account_number, account_currency, amount, transaction_type, our_reference, your_reference, transaction_text,
+        transaction_datetime, business_date, effective_date, sub_account_indicator, paynow_indicator, instruction_id, notification_id, remittance_information, originator_account_name
+    </sql>
+
+    <insert id="saveUobNotification">
+        INSERT INTO t_uob_notification (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(event)">
+                event,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountName)">
+                account_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountType)">
+                account_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountNumber)">
+                account_number,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountCurrency)">
+                account_currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(transactionType)">
+                transaction_type,
+            </if>
+            <if test="@Ognl@isNotEmpty(ourReference)">
+                our_reference,
+            </if>
+            <if test="@Ognl@isNotEmpty(yourReference)">
+                your_reference,
+            </if>
+            <if test="@Ognl@isNotEmpty(transactionText)">
+                transaction_text,
+            </if>
+            <if test="@Ognl@isNotEmpty(transactionDateTime)">
+                transaction_datetime,
+            </if>
+            <if test="@Ognl@isNotEmpty(businessDate)">
+                business_date,
+            </if>
+            <if test="@Ognl@isNotEmpty(effectiveDate)">
+                effective_date,
+            </if>
+            <if test="@Ognl@isNotEmpty(subAccountIndicator)">
+                sub_account_indicator,
+            </if>
+            <if test="@Ognl@isNotEmpty(payNowIndicator)">
+                paynow_indicator,
+            </if>
+            <if test="@Ognl@isNotEmpty(instructionId)">
+                instruction_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(notificationId)">
+                notification_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(remittanceInformation)">
+                remittance_information,
+            </if>
+            <if test="@Ognl@isNotEmpty(originatorAccountName)">
+                originator_account_name,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(event)">
+                #{event},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountName)">
+                #{accountName},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountType)">
+                #{accountType},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountNumber)">
+                #{accountNumber},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountCurrency)">
+                #{accountCurrency},
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                #{amount},
+            </if>            
+            <if test="@Ognl@isNotEmpty(transactionType)">
+                #{transactionType},
+            </if>
+            <if test="@Ognl@isNotEmpty(ourReference)">
+                #{ourReference},
+            </if>
+            <if test="@Ognl@isNotEmpty(yourReference)">
+                #{yourReference},
+            </if>
+            <if test="@Ognl@isNotEmpty(transactionText)">
+                #{transactionText},
+            </if>
+            <if test="@Ognl@isNotEmpty(transactionDateTime)">
+                #{transactionDateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(businessDate)">
+                #{businessDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(effectiveDate)">
+                #{effectiveDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(subAccountIndicator)">
+                #{subAccountIndicator},
+            </if>
+            <if test="@Ognl@isNotEmpty(payNowIndicator)">
+                #{payNowIndicator},
+            </if>
+            <if test="@Ognl@isNotEmpty(instructionId)">
+                #{instructionId},
+            </if>
+            <if test="@Ognl@isNotEmpty(notificationId)">
+                #{notificationId},
+            </if>
+            <if test="@Ognl@isNotEmpty(remittanceInformation)">
+                #{remittanceInformation},
+            </if>
+            <if test="@Ognl@isNotEmpty(originatorAccountName)">
+                #{originatorAccountName},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryUobNotification" resultMap="resultMap">
+        select * from t_uob_notification order by id desc 
+    </select>
+
+</mapper>

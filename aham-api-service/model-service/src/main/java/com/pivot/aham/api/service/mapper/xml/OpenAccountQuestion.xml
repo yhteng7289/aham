@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.OpenAccountInfoQuestionMapper">
+
+    <resultMap id="openAccountInfoRes" type="com.pivot.aham.api.service.mapper.model.OpenAccountInfoQuestionPO">
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="mobileNum" column="mobile_num"/>
+        <result property="firstQuestion" column="first_question"/>
+        <result property="firstQuestionA" column="first_question_a"/>
+        <result property="firstQuestionB" column="first_question_b"/>
+        <result property="firstQuestionC" column="first_question_c"/>
+        <result property="firstQuestionD" column="first_question_d"/>
+        <result property="firstQuestionE" column="first_question_e"/>
+        <result property="firstQuestionF" column="first_question_f"/>
+        <result property="firstQuestionG" column="first_question_g"/>
+        <result property="secondQuestion" column="second_question"/>
+        <result property="thirdQuestion" column="third_question"/>
+        <result property="thirdQuestionA" column="third_question_a"/>
+        <result property="thirdQuestionB" column="third_question_b"/>
+        <result property="thirdQuestionC" column="third_question_c"/>
+        <result property="thirdQuestionD" column="third_question_d"/>
+        <result property="fourthQuestion" column="fourth_question"/>
+        <result property="fifthQuestion" column="fifth_question"/>
+        <result property="sixthQuestion" column="sixth_question"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        first_name,
+        last_name,
+        mobile_num,
+        first_question,
+        first_question_a,
+        first_question_b,
+        first_question_c,
+        first_question_d,
+        first_question_e,
+        first_question_f,
+        first_question_g,
+        second_question,
+        third_question,
+        third_question_a,
+        third_question_b,
+        third_question_c,
+        third_question_d,
+        fourth_question,
+        fifth_question,
+        sixth_question,
+        create_time,
+        update_time,
+        status
+    </sql>
+
+    <insert id="insertBatch">
+        INSERT INTO t_open_account_question_info
+        (
+        first_name,
+        last_name,
+        mobile_num,
+        first_question,
+        first_question_a,
+        first_question_b,
+        first_question_c,
+        first_question_d,
+        first_question_e,
+        first_question_f,
+        first_question_g,
+        second_question,
+        third_question,
+        third_question_a,
+        third_question_b,
+        third_question_c,
+        third_question_d,
+        fourth_question,
+        fifth_question,
+        sixth_question,
+        create_time,
+        update_time,
+        status
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.firstName},
+            #{item.lastName},
+            #{item.mobileNum},
+            #{item.firstQuestion},
+            #{item.firstQuestionA},
+            #{item.firstQuestionB},
+            #{item.firstQuestionC},
+            #{item.firstQuestionD},
+            #{item.firstQuestionE},
+            #{item.firstQuestionF},
+            #{item.firstQuestionG},
+            #{item.secondQuestion},
+            #{item.thirdQuestion},
+            #{item.thirdQuestionA},
+            #{item.thirdQuestionB},
+            #{item.thirdQuestionC},
+            #{item.thirdQuestionD},
+            #{item.fourthQuestion},
+            #{item.fifthQuestion},
+            #{item.sixthQuestion},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.status}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryByPO" resultMap="openAccountInfoRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_open_account_question_info
+        <where>
+            <if test="@Ognl@isNotEmpty(firstName)">
+                first_name=#{firstName}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastName)">
+                and last_name=#{lastName}
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                and mobile_num=#{mobileNum}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+
+    <update id="updatePO">
+        UPDATE t_open_account_question_info
+        <set>
+            <if test="@Ognl@isNotEmpty(firstQuestion)">
+                first_question = #{firstQuestion},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionA)">
+                first_question_a = #{firstQuestionA},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionB)">
+                first_question_b = #{firstQuestionB},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionC)">
+                first_question_c = #{firstQuestionC},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionD)">
+                first_question_d = #{firstQuestionD},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionE)">
+                first_question_e = #{firstQuestionE},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionF)">
+                first_question_f = #{firstQuestionF},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstQuestionG)">
+                first_question_g = #{firstQuestionG},
+            </if>
+            <if test="@Ognl@isNotEmpty(secondQuestion)">
+                second_question = #{secondQuestion},
+            </if>
+            <if test="@Ognl@isNotEmpty(thirdQuestion)">
+                third_question = #{thirdQuestion},
+            </if>
+            <if test="@Ognl@isNotEmpty(thirdQuestionA)">
+                third_question_a = #{thirdQuestionA},
+            </if>
+            <if test="@Ognl@isNotEmpty(thirdQuestionB)">
+                third_question_b = #{thirdQuestionB},
+            </if>
+            <if test="@Ognl@isNotEmpty(thirdQuestionC)">
+                third_question_c = #{thirdQuestionC},
+            </if>
+            <if test="@Ognl@isNotEmpty(thirdQuestionD)">
+                third_question_d = #{thirdQuestionD},
+            </if>
+            <if test="@Ognl@isNotEmpty(fourthQuestion)">
+                fourth_question = #{fourthQuestion},
+            </if>
+            <if test="@Ognl@isNotEmpty(fifthQuestion)">
+                fifth_question = #{fifthQuestion},
+            </if>
+            <if test="@Ognl@isNotEmpty(sixthQuestion)">
+                sixth_question = #{sixthQuestion},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                status = #{status},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <update id="disAbleAllByPO">
+        UPDATE t_open_account_question_info
+        SET status = 0
+        <where>
+            <if test="@Ognl@isNotEmpty(firstName)">
+                first_name=#{firstName}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastName)">
+                and last_name=#{lastName}
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                and mobile_num=#{mobileNum}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteByPO">
+        DELETE FROM t_open_account_question_info
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(firstName)">
+                AND first_name = #{firstName}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastName)">
+                AND last_name = #{lastName}
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                AND mobile_num = #{mobileNum}
+            </if>
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UobRechargeLogMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.UobRechargeLogPO">
+        <result property="id" column="id"/>
+        <result property="bankOrderNo" column="bank_order_no"/>
+        <result property="clientName" column="client_name"/>
+        <result property="virtualAccountNo" column="virtual_account_no"/>
+        <result property="cashAmount" column="cash_amount"/>
+        <result property="currency" column="currency"/>
+        <result property="referenceCode" column="reference_code"/>
+        <result property="tradeTime" column="trade_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="rechargeStatus" column="recharge_status"/>
+    </resultMap>
+
+    <sql id="columns">
+        id,
+        bank_order_no,
+        client_name,
+        virtual_account_no,
+        cash_amount,
+        currency,
+        reference_code,
+        trade_time,
+        create_time,
+        recharge_status
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_uob_recharge_log (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(bankOrderNo)">
+                bank_order_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientName)">
+                client_name,
+            </if>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                virtual_account_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(cashAmount)">
+                cash_amount,
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                reference_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(tradeTime)">
+                trade_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeStatus)">
+                recharge_status,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(bankOrderNo)">
+                #{bankOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientName)">
+                #{clientName},
+            </if>
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                #{virtualAccountNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(cashAmount)">
+                #{cashAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                #{currency},
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                #{referenceCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(tradeTime)">
+                #{tradeTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeStatus)">
+                #{rechargeStatus},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateByBankOrderNo">
+        UPDATE t_uob_recharge_log
+        <set>
+            <if test="@Ognl@isNotEmpty(rechargeStatus)">
+                recharge_status=#{rechargeStatus}
+            </if>
+        </set>
+        <where>
+            bank_order_no=#{bankOrderNo}
+        </where>
+    </update>
+
+    <select id="queryList" resultMap="resultMap">
+        select
+        <include refid="columns"/>
+        from t_uob_recharge_log
+        <where>
+            <if test="@Ognl@isNotEmpty(rechargeStatus)">
+                recharge_status=#{rechargeStatus}
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryProcessingByVirtualAccountNo" resultMap="resultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM t_uob_recharge_log
+        <where>
+            recharge_status = 0
+            <if test="@Ognl@isNotEmpty(virtualAccountNo)">
+                AND virtual_account_no = #{virtualAccountNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                AND reference_code = #{referenceCode}
+            </if>            
+        </where>
+    </select>    
+
+    <select id="queryByBankOrderNo" resultMap="resultMap">
+        select * from t_uob_recharge_log where bank_order_no = #{bankOrderNo}
+    </select>
+
+</mapper>

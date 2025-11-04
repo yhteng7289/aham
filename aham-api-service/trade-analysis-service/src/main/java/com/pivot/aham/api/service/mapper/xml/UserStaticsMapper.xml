@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserStaticsMapper">
+
+    <resultMap id="UserStaticsRes" type="com.pivot.aham.api.service.mapper.model.UserStaticsPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="goalId" column="goal_id"></result>
+        <result property="staticDate" column="static_date"></result>
+        <result property="cashDividend" column="cash_dividend"></result>
+        <result property="mgtFee" column="mgt_fee"></result>
+        <result property="custFee" column="cust_fee"></result>
+        <result property="gstMgtFee" column="gst_mgt_fee"></result>
+        <result property="perFee" column="per_fee"></result>
+        <result property="gstPerFee" column="gst_per_fee"></result>
+        <result property="transactionCostBuy" column="transaction_cost_buy"></result>
+        <result property="transactionCostSell" column="transaction_cost_sell"></result>
+        <result property="totalFundValue" column="total_fund_value"></result>
+        <result property="navInUsd" column="nav_in_usd"></result>
+        <result property="adjFundShares" column="adj_fund_shares"></result>
+        <result property="adjCashHolding" column="adj_cash_holding"></result>
+        <result property="adjFundAsset" column="adj_fund_asset"></result>
+        <result property="navInSgd" column="nav_in_sgd"></result>
+        <result property="adjFundAssetInSgd" column="adj_fund_asset_in_sgd"></result>
+        <result property="fxRateForFundIn" column="fx_rate_for_fund_in"></result>
+        <result property="fxRateForFundOut" column="fx_rate_for_fund_out"></result>
+
+    </resultMap>
+
+    <sql id="UserStaticsVo">
+        select id, account_id,client_id,goal_id,static_date,cash_dividend,mgt_fee,cust_fee,gst_mgt_fee,per_fee,gst_per_fee,transaction_cost_buy,adj_cash_holding,
+        transaction_cost_sell,total_fund_value,nav_in_usd,adj_fund_shares,adj_fund_asset,nav_in_sgd,adj_fund_asset_in_sgd,fx_rate_for_fund_in,fx_rate_for_fund_out
+        from t_user_statics
+    </sql>
+
+    <select id="queryListByTime" resultMap="UserStaticsRes">
+        <include refid="UserStaticsVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(startStaticDate)">
+                and static_date>=#{startStaticDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(endStaticDate)">
+                and #{endStaticDate}>=static_date
+            </if>
+            order by  static_date asc;
+        </where>
+    </select>
+
+    <select id="selectByStaticDate" resultMap="UserStaticsRes">
+        <include refid="UserStaticsVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+        </where>
+    </select>
+
+    <select id="queryUserStatics" resultMap="UserStaticsRes">
+        <include refid="UserStaticsVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">and account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(clientId)">and client_id=#{clientId}</if>
+            <if test="@Ognl@isNotEmpty(goalId)">and goal_id=#{goalId}</if>
+
+            <if test="@Ognl@isNotEmpty(staticDate)">and DATE_FORMAT(static_date,'%Y-%m-%d')=DATE_FORMAT(#{staticDate},'%Y-%m-%d')</if>
+            <if test="@Ognl@isNotEmpty(startStaticDate)">
+                and static_date>=#{startStaticDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(endStaticDate)">
+                and #{endStaticDate}>=static_date
+            </if>
+
+            <if test="@Ognl@isNotEmpty(goalIdList)">
+                and goal_id in
+                <foreach collection="goalIdList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

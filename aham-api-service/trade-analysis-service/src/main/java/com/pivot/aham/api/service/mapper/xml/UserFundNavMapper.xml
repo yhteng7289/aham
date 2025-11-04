@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.UserFundNavMapper">
+
+    <resultMap id="UserFundNavRes" type="com.pivot.aham.api.service.mapper.model.UserFundNavPO">
+        <result property="id" column="id"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="clientId" column="client_id"></result>
+        <result property="fundNav" column="fund_nav"></result>
+        <result property="navTime" column="nav_time"></result>
+        <result property="totalShare" column="total_share"></result>
+        <result property="totalAsset" column="total_asset"></result>
+        <result property="goalId" column="goal_id"></result>
+    </resultMap>
+
+    <sql id="base">
+        id, account_id, client_id, fund_nav, nav_time, total_share, total_asset, create_time, update_time, goal_id
+    </sql>
+
+    <insert id="insertUserFundNav">
+        INSERT INTO t_user_fund_nav (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(fundNav)">
+                fund_nav,
+            </if>
+            <if test="@Ognl@isNotEmpty(navTime)">
+                nav_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalShare)">
+                total_share,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAsset)">
+                total_asset,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(fundNav)">
+                #{fundNav},
+            </if>
+            <if test="@Ognl@isNotEmpty(navTime)">
+                #{navTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalShare)">
+                #{totalShare},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAsset)">
+                #{totalAsset},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateUserFundNav">
+        UPDATE t_user_fund_nav
+        <set>
+            <if test="@Ognl@isNotEmpty(fundNav)">
+                fund_nav=#{fundNav}
+            </if>
+            <if test="@Ognl@isNotEmpty(navTime)">
+                , nav_time=#{navTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalShare)">
+                , total_share=#{totalShare}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAsset)">
+                , total_asset=#{totalAsset}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                , update_time=#{updateTime}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="selectOneByNavTime" resultMap="UserFundNavRes">
+        SELECT
+        <include refid="base"/>
+        FROM t_user_fund_nav
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id = #{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id = #{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id = #{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(navTime)">
+                and DATE_FORMAT(nav_time,'%Y-%m-%d')=DATE_FORMAT(#{navTime},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectLastOne" resultMap="UserFundNavRes">
+        SELECT
+        <include refid="base"/>
+        FROM t_user_fund_nav
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id = #{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id = #{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id = #{goalId}
+            </if>
+        </where>
+        order by nav_time desc limit 1;
+    </select>
+
+    <select id="listUserFundNav" resultMap="UserFundNavRes">
+        SELECT
+        <include refid="base"/>
+        FROM t_user_fund_nav
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id = #{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(navTime)">
+                nav_time=#{navTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryListByTime" resultMap="UserFundNavRes">
+        SELECT
+        <include refid="base"/>
+        FROM t_user_fund_nav
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id = #{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                and client_id = #{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id = #{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(startNavTime)">
+                and nav_time>=#{startNavTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(endNavTime)">
+                and #{endNavTime}>=nav_time
+            </if>
+            order by  nav_time asc;
+        </where>
+    </select>
+
+</mapper>

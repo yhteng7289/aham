@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountAssetMapper">
+
+    <resultMap id="AccountAssetRes" type="com.pivot.aham.api.service.mapper.model.AccountAssetPO">
+        <result property="id" column="id"></result>
+        <result property="productCode" column="product_code"></result>
+        <result property="accountId" column="account_id"></result>
+        <result property="confirmShare" column="confirm_share"></result>
+        <result property="confirmMoney" column="confirm_money"></result>
+        <result property="applyMoney" column="apply_money"></result>
+        <result property="productAssetStatus" column="product_asset_status"></result>
+        <result property="rechargeOrderNo" column="recharge_order_no"></result>
+        <result property="applyTime" column="apply_time"></result>
+        <result property="confirmTime" column="confirm_time"></result>
+        <result property="totalTmpOrderId" column="total_tmp_order_id"></result>
+        <result property="tmpOrderId" column="tmp_order_id"></result>
+        <result property="dividendOrderId" column="dividend_order_id"></result>
+        <result property="assetSource" column="asset_source"></result>
+    </resultMap>
+
+    <sql id="AccountAssetVo">
+        select id,product_code,account_id,confirm_share,confirm_money,apply_money,dividend_order_id,asset_source,
+        product_asset_status,recharge_order_no,apply_time,confirm_time,total_tmp_order_id,tmp_order_id from  t_account_asset
+    </sql>
+
+    <sql id="baseColum">
+        id, product_code, account_id, confirm_share, confirm_money, apply_money, product_asset_status,dividend_order_id,asset_source,
+        recharge_order_no, apply_time, confirm_time, total_tmp_order_id, tmp_order_id
+    </sql>
+
+    <insert id="saveAccountAsset" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_asset (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                product_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                confirm_share,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">
+                confirm_money,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">
+                apply_money,
+            </if>
+            <if test="@Ognl@isNotEmpty(productAssetStatus)">
+                product_asset_status,
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                recharge_order_no,
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                apply_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                total_tmp_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                tmp_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(dividendOrderId)">
+                dividend_order_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(assetSource)">
+                asset_source,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                #{confirmShare},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">
+                #{confirmMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyMoney)">
+                #{applyMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(productAssetStatus)">
+                #{productAssetStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                #{rechargeOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTime)">
+                #{applyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                #{confirmTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                #{totalTmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                #{tmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(dividendOrderId)">
+                #{dividendOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(assetSource)">
+                #{assetSource},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO t_account_asset
+        (
+        id,
+        account_id,
+        product_code,
+        confirm_share,
+        confirm_money,
+        apply_money,
+        product_asset_status,
+        recharge_order_no,
+        apply_time,
+        confirm_time,
+        total_tmp_order_id,
+        create_time,
+        update_time,
+        tmp_order_id,
+        asset_source
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.accountId},
+            #{item.productCode},
+            #{item.confirmShare},
+            #{item.confirmMoney},
+            #{item.applyMoney},
+            #{item.productAssetStatus},
+            #{item.rechargeOrderNo},
+            #{item.applyTime},
+            #{item.confirmTime},
+            #{item.totalTmpOrderId},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.tmpOrderId},
+            #{item.assetSource}
+            )
+        </foreach>
+    </insert>
+
+
+    <update id="update">
+        UPDATE t_account_asset
+        <set>
+            <if test="@Ognl@isNotEmpty(confirmShare)">
+                confirm_share=#{confirmShare},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmMoney)">
+                confirm_money=#{confirmMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(productAssetStatus)">
+                product_asset_status=#{productAssetStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                recharge_order_no=#{rechargeOrderNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                confirm_time=#{confirmTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTmpOrderId)">
+                total_tmp_order_id=#{totalTmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time=#{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                tmp_order_id=#{tmpOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(dividendOrderId)">
+                dividend_order_id = #{dividendOrderId},
+            </if>
+            <if test="@Ognl@isNotEmpty(assetSource)">
+                asset_source = #{assetSource},
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="listAccountUnBuyAssets" resultMap="AccountAssetRes">
+        <include refid="AccountAssetVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                and product_code=#{productCode}
+            </if>
+            <if test="@Ognl@isNotEmpty(productAssetStatus)">
+                and product_asset_status=#{productAssetStatus}
+            </if>
+            <if test="@Ognl@isNotEmpty(startApplyTime)">
+                <![CDATA[ and apply_time>=#{startApplyTime} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endApplyTime)">
+                <![CDATA[and apply_time<=#{endApplyTime} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createEndTime)">
+                <![CDATA[and create_time<=#{createEndTime} ]]>
+            </if>
+
+            <if test="@Ognl@isNotEmpty(confirmTime)">
+                <![CDATA[and confirm_time<=#{confirmTime} ]]>
+            </if>
+        </where>
+    </select>
+
+    <select id="listAccountAssetBeforeDate" resultMap="AccountAssetRes">
+        <include refid="AccountAssetVo"/>
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">account_id=#{accountId}</if>
+            <if test="@Ognl@isNotEmpty(endTime)"><![CDATA[and create_time<#{endTime} ]]></if>
+        </where>
+    </select>
+
+    <select id="queryAccountAsset" resultMap="AccountAssetRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_account_asset
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(rechargeOrderNo)">
+                and recharge_order_no=#{rechargeOrderNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(tmpOrderId)">
+                and tmp_order_id=#{tmpOrderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(dividendOrderId)">
+                and dividend_order_id=#{dividendOrderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                and product_code=#{productCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByRechargeOrderNos" resultMap="AccountAssetRes">
+        SELECT
+        <include refid="baseColum"/>
+        FROM t_account_asset
+        WHERE recharge_order_no in
+        <foreach collection="recahrgeOrderNos" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

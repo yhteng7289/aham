@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.AccountUserMapper">
+
+    <resultMap id="accountUserRes" type="com.pivot.aham.api.service.mapper.model.AccountUserPO">
+        <id column="id" property="id"/>
+        <result column="client_id" property="clientId"/>
+        <result column="account_id" property="accountId"/>
+        <result column="portfolio_id" property="portfolioId"/>
+        <result column="reference_code" property="referenceCode"/>
+        <result column="goal_id" property="goalId"/>
+        <result column="risk_level" property="riskLevel"/>
+        <result column="age_level" property="ageLevel"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="first_recharge_currency" property="firstRechargeCurrency"/>
+        <result column="effect_time" property="effectTime"/>
+    </resultMap>
+
+    <sql id="column">
+        client_id, account_id, reference_code, goal_id, portfolio_id, risk_level, age_level, first_recharge_currency,
+        create_time, update_time, effect_time
+    </sql>
+
+    <insert id="insertAccountUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account_user (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                id,
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                account_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                reference_code,
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                goal_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                portfolio_id,
+            </if>
+            <if test="@Ognl@isNotEmpty(riskLevel)">
+                risk_level,
+            </if>
+            <if test="@Ognl@isNotEmpty(ageLevel)">
+                age_level,
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                create_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                update_time,
+            </if>
+            <if test="@Ognl@isNotEmpty(firstRechargeCurrency)">
+                first_recharge_currency,
+            </if>
+            <if test="@Ognl@isNotEmpty(effectTime)">
+                effect_time
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                #{clientId},
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                #{accountId},
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                #{referenceCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                #{goalId},
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                #{portfolioId},
+            </if>
+            <if test="@Ognl@isNotEmpty(riskLevel)">
+                #{riskLevel},
+            </if>
+            <if test="@Ognl@isNotEmpty(ageLevel)">
+                #{ageLevel},
+            </if>
+            <if test="@Ognl@isNotEmpty(createTime)">
+                #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTime)">
+                #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(firstRechargeCurrency)">
+                #{firstRechargeCurrency},
+            </if>
+            <if test="@Ognl@isNotEmpty(effectTime)">
+                #{effectTime}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryAccountUser" resultMap="accountUserRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_account_user
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(goalId)">
+                and goal_id=#{goalId}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                and portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(referenceCode)">
+                and reference_code=#{referenceCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByAccountUserPo" resultMap="accountUserRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_account_user
+        <where>
+            <if test="@Ognl@isNotEmpty(clientId)">
+                client_id=#{clientId}
+            </if>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(portfolioId)">
+                and portfolio_id=#{portfolioId}
+            </if>
+            <if test="@Ognl@isNotEmpty(effectTime)">
+                and DATE_FORMAT(effect_time,'%Y-%m-%d')=DATE_FORMAT(#{effectTime},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="listAccountUserBeforeEffectTime" resultMap="accountUserRes">
+        SELECT
+        <include refid="column"/>
+        FROM t_account_user
+        <where>
+            <if test="@Ognl@isNotEmpty(accountId)">
+                and account_id=#{accountId}
+            </if>
+            <if test="@Ognl@isNotEmpty(effectTime)">
+                <![CDATA[and effect_time < #{effectTime}]]>
+            </if>
+        </where>
+    </select>
+
+</mapper>

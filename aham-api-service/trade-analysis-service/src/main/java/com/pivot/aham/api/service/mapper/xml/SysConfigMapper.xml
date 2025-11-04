@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.SysConfigMapper">
+
+    <resultMap id="sysConfigMap" type="com.pivot.aham.api.service.mapper.model.SysConfigPO">
+        <result property="configName" column="config_name"></result>
+        <result property="status" column="status"></result>
+
+    </resultMap>
+
+    <select id="getStatus" resultMap="sysConfigMap">
+        SELECT * FROM sys_config WHERE config_name = #{configName} limit 1;
+    </select>
+</mapper>

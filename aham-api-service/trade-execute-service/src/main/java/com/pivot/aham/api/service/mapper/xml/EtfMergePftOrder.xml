@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.EtfMergeOrderPftMapper">
+
+    <resultMap id="resultMap" type="com.pivot.aham.api.service.mapper.model.EtfMergePftOrderPO">
+        <result property="id" column="id"/>
+        <result property="mergeOrderId" column="merge_order_id"/>
+        <result property="syncStatus" column="sync_status"/>
+        <result property="productCode" column="product_code"/>
+        <result property="amount" column="amount"/>
+        <result property="share" column="share"/>
+        <result property="cost" column="cost"/>
+        <result property="tradeType" column="trade_type"/>
+        <result property="sourceType" column="source_type"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
+    <sql id="Columns">
+        id,
+        merge_order_id,
+        sync_status,
+        product_code,
+        amount,
+        share,
+        cost,
+        trade_type,
+        source_type,
+        create_time
+    </sql>
+
+    <insert id="save">
+        INSERT INTO t_etf_merge_pft_order (
+        merge_order_id,
+        sync_status,
+        product_code,
+        amount,
+        share,
+        cost,
+        trade_type,
+        source_type,
+        create_time
+        ) VALUES (
+        #{mergeOrderId} ,
+        #{syncStatus} ,
+        #{productCode} ,
+        #{amount} ,
+        #{share} ,
+        #{cost} ,
+        #{tradeType} ,
+        #{sourceType} ,
+        #{createTime}
+        )
+    </insert>
+
+
+    <select id="listByEtfMergeOrderId" resultMap="resultMap">
+        select * from t_etf_merge_pft_order
+        where merge_order_id = #{mergeOrderId}
+    </select>
+
+
+    <select id="listBySyncStatus" resultMap="resultMap">
+        select * from t_etf_merge_pft_order
+        where sync_status = #{syncStatus} 
+        order by trade_type asc
+    </select>
+
+
+    <update id="updateSyncStatus">
+        update t_etf_merge_pft_order
+        set sync_status = #{syncStatus}
+        where merge_order_id = #{mergeOrderId}
+    </update>
+
+
+</mapper>

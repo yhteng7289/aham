@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pivot.aham.api.service.mapper.OpenAccountInfoMapper">
+
+    <resultMap id="openAccountInfoRes" type="com.pivot.aham.api.service.mapper.model.OpenAccountInfoPO">
+        <result property="title" column="title"/>
+        <result property="lastName" column="last_name"/>
+        <result property="firstName" column="first_name"/>
+        <result property="nationality" column="nationality"/>
+        <result property="idNo" column="id_no"/>
+        <result property="isSingGaPorePR" column="is_singgapor_pr"/>
+        <result property="isUploadID" column="is_upload"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="emailAddress" column="email_address"/>
+        <result property="mobileNum" column="mobile_num"/>
+        <result property="homeNum" column="home_num"/>
+        <result property="country" column="country"/>
+        <result property="residentialAddress" column="residential_address"/>
+        <result property="postalCode" column="postal_code"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="Columns">
+        id,
+        title,
+        last_name,
+        first_name,
+        nationality,
+        id_no,
+        is_singgapor_pr,
+        is_upload,
+        gender,
+        birthday,
+        email_address,
+        mobile_num,
+        home_num,
+        country,
+        residential_address,
+        postal_code,
+        create_time,
+        update_time,
+        status
+    </sql>
+
+    <insert id="insertBatch">
+        INSERT INTO t_open_account_info
+        (
+        title,
+        last_name,
+        first_name,
+        nationality,
+        id_no,
+        is_singgapor_pr,
+        is_upload,
+        gender,
+        birthday,
+        email_address,
+        mobile_num,
+        home_num,
+        country,
+        residential_address,
+        postal_code,
+        create_time,
+        update_time,
+        status
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.title},
+            #{item.lastName},
+            #{item.firstName},
+            #{item.nationality},
+            #{item.idNo},
+            #{item.isSingGaPorePR},
+            #{item.isUploadID},
+            #{item.gender},
+            #{item.birthday},
+            #{item.emailAddress},
+            #{item.mobileNum},
+            #{item.homeNum},
+            #{item.country},
+            #{item.residentialAddress},
+            #{item.postalCode},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.status}
+            )
+        </foreach>
+    </insert>
+
+
+    <select id="queryByPO" resultMap="openAccountInfoRes">
+        SELECT
+        <include refid="Columns"/>
+        FROM t_open_account_info
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(firstName)">
+                and first_name=#{firstName}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastName)">
+                and last_name=#{lastName}
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                and mobile_num=#{mobileNum}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+
+    <update id="disableAllByPO">
+        UPDATE t_open_account_info
+        SET status = 0
+        <where>
+            1=1
+            <if test="@Ognl@isNotEmpty(firstName)">
+                and first_name=#{firstName}
+            </if>
+            <if test="@Ognl@isNotEmpty(lastName)">
+                and last_name=#{lastName}
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileNum)">
+                and mobile_num=#{mobileNum}
+            </if>
+        </where>
+    </update>
+
+</mapper>
